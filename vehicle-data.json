@@ -1,16 +1,14 @@
 {
+  "defaultQR": "https://i.postimg.cc/FR7TY0wh/flag1.web",
+  
   "MH12AB1234": {
     "owner": "Salman Khan",
     "model": "Swift Dzire",
-    "chassis": "CHS8127361",
-    "engine": "ENG7281726",
-    "amount": "1198"
+    ...
   },
   "MH14XY9999": {
     "owner": "Rohan Pathan",
     "model": "Hyundai i20",
-    "chassis": "CHS771282",
-    "engine": "ENG9999172",
-    "amount": "1298"
+    ...
   }
 }
