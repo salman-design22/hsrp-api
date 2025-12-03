@@ -1,25 +1,40 @@
-/* Simple clean styling */
-:root{--blue:#1e6df0;--muted:#666}
-body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f5f7fb;margin:0;padding:20px}
-.wrap{max-width:980px;margin:0 auto}
-.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 22px rgba(15,23,42,0.06)}
-.steps{display:flex;gap:8px;margin-bottom:16px}
-.step{padding:8px 12px;border-radius:6px;background:#eef2f7;color:#333;font-weight:600}
-.step.active{background:var(--blue);color:#fff}
-.form-panel{margin-top:8px}
-label{display:block;margin-top:12px;font-weight:600}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e2e8f0;margin-top:6px;box-sizing:border-box}
-textarea{min-height:80px}
-.buttons{margin-top:18px;display:flex;gap:10px}
-button{background:var(--blue);color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
-button[disabled]{opacity:0.5;cursor:not-allowed}
-.summary{background:#fafafa;padding:12px;border-radius:8px;border:1px solid #eee}
-.payment-grid{display:grid;grid-template-columns:260px 1fr 260px;gap:16px;align-items:start}
-.qr-box{height:260px;border-radius:8px;border:2px dashed #cbd5e1;display:flex;align-items:center;justify-content:center}
-.qr-placeholder{color:#999;font-weight:700}
-.invoice table{width:100%;border-collapse:collapse}
-.invoice td{padding:8px;border-bottom:1px solid #f0f0f0}
-.invoice .total td{font-weight:800}
-.upload input{display:block;margin-bottom:6px}
-.note{font-size:12px;color:var(--muted)}
-#thankyou{text-align:center;padding:20px}
+body{
+  font-family: Arial;
+  max-width:600px;
+  margin:auto;
+  padding:20px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+button{
+  padding:10px 20px;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:6px;
+}
+
+.steps{
+  display:flex;
+  margin-bottom:20px;
+}
+.step{
+  flex:1;
+  padding:8px;
+  border-bottom:2px solid #ccc;
+  text-align:center;
+}
+.step.active{
+  border-bottom:3px solid #007bff;
+  font-weight:bold;
+}
+.form-panel{
+  display:none;
+}
