@@ -1,14 +1,15 @@
 {
-  "defaultQR": "https://i.postimg.cc/9z3HNPSt/1-TDVOw-Ar8E4OYv68R-wa-9w.jpg",
-  
-  "MH12AB1234": {
-    "owner": "Salman Khan",
-    "model": "Swift Dzire",
-    ...
-  },
+  "defaultQR": "https://i.postimg.cc/XXXXX/default.jpg",
+
   "MH14XY9999": {
     "owner": "Rohan Pathan",
     "model": "Hyundai i20",
-    ...
+    "qr": "https://i.postimg.cc/xxxxxx/qr1.jpg"
+  },
+
+  "MH12AB1234": {
+    "owner": "Salman Khan",
+    "model": "Swift Dzire",
+    "qr": "https://i.postimg.cc/xxxxx/qr2.png"
   }
 }
