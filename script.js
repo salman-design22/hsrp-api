@@ -33,3 +33,20 @@ document.getElementById('searchBtn').addEventListener('click', function () {
             alert("Error fetching data.");
         });
 });
+// Chassis & Engine last 5 digits only
+function enforceLast5Digits(inputId) {
+    const input = document.getElementById(inputId);
+
+    input.addEventListener("input", function () {
+        // remove non-digits
+        this.value = this.value.replace(/\D/g, "");
+
+        // keep only last 5 digits
+        if (this.value.length > 5) {
+            this.value = this.value.slice(-5);
+        }
+    });
+}
+
+enforceLast5Digits("chassisInput");
+enforceLast5Digits("engineInput");
