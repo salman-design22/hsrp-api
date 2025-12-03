@@ -1,40 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HSRP Booking — Widget</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HSRP Booking</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <main class="container">
     <h1>HSRP Online Booking</h1>
 
-    <nav class="steps">
-      <div class="step active" data-step="1">Vehicle Info</div>
-      <div class="step" data-step="2">Personal Details</div>
-      <div class="step" data-step="3">Preview</div>
-      <div class="step" data-step="4">Payment</div>
-    </nav>
+    <div class="step-tabs">
+      <button class="tab active" data-step="1">Vehicle Info</button>
+      <button class="tab" data-step="2">Personal Details</button>
+      <button class="tab" data-step="3">Preview</button>
+      <button class="tab" data-step="4">Payment</button>
+    </div>
 
     <!-- STEP 1 -->
-    <section id="form1" class="panel">
+    <div id="form1" class="form-panel">
       <h2>Vehicle Information</h2>
 
       <label>State / UT *</label>
-      <select id="stateSelect" required></select>
+      <select id="state" required></select>
 
-      <label>Registration Number* (e.g. MH12AB1234)</label>
-      <input id="regNumber" type="text" placeholder="MH12AB1234" maxlength="12" />
+      <label>Registration Number*</label>
+      <input id="regNumber" type="text" placeholder="MH12AB1234">
 
       <label>Chassis Number (last 5 digits)*</label>
-      <input id="chassisNumber" type="text" placeholder="12345" maxlength="5" />
+      <input id="chassisNumber" type="text" placeholder="12345" maxlength="5">
 
       <label>Engine Number (last 5 digits)*</label>
-      <input id="engineNumber" type="text" placeholder="12345" maxlength="5" />
+      <input id="engineNumber" type="text" placeholder="12345" maxlength="5">
 
-      <label>Choose Vehicle Type*</label>
+      <label>Vehicle Type*</label>
       <select id="vehicleType">
         <option value="">Select...</option>
         <option>Car</option>
@@ -44,83 +43,57 @@
         <option>Commercial</option>
       </select>
 
-      <div class="actions">
-        <button id="toPersonal">Next →</button>
-      </div>
-    </section>
+      <button id="nextToPersonal">Next →</button>
+    </div>
 
     <!-- STEP 2 -->
-    <section id="form2" class="panel" style="display:none;">
-      <h2>Fitment / Contact Details</h2>
+    <div id="form2" class="form-panel" style="display:none;">
+      <h2>Personal Details</h2>
 
       <label>Name*</label>
-      <input id="name" type="text" placeholder="Full name" />
+      <input id="name" type="text" placeholder="Your name">
 
-      <label>Phone* (10 digits)</label>
-      <input id="phone" type="text" placeholder="9876543210" maxlength="10" />
+      <label>Phone*</label>
+      <input id="phone" type="text" placeholder="9876543210" maxlength="10">
 
       <label>Email*</label>
-      <input id="email" type="email" placeholder="you@example.com" />
+      <input id="email" type="email" placeholder="you@example.com">
 
       <label>Address*</label>
-      <textarea id="address" placeholder="Full address"></textarea>
+      <textarea id="address" placeholder="Your address"></textarea>
 
-      <div class="actions">
-        <button id="backToVehicle">← Back</button>
-        <button id="toPreview">Next →</button>
-      </div>
-    </section>
+      <button id="backToVehicle">← Back</button>
+      <button id="toPreview">Preview →</button>
+    </div>
 
     <!-- STEP 3 -->
-    <section id="form3" class="panel" style="display:none;">
-      <h2>Please re-verify your details</h2>
-      <div id="summaryTable" class="summary"></div>
+    <div id="form3" class="form-panel" style="display:none;">
+      <h2>Preview</h2>
+      <div id="summary"></div>
 
-      <div class="actions">
-        <button id="backToPersonal">← Back</button>
-        <button id="proceedToPayment">Proceed to Payment</button>
-      </div>
-    </section>
+      <button id="backToPersonal">← Back</button>
+      <button id="toPayment">Proceed to Payment</button>
+    </div>
 
     <!-- STEP 4 -->
-    <section id="form4" class="panel" style="display:none;">
+    <div id="form4" class="form-panel" style="display:none;">
       <h2>Payment — Scan QR</h2>
-
-      <div class="payment-grid">
-        <div class="qr-box" id="qrContainer">
-          <img id="qrImage" src="https://i.postimg.cc/ZqWHc18p/upi-sample.png" alt="QR" style="max-width:260px">
-        </div>
-
-        <div class="invoice">
-          <h3>Final Breakup</h3>
-          <table>
-            <tr><td>HSRP Charge</td><td>₹998</td></tr>
-            <tr><td>GST</td><td>₹179.85</td></tr>
-            <tr class="total"><td>Total</td><td>₹1198</td></tr>
-          </table>
-        </div>
-
-        <div class="upload">
-          <h3>Upload Payment Screenshot</h3>
-          <input id="screenshotInput" type="file" accept="image/png,image/jpeg" />
-          <p class="note">(Max 25 MB. PNG / JPG / JPEG)</p>
-          <button id="submitScreenshot">Submit Screenshot</button>
-        </div>
+      <div>
+        <img src="https://i.postimg.cc/ZqWHc18p/upi-sample.png" alt="UPI QR" style="max-width:200px">
       </div>
+      <p>After payment, upload screenshot</p>
+      <input id="screenshot" type="file" accept="image/png, image/jpeg">
+      <button id="submitPay">Submit Screenshot & Confirm</button>
+      <button id="backToPreview">← Back</button>
+    </div>
 
-      <div class="actions">
-        <button id="backToPreview">← Back</button>
-      </div>
-    </section>
+    <div id="thankyou" class="form-panel" style="display:none; text-align:center;">
+      <h2>Thank you! Booking Confirmed 🎉</h2>
+      <p>We will contact you soon.</p>
+    </div>
 
-    <!-- THANK YOU -->
-    <section id="thankyou" class="panel" style="display:none;text-align:center">
-      <h2>Thank You! Your HSR Plate Booking is Confirmed 🎉</h2>
-      <p>You will receive confirmation shortly.</p>
-    </section>
   </main>
 
   <script src="script.js"></script>
 </body>
 </html>
-
