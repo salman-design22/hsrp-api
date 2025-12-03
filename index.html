@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HSRP Booking Lookup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>HSRP Booking — Vehicle Lookup</h2>
+
+<input id="plateInput" type="text" placeholder="Enter Vehicle Number (e.g. MH12AB1234)">
+<button onclick="fetchVehicle()">Search</button>
+
+<div id="resultBox"></div>
+
+<br><br>
+
+<h3>Scan to Pay</h3>
+
+<div id="qrContainer" 
+     style="width:200px;height:200px;border:2px dashed #999;display:flex;justify-content:center;align-items:center;border-radius:10px;color:#999;">
+    QR WILL APPEAR HERE
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
