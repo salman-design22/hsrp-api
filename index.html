@@ -1,125 +1,93 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HSRP Booking — Widget</title>
+  <meta charset="UTF-8">
+  <title>HSRP Online System</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div id="stepIndicators" class="steps">
-        <div class="step active" data-step="1">1. Vehicle Info</div>
-        <div class="step" data-step="2">2. Personal Details</div>
-        <div class="step" data-step="3">3. Preview</div>
-        <div class="step" data-step="4">4. Payment</div>
-      </div>
 
-      <!-- STEP 1: Vehicle Info -->
-      <form id="form1" class="form-panel">
-        <h2>Vehicle Information</h2>
+<h2>HSRP Online Registration</h2>
 
-        <label>State*</label>
-        <select id="stateSelect" required></select>
+<div class="steps">
+  <div class="step active" data-step="1">Vehicle Info</div>
+  <div class="step" data-step="2">Personal Details</div>
+  <div class="step" data-step="3">Preview</div>
+  <div class="step" data-step="4">Payment</div>
+</div>
 
-        <label>Registration Number* (e.g. MH12AB1234)</label>
-        <input id="regNumber" maxlength="12" placeholder="Enter registration number" required />
+<!-- STEP 1 -->
+<div class="form-panel" id="form1">
+  <label>State / UT</label>
+  <select id="stateSelect"></select>
 
-        <label>Chassis Number* (XXXXX12345)</label>
-        <input id="chassisNumber" maxlength="10" placeholder="5 letters/numbers + 5 digits" required />
+  <label>Registration Number*</label>
+  <input id="regNumber" placeholder="MH12AB1234">
 
-        <label>Engine Number* (XXXXX12345)</label>
-        <input id="engineNumber" maxlength="10" placeholder="5 letters/numbers + 5 digits" required />
+  <label>Chassis Number (last 5 digits)*</label>
+  <input id="chassisNumber" placeholder="12345" maxlength="5">
 
-        <label>Choose Vehicle*</label>
-        <select id="vehicleType" required>
-          <option value="">Select Vehicle Type</option>
-          <option>Car</option>
-          <option>Bike</option>
-          <option>Scooter</option>
-          <option>Auto</option>
-          <option>Commercial</option>
-        </select>
+  <label>Engine Number (last 5 digits)*</label>
+  <input id="engineNumber" placeholder="12345" maxlength="5">
 
-        <div class="buttons">
-          <button type="button" id="toPersonal">Next →</button>
-        </div>
-      </form>
+  <label>Choose Vehicle Type*</label>
+  <select id="vehicleType">
+    <option value="">Select...</option>
+    <option>Car</option>
+    <option>Bike</option>
+    <option>Scooter</option>
+    <option>Auto</option>
+    <option>Commercial Vehicle</option>
+  </select>
 
-      <!-- STEP 2: Personal Details -->
-      <form id="form2" class="form-panel" style="display:none;">
-        <h2>Fitment / Contact Details</h2>
+  <button id="toPersonal">Next</button>
+</div>
 
-        <label>Name*</label>
-        <input id="name" placeholder="Full name" required />
+<!-- STEP 2 -->
+<div class="form-panel" id="form2">
+  <label>Name*</label>
+  <input id="name">
 
-        <label>Phone* (10 digits)</label>
-        <input id="phone" placeholder="10 digit phone" maxlength="10" required />
+  <label>Phone*</label>
+  <input id="phone">
 
-        <label>Email*</label>
-        <input id="email" type="email" placeholder="example@mail.com" required />
+  <label>Email*</label>
+  <input id="email">
 
-        <label>Address*</label>
-        <textarea id="address" placeholder="Full address" required></textarea>
+  <label>Address*</label>
+  <textarea id="address"></textarea>
 
-        <div class="buttons">
-          <button type="button" id="backToVehicle">← Back</button>
-          <button type="button" id="toPreview">Next →</button>
-        </div>
-      </form>
+  <button id="backToVehicle">Back</button>
+  <button id="toPreview">Next</button>
+</div>
 
-      <!-- STEP 3: Preview -->
-      <div id="form3" class="form-panel" style="display:none;">
-        <h2>Please re-verify your details</h2>
-        <div id="summaryTable" class="summary"></div>
+<!-- STEP 3 -->
+<div class="form-panel" id="form3">
+  <h3>Preview Details</h3>
+  <div id="summaryTable"></div>
 
-        <div class="buttons">
-          <button id="backToPersonal">← Back</button>
-          <button id="proceedToPayment">Proceed to Payment</button>
-        </div>
-      </div>
+  <button id="backToPersonal">Back</button>
+  <button id="proceedToPayment">Proceed to Payment</button>
+</div>
 
-      <!-- STEP 4: Payment -->
-      <div id="form4" class="form-panel" style="display:none;">
-        <h2>Payment</h2>
-        <div class="payment-grid">
-          <div class="qr-box" id="qrContainer" >
-            <!-- Placeholder kept as requested -->
-            <div class="qr-placeholder">QR WILL APPEAR HERE</div>
-          </div>
-
-          <div class="invoice">
-            <h3>Final Breakup</h3>
-            <table>
-              <tr><td>Base Price</td><td>₹998</td></tr>
-              <tr><td>GST (18%)</td><td>₹179.85</td></tr>
-              <tr><td>Processing Fee</td><td>₹20.36</td></tr>
-              <tr class="total"><td>Total</td><td>₹1198</td></tr>
-            </table>
-          </div>
-
-          <div class="upload">
-            <h3>Upload Payment Screenshot</h3>
-            <input id="screenshotInput" type="file" accept="image/png,image/jpeg" />
-            <p class="note">(Max 25 MB. PNG / JPG / JPEG)</p>
-            <button id="submitScreenshot">Submit Screenshot</button>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <button id="backToPreview">← Back</button>
-        </div>
-      </div>
-
-      <!-- THANK YOU panel (hidden) -->
-      <div id="thankyou" class="form-panel" style="display:none;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/OOjs_UI_icon_check.svg/768px-OOjs_UI_icon_check.svg.png" alt="done" width="80" />
-        <h2>Thank You! Your HSR Plate Booking is Confirmed 🎉</h2>
-        <p>Note: Your HSR Plate number plate will be delivered within 14–21 days.</p>
-      </div>
-    </div>
+<!-- STEP 4 -->
+<div class="form-panel" id="form4">
+  <h3>Scan UPI QR to Pay</h3>
+  <div id="qrContainer">
+    <img src="https://i.postimg.cc/ZqWHc18p/upi-sample.png" style="max-width:220px">
   </div>
+
+  <label>Upload Payment Screenshot*</label>
+  <input type="file" accept="image/*" id="screenshotInput">
+  <button id="submitScreenshot">Submit</button>
+
+  <button id="backToPreview">Back</button>
+</div>
+
+<!-- THANK YOU -->
+<div id="thankyou" style="display:none;text-align:center;">
+  <h2>Thank you! Your Order is Submitted.</h2>
+</div>
 
 <script src="script.js"></script>
 </body>
