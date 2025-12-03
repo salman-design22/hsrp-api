@@ -96,15 +96,14 @@ document.getElementById('proceedToPayment').addEventListener('click', ()=>{
   const reg = preview.RegNumber;
   if(reg){
     // attempt to load qr image from qr-images/<REG>.png (user must have added this file)
-    const img = new Image();
-    img.src = `qr-images/${reg}.png`;
-    img.onload = ()=> {
-      const container = document.getElementById('qrContainer');
-      container.innerHTML = `<img src="${img.src}" style="max-width:220px;max-height:220px">`;
-    };
-    img.onerror = ()=> {
-      // keep placeholder (as requested)
-    };
+    fetch('vehicle-data.json')
+  .then(res => res.json())
+  .then(data => {
+    const qr = data[reg]?.qr || data.defaultQR;
+    document.getElementById('qrContainer').innerHTML =
+      `<img src="${qr}" style="max-width:220px;max-height:220px">`;
+  });
+;
   }
 });
 
