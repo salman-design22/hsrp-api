@@ -1,62 +1,57 @@
-// ---------------- TAB SWITCHING ----------------
-document.querySelectorAll(".tab-link").forEach((tab) => {
-    tab.addEventListener("click", function () {
-        document.querySelectorAll(".tab-link").forEach(t => t.classList.remove("active"));
-        this.classList.add("active");
-
-        document.querySelectorAll(".tab-content").forEach(c => c.style.display = "none");
-        document.getElementById(this.dataset.tab).style.display = "block";
-    });
-});
-
-// ---------------- STATE / UTS DROPDOWN ----------------
-const allStates = [
-    "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat",
-    "Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh",
-    "Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab",
-    "Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand",
-    "West Bengal",
-    "Delhi (UT)","Jammu and Kashmir (UT)","Ladakh (UT)",
-    "Chandigarh (UT)","Puducherry (UT)","Andaman & Nicobar (UT)","Lakshadweep (UT)",
-    "Dadra & Nagar Haveli & Daman & Diu (UT)"
+// =======================
+// State / UT List
+// =======================
+const states = [
+"Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa",
+"Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala",
+"Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
+"Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+"Uttar Pradesh","Uttarakhand","West Bengal","Andaman & Nicobar Islands",
+"Chandigarh","Dadra & Nagar Haveli and Daman & Diu","Delhi","Jammu & Kashmir",
+"Ladakh","Lakshadweep","Puducherry"
 ];
 
-const stateSelect = document.getElementById("state");
-allStates.forEach(st => {
-    let opt = document.createElement("option");
-    opt.value = st;
-    opt.textContent = st;
-    stateSelect.appendChild(opt);
-});
+const ST = document.getElementById("stateSelect");
+ST.innerHTML = `<option value="">Select State / UT</option>`;
+states.forEach(s => ST.innerHTML += `<option>${s}</option>`);
 
-// ---------------- CHASSIS / ENGINE LAST-5 VALIDATION ----------------
-function validateFiveDigitInput(inputField) {
-    inputField.addEventListener("input", function () {
-        this.value = this.value.replace(/[^0-9]/g, ""); // only digits
-        if (this.value.length > 5) this.value = this.value.slice(0, 5);
-    });
+
+// =======================
+// STEP NAVIGATION
+// =======================
+function showStep(stepNum) {
+  document.querySelectorAll(".panel").forEach(el => el.style.display = "none");
+  document.getElementById("form" + stepNum).style.display = "block";
+  document.querySelectorAll(".step").forEach(el => el.classList.remove("active"));
+  document.querySelector(`.step[data-step="${stepNum}"]`).classList.add("active");
 }
 
-validateFiveDigitInput(document.getElementById("chassisNumber"));
-validateFiveDigitInput(document.getElementById("engineNumber"));
+// Buttons
 
-// ---------------- SHOW PREVIEW DATA ----------------
-document.getElementById("toPreview").addEventListener("click", function () {
-    document.getElementById("prevRegNo").innerText = document.getElementById("regNo").value;
-    document.getElementById("prevVehType").innerText = document.getElementById("vehType").value;
-    document.getElementById("prevFuel").innerText = document.getElementById("fuelType").value;
-    document.getElementById("prevState").innerText = document.getElementById("state").value;
-    document.getElementById("prevChassis").innerText = document.getElementById("chassisNumber").value;
-    document.getElementById("prevEngine").innerText = document.getElementById("engineNumber").value;
+document.getElementById("toPersonal").onclick = () => showStep(2);
+document.getElementById("backToVehicle").onclick = () => showStep(1);
+document.getElementById("backToPersonal").onclick = () => showStep(2);
+document.getElementById("backToPreview").onclick = () => showStep(3);
+document.getElementById("toPreview").onclick = () => {
+  createSummary();
+  showStep(3);
+};
+document.getElementById("proceedToPayment").onclick = () => showStep(4);
 
-    document.querySelector(".tab-link[data-tab='preview']").click();
-});
 
-// ---------------- DUMMY PAYMENT ----------------
-document.getElementById("payBtn").addEventListener("click", function () {
-    alert("Payment gateway coming soon...");
-});
-
-// ---------------- INITIAL LOAD ----------------
-document.querySelector(".tab-content").style.display = "block";
-console.log("✔ script.js loaded successfully — no errors");
+// =======================
+// PREVIEW PAGE SUMMARY
+// =======================
+function createSummary() {
+  document.getElementById("summaryTable").innerHTML = `
+    <b>State:</b> ${ST.value}<br>
+    <b>Registration No.:</b> ${regNumber.value}<br>
+    <b>Chassis Last 5:</b> ${chassisNumber.value}<br>
+    <b>Engine Last 5:</b> ${engineNumber.value}<br>
+    <b>Vehicle Type:</b> ${vehicleType.value}<br><br>
+    <b>Name:</b> ${name.value}<br>
+    <b>Phone:</b> ${phone.value}<br>
+    <b>Email:</b> ${email.value}<br>
+    <b>Address:</b> ${address.value}<br>
+  `;
+}
