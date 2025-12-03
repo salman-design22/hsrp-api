@@ -1,26 +1,125 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>HSRP Booking Lookup</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HSRP Booking — Widget</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="wrap">
+    <div class="card">
+      <div id="stepIndicators" class="steps">
+        <div class="step active" data-step="1">1. Vehicle Info</div>
+        <div class="step" data-step="2">2. Personal Details</div>
+        <div class="step" data-step="3">3. Preview</div>
+        <div class="step" data-step="4">4. Payment</div>
+      </div>
 
-<h2>HSRP Booking — Vehicle Lookup</h2>
+      <!-- STEP 1: Vehicle Info -->
+      <form id="form1" class="form-panel">
+        <h2>Vehicle Information</h2>
 
-<input id="plateInput" type="text" placeholder="Enter Vehicle Number (e.g. MH12AB1234)">
-<button onclick="fetchVehicle()">Search</button>
+        <label>State*</label>
+        <select id="stateSelect" required></select>
 
-<div id="resultBox"></div>
+        <label>Registration Number* (e.g. MH12AB1234)</label>
+        <input id="regNumber" maxlength="12" placeholder="Enter registration number" required />
 
-<br><br>
+        <label>Chassis Number* (XXXXX12345)</label>
+        <input id="chassisNumber" maxlength="10" placeholder="5 letters/numbers + 5 digits" required />
 
-<h3>Scan to Pay</h3>
+        <label>Engine Number* (XXXXX12345)</label>
+        <input id="engineNumber" maxlength="10" placeholder="5 letters/numbers + 5 digits" required />
 
-<div id="qrContainer" 
-     style="width:200px;height:200px;border:2px dashed #999;display:flex;justify-content:center;align-items:center;border-radius:10px;color:#999;">
-    QR WILL APPEAR HERE
-</div>
+        <label>Choose Vehicle*</label>
+        <select id="vehicleType" required>
+          <option value="">Select Vehicle Type</option>
+          <option>Car</option>
+          <option>Bike</option>
+          <option>Scooter</option>
+          <option>Auto</option>
+          <option>Commercial</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" id="toPersonal">Next →</button>
+        </div>
+      </form>
+
+      <!-- STEP 2: Personal Details -->
+      <form id="form2" class="form-panel" style="display:none;">
+        <h2>Fitment / Contact Details</h2>
+
+        <label>Name*</label>
+        <input id="name" placeholder="Full name" required />
+
+        <label>Phone* (10 digits)</label>
+        <input id="phone" placeholder="10 digit phone" maxlength="10" required />
+
+        <label>Email*</label>
+        <input id="email" type="email" placeholder="example@mail.com" required />
+
+        <label>Address*</label>
+        <textarea id="address" placeholder="Full address" required></textarea>
+
+        <div class="buttons">
+          <button type="button" id="backToVehicle">← Back</button>
+          <button type="button" id="toPreview">Next →</button>
+        </div>
+      </form>
+
+      <!-- STEP 3: Preview -->
+      <div id="form3" class="form-panel" style="display:none;">
+        <h2>Please re-verify your details</h2>
+        <div id="summaryTable" class="summary"></div>
+
+        <div class="buttons">
+          <button id="backToPersonal">← Back</button>
+          <button id="proceedToPayment">Proceed to Payment</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Payment -->
+      <div id="form4" class="form-panel" style="display:none;">
+        <h2>Payment</h2>
+        <div class="payment-grid">
+          <div class="qr-box" id="qrContainer" >
+            <!-- Placeholder kept as requested -->
+            <div class="qr-placeholder">QR WILL APPEAR HERE</div>
+          </div>
+
+          <div class="invoice">
+            <h3>Final Breakup</h3>
+            <table>
+              <tr><td>Base Price</td><td>₹998</td></tr>
+              <tr><td>GST (18%)</td><td>₹179.85</td></tr>
+              <tr><td>Processing Fee</td><td>₹20.36</td></tr>
+              <tr class="total"><td>Total</td><td>₹1198</td></tr>
+            </table>
+          </div>
+
+          <div class="upload">
+            <h3>Upload Payment Screenshot</h3>
+            <input id="screenshotInput" type="file" accept="image/png,image/jpeg" />
+            <p class="note">(Max 25 MB. PNG / JPG / JPEG)</p>
+            <button id="submitScreenshot">Submit Screenshot</button>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button id="backToPreview">← Back</button>
+        </div>
+      </div>
+
+      <!-- THANK YOU panel (hidden) -->
+      <div id="thankyou" class="form-panel" style="display:none;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/OOjs_UI_icon_check.svg/768px-OOjs_UI_icon_check.svg.png" alt="done" width="80" />
+        <h2>Thank You! Your HSR Plate Booking is Confirmed 🎉</h2>
+        <p>Note: Your HSR Plate number plate will be delivered within 14–21 days.</p>
+      </div>
+    </div>
+  </div>
 
 <script src="script.js"></script>
 </body>
