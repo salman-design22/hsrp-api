@@ -1,96 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>HSRP Booking</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <main class="container">
     <h1>HSRP Online Booking</h1>
 
-    <div class="step-tabs">
-      <button class="tab active" data-step="1">Vehicle Info</button>
-      <button class="tab" data-step="2">Personal Details</button>
-      <button class="tab" data-step="3">Preview</button>
-      <button class="tab" data-step="4">Payment</button>
-    </div>
+    <nav class="steps">
+      <div class="step active" data-step="1">Vehicle Info</div>
+      <div class="step" data-step="2">Personal Details</div>
+      <div class="step" data-step="3">Preview</div>
+      <div class="step" data-step="4">Payment</div>
+    </nav>
 
     <!-- STEP 1 -->
-    <div id="form1" class="form-panel">
-      <h2>Vehicle Information</h2>
-
+    <section id="form1" class="panel">
       <label>State / UT *</label>
-      <select id="state" required></select>
+      <select id="stateSelect" required></select>
 
       <label>Registration Number*</label>
-      <input id="regNumber" type="text" placeholder="MH12AB1234">
+      <input id="regNumber" type="text" placeholder="MH12AB1234" maxlength="12"/>
 
       <label>Chassis Number (last 5 digits)*</label>
-      <input id="chassisNumber" type="text" placeholder="12345" maxlength="5">
+      <input id="chassisNumber" type="text" placeholder="12345" maxlength="5"/>
 
       <label>Engine Number (last 5 digits)*</label>
-      <input id="engineNumber" type="text" placeholder="12345" maxlength="5">
+      <input id="engineNumber" type="text" placeholder="12345" maxlength="5"/>
 
-      <label>Vehicle Type*</label>
+      <label>Choose Vehicle Type*</label>
       <select id="vehicleType">
         <option value="">Select...</option>
-        <option>Car</option>
-        <option>Bike</option>
-        <option>Scooter</option>
-        <option>Auto</option>
-        <option>Commercial</option>
+        <option>Car</option><option>Bike</option><option>Scooter</option>
+        <option>Auto</option><option>Commercial</option>
       </select>
 
-      <button id="nextToPersonal">Next →</button>
-    </div>
+      <button id="toPersonal">Next →</button>
+    </section>
 
     <!-- STEP 2 -->
-    <div id="form2" class="form-panel" style="display:none;">
-      <h2>Personal Details</h2>
-
+    <section id="form2" class="panel" style="display:none;">
       <label>Name*</label>
-      <input id="name" type="text" placeholder="Your name">
+      <input id="name" type="text"/>
 
       <label>Phone*</label>
-      <input id="phone" type="text" placeholder="9876543210" maxlength="10">
+      <input id="phone" type="text" maxlength="10"/>
 
       <label>Email*</label>
-      <input id="email" type="email" placeholder="you@example.com">
+      <input id="email" type="email"/>
 
       <label>Address*</label>
-      <textarea id="address" placeholder="Your address"></textarea>
+      <textarea id="address"></textarea>
 
       <button id="backToVehicle">← Back</button>
-      <button id="toPreview">Preview →</button>
-    </div>
+      <button id="toPreview">Next →</button>
+    </section>
 
     <!-- STEP 3 -->
-    <div id="form3" class="form-panel" style="display:none;">
-      <h2>Preview</h2>
-      <div id="summary"></div>
+    <section id="form3" class="panel" style="display:none;">
+      <h3>Verify Details</h3>
+      <div id="summaryTable"></div>
 
       <button id="backToPersonal">← Back</button>
-      <button id="toPayment">Proceed to Payment</button>
-    </div>
+      <button id="proceedToPayment">Proceed to Payment</button>
+    </section>
 
     <!-- STEP 4 -->
-    <div id="form4" class="form-panel" style="display:none;">
-      <h2>Payment — Scan QR</h2>
-      <div>
-        <img src="https://i.postimg.cc/ZqWHc18p/upi-sample.png" alt="UPI QR" style="max-width:200px">
-      </div>
-      <p>After payment, upload screenshot</p>
-      <input id="screenshot" type="file" accept="image/png, image/jpeg">
-      <button id="submitPay">Submit Screenshot & Confirm</button>
-      <button id="backToPreview">← Back</button>
-    </div>
+    <section id="form4" class="panel" style="display:none;">
+      <h3>Payment — Scan QR</h3>
+      
+      <img id="qrImage" src="qr.png" style="max-width:240px"/>
 
-    <div id="thankyou" class="form-panel" style="display:none; text-align:center;">
-      <h2>Thank you! Booking Confirmed 🎉</h2>
-      <p>We will contact you soon.</p>
-    </div>
+      <h4>Upload Payment Screenshot</h4>
+      <input id="screenshotInput" type="file" accept="image/png,image/jpeg"/>
+      <button id="submitScreenshot">Submit Screenshot</button>
+
+      <button id="backToPreview">← Back</button>
+    </section>
+
+    <!-- THANK YOU -->
+    <section id="thankyou" class="panel" style="display:none;text-align:center;">
+      <h2>✔ Thank You! Payment Received</h2>
+      <p>Your HSR Plate booking is confirmed.</p>
+    </section>
 
   </main>
 
