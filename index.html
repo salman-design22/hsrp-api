@@ -87,10 +87,6 @@
                             <input type="text" id="engineNo" maxlength="5" placeholder="67890" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                         </div>
                     </div>
-                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start">
-                        <svg class="h-5 w-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/></svg>
-                        <p class="text-sm text-blue-700 leading-relaxed">Ensure the details match your RC (Registration Certificate) to avoid rejection at the center.</p>
-                    </div>
                     <button onclick="nextStep(2)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl shadow-lg shadow-blue-100 transition-all transform active:scale-[0.98]">
                         Next Step
                     </button>
@@ -141,9 +137,10 @@
                 </h2>
                 
                 <div class="text-center space-y-4">
-                    <!-- QR Section -->
+                    <!-- QR Section with Hard Refresh -->
                     <div class="bg-white p-4 rounded-2xl border-2 border-gray-100 inline-block mx-auto shadow-sm">
-                        <img id="paymentQr" src="" alt="Payment QR" class="w-48 h-48 mx-auto">
+                        <!-- Note: src update logic is in JS refreshQr function -->
+                        <img id="paymentQr" src="qr.png" alt="Payment QR" class="w-56 h-56 mx-auto object-contain">
                         <p class="text-[10px] text-gray-400 mt-2 font-mono uppercase" id="qr-ref">REF: --</p>
                     </div>
 
@@ -155,7 +152,7 @@
                     <div class="text-left">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Transaction ID / UTR Number</label>
                         <input type="text" id="utrNumber" placeholder="Enter 12-digit UTR number" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none transition-all font-mono">
-                        <p class="text-[10px] text-gray-400 mt-1">Submit the UTR number after completing the payment scan.</p>
+                        <p class="text-[10px] text-gray-400 mt-1">Payment karne ke baad UTR number yahan bharein.</p>
                     </div>
 
                     <div class="flex gap-3 pt-2">
@@ -163,7 +160,7 @@
                             Back
                         </button>
                         <button onclick="nextStep(4)" class="w-2/3 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-4 rounded-xl shadow-lg shadow-orange-100 transition-all transform active:scale-[0.98]">
-                            Submit Payment Details
+                            Submit Details
                         </button>
                     </div>
                 </div>
@@ -176,8 +173,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-gray-900">Thank You!</h2>
-                <p class="text-gray-500 mt-2">Your registration request has been submitted.</p>
+                <h2 class="text-3xl font-bold text-gray-900">Shukriya!</h2>
+                <p class="text-gray-500 mt-2">Aapki request submit ho gayi hai.</p>
                 
                 <div class="mt-8 bg-gray-50 rounded-2xl p-6 border border-gray-100 text-left">
                     <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
@@ -210,7 +207,7 @@
 
         <!-- Notification Toast -->
         <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
-            Please fill all fields correctly.
+            Kripya sahi jaankari bharein.
         </div>
     </div>
 
@@ -232,9 +229,11 @@
         function refreshQr() {
             const randomId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
             document.getElementById('qr-ref').textContent = `REF: ${randomId}`;
-            // Mock UPI string for the QR
-            const upiData = `upi://pay?pa=hsrp.pay@bank&pn=HSRP_Portal&am=465.00&tr=${randomId}&cu=INR`;
-            document.getElementById('paymentQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiData)}`;
+            
+            // Hard Refresh Logic: Adding timestamp to bypass browser cache
+            const qrImg = document.getElementById('paymentQr');
+            const timestamp = new Date().getTime();
+            qrImg.src = `qr.png?v=${timestamp}`;
         }
 
         function validateStep(step) {
@@ -245,7 +244,7 @@
                 const engine = document.getElementById('engineNo').value.trim();
                 
                 if (!regNo || !vClass || chassis.length < 5 || engine.length < 5) {
-                    showToast("Please complete vehicle details correctly.");
+                    showToast("Vehicle details poori karein.");
                     return false;
                 }
                 formData.regNo = regNo;
@@ -257,7 +256,7 @@
                 const address = document.getElementById('address').value.trim();
 
                 if (!name || mobile.length < 10 || !email.includes('@') || !address) {
-                    showToast("Please fill owner details correctly.");
+                    showToast("Personal details sahi se bharein.");
                     return false;
                 }
                 formData.owner = name;
@@ -265,7 +264,7 @@
             } else if (step === 3) {
                 const utr = document.getElementById('utrNumber').value.trim();
                 if (utr.length < 8) {
-                    showToast("Please enter a valid UTR number.");
+                    showToast("Sahi UTR number bharein.");
                     return false;
                 }
                 formData.utr = utr;
@@ -305,6 +304,7 @@
             currentStep = step;
             updateStepper(step);
 
+            // Trigger QR Refresh when moving to Step 3
             if (step === 3) {
                 refreshQr();
             }
