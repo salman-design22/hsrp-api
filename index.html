@@ -361,21 +361,34 @@
             const typingId = 'typing-' + Date.now();
             appendMsg('ai', '', typingId, true);
 
-            const fallbackResponse = `I apologize, I'm facing a slight connection glitch. For ${formData.chatReg || 'your vehicle'}: Payment verification takes 2-4 hours, and delivery takes 10-14 working days. Is there anything specific I can check?`;
+            // Fallback content in case API fails
+            const fallbackResponse = `Hi! For your vehicle (${formData.chatReg || 'Registered Vehicle'}): 1. Payment verify hone mein 2-4 ghante lagte hain. 2. RTO Submission 4-6 din mein hoga. 3. Delivery total 10-14 working days mein hogi. Iske alawa kuch aur poochna hai?`;
 
             try {
-                const sysPrompt = `You are a friendly HSRP Support Executive. 
-                RULES: 1. Payment: 2-4h. 2. RTO Submission: 4-6 working days. 3. Home Delivery: 10-14 working days.
-                USER: Reg No: ${formData.chatReg}, Ref ID: ${formData.chatRef}.
-                Respond naturally in the SAME LANGUAGE as the user (Hindi/English). Be empathetic.`;
+                const sysPrompt = `You are a friendly HSRP Support Executive named 'Assistant'. 
+                STRICT BUSINESS RULES: 
+                - Payment Verification: 2-4 hours. 
+                - RTO Submission: 4-6 working days. 
+                - Home Delivery: 10-14 working days total.
+                CUSTOMER INFO: Reg No: ${formData.chatReg}, Ref ID: ${formData.chatRef}.
+                TONE: Helpful, polite, and professional.
+                LANGUAGE: Always reply in the same language as the user (Hindi or English). If user asks in Hinglish, reply in Hinglish.
+                Don't just repeat rules, talk like a human support agent.`;
 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ role: "user", parts: [{ text: text }] }],
-                        systemInstruction: { parts: [{ text: sysPrompt }] },
-                        generationConfig: { temperature: 0.8, maxOutputTokens: 300 },
+                        contents: [
+                            { 
+                                role: "user", 
+                                parts: [{ text: sysPrompt + "\n\nUser says: " + text }] 
+                            }
+                        ],
+                        generationConfig: { 
+                            temperature: 0.7, 
+                            maxOutputTokens: 500 
+                        },
                         safetySettings: [
                             { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
                             { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
@@ -389,13 +402,14 @@
                 document.getElementById(typingId)?.remove();
 
                 if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                    appendMsg('ai', data.candidates[0].content.parts[0].text);
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    appendMsg('ai', aiText);
                 } else {
-                    console.log("Empty or blocked response:", data);
+                    console.warn("API returned no text or was blocked. Response:", data);
                     appendMsg('ai', fallbackResponse);
                 }
             } catch (e) {
-                console.error("AI Error:", e);
+                console.error("Critical Chat Error:", e);
                 document.getElementById(typingId)?.remove();
                 appendMsg('ai', fallbackResponse);
             }
@@ -405,11 +419,19 @@
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
             if (id) div.id = id;
-            div.className = sender === 'user' ? 
-                "bg-blue-50 text-blue-800 p-3.5 rounded-2xl rounded-tr-none ml-auto max-w-[85%] text-xs font-semibold animate-fade-in shadow-sm" :
-                "bg-blue-600 text-white p-3.5 rounded-2xl rounded-tl-none max-w-[85%] text-xs animate-fade-in shadow-md leading-relaxed";
-            if (isTyping) div.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>`;
-            else div.textContent = text;
+            
+            if (sender === 'user') {
+                div.className = "bg-blue-50 text-blue-800 p-3.5 rounded-2xl rounded-tr-none ml-auto max-w-[85%] text-xs font-semibold animate-fade-in shadow-sm border border-blue-100";
+            } else {
+                div.className = "bg-blue-600 text-white p-3.5 rounded-2xl rounded-tl-none mr-auto max-w-[85%] text-xs animate-fade-in shadow-md leading-relaxed";
+            }
+
+            if (isTyping) {
+                div.innerHTML = `<div class="flex gap-1"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+            } else {
+                div.textContent = text;
+            }
+            
             container.appendChild(div);
             const win = document.getElementById('chat-window');
             win.scrollTo({ top: win.scrollHeight, behavior: 'smooth' });
