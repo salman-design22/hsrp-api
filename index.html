@@ -270,7 +270,7 @@
     <script>
         let currentStep = 1;
         const formData = {};
-        const apiKey = ""; // API key provided by environment
+        const apiKey = ""; // API key automatically handled by environment
 
         function updateStepper(step) {
             for (let i = 1; i <= 4; i++) {
@@ -312,7 +312,8 @@
                 document.getElementById('final-utr').textContent = formData.utr;
             }
             document.querySelectorAll('.step-transition').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`step-${step}`).classList.remove('hidden');
+            const target = document.getElementById(`step-${step}`);
+            if(target) target.classList.remove('hidden');
             currentStep = step;
             updateStepper(step);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -320,7 +321,8 @@
 
         function prevStep(step) {
             document.querySelectorAll('.step-transition').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`step-${step}`).classList.remove('hidden');
+            const target = document.getElementById(`step-${step}`);
+            if(target) target.classList.remove('hidden');
             currentStep = step;
             updateStepper(step);
         }
@@ -348,7 +350,10 @@
             document.getElementById('chat-auth-form').classList.add('hidden');
             document.getElementById('chat-messages').classList.remove('hidden');
             document.getElementById('chat-input-container').classList.remove('hidden');
-            appendMsg('ai', `Namaste! I found the booking for ${reg.toUpperCase()}. Payment verification is currently in progress (2-4 hours). How can I assist you today?`);
+            
+            // Initial AI Greeting
+            const welcomeMsg = `Namaste! I found the booking for ${reg.toUpperCase()}. Payment verification is currently in progress (2-4 hours). How can I assist you today?`;
+            appendMsg('ai', welcomeMsg);
         }
 
         // Implementation of Gemini API with Exponential Backoff
@@ -367,9 +372,16 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    if (!response.ok) throw new Error('API Error');
+                    
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error?.message || 'API Error');
+                    }
+                    
                     const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!text) throw new Error("Empty AI response");
+                    return text;
                 } catch (error) {
                     if (i === maxRetries - 1) throw error;
                     const delay = Math.pow(2, i) * 1000;
@@ -390,18 +402,31 @@
             appendMsg('ai', '', typingId, true);
 
             const sysPrompt = `You are an HSRP India Support Executive. 
-            VEHICLE: ${formData.chatReg}, REF: ${formData.chatRef}.
-            TIMELINES: Payment Verify: 2-4 hrs. RTO Submission: 4-6 working days. Delivery: 10-14 working days.
-            Be helpful, professional, and empathetic. Answer in English or Hinglish if the user asks. 
-            If the user asks for status, confirm that payment is being verified currently.`;
+            CONTEXT:
+            VEHICLE: ${formData.chatReg || 'Unknown'}, 
+            REF: ${formData.chatRef || 'Unknown'}.
+            
+            OFFICIAL TIMELINES: 
+            - Payment Verification: 2-4 hours. 
+            - RTO Submission: 4-6 working days. 
+            - Home Delivery: 10-14 working days.
+            
+            GUIDELINES:
+            - Be extremely professional and empathetic. 
+            - Use Hinglish if the user asks questions in Hindi.
+            - If user asks for status, confirm payment is being verified.
+            - Do not invent details not provided here.`;
 
             try {
                 const aiResponse = await callGemini(text, sysPrompt);
-                document.getElementById(typingId)?.remove();
-                appendMsg('ai', aiResponse || "I am processing your request. Please wait a moment.");
+                const typingEl = document.getElementById(typingId);
+                if(typingEl) typingEl.remove();
+                appendMsg('ai', aiResponse);
             } catch (e) {
-                document.getElementById(typingId)?.remove();
-                appendMsg('ai', "I'm having trouble connecting. Verification usually takes 2-4 hours. Please check back later.");
+                console.error("AI Error:", e);
+                const typingEl = document.getElementById(typingId);
+                if(typingEl) typingEl.remove();
+                appendMsg('ai', "I'm having a slight connection issue. However, I can confirm that standard verification takes 2-4 hours. Please stay tuned.");
             }
         }
 
@@ -417,12 +442,14 @@
             }
 
             if (isTyping) {
-                div.innerHTML = `<div class="flex gap-1"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+                div.innerHTML = `<div class="flex gap-1 py-1"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
             } else {
                 div.textContent = text;
             }
             
             container.appendChild(div);
+            
+            // Smooth scroll to bottom
             const win = document.getElementById('chat-window');
             win.scrollTo({ top: win.scrollHeight, behavior: 'smooth' });
         }
