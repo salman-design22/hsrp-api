@@ -110,11 +110,11 @@
                     </div>
                 </div>
                 
-                <!-- Desktop Navigation Menu using dynamic SPA views -->
+                <!-- Desktop Navigation Menu using dynamic SPA views (Exactly matching Footer) -->
                 <div class="hidden md:flex items-center space-x-7">
                     <button id="nav-home" onclick="goHome()" class="text-sm font-bold text-blue-600 hover:text-blue-700 transition">Home</button>
                     <button id="nav-about" onclick="showView('about')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">About Us</button>
-                    <button id="nav-notifications" onclick="showView('notifications')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Govt. Notifications</button>
+                    <button id="nav-notifications" onclick="showView('notifications')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Notifications</button>
                     <button id="nav-faqs" onclick="showView('faqs')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">FAQs</button>
                     <button id="nav-contact" onclick="showView('contact')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Contact Us</button>
                     <button id="nav-cancel" onclick="showView('cancel')" class="px-5 py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-extrabold hover:bg-red-100 transition-all">Cancel Order</button>
@@ -135,7 +135,7 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 p-5 space-y-3 shadow-xl absolute w-full left-0 transition-all">
             <button onclick="goHome(); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-blue-600 py-2 border-b border-slate-50">Home</button>
             <button onclick="showView('about'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">About Us</button>
-            <button onclick="showView('notifications'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Govt. Notifications</button>
+            <button onclick="showView('notifications'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Notifications</button>
             <button onclick="showView('faqs'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">FAQs</button>
             <button onclick="showView('contact'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Contact Us</button>
             <button onclick="showView('cancel'); toggleMenu();" class="block w-full text-center text-sm font-extrabold text-red-600 bg-red-50 py-3 rounded-xl mt-3 hover:bg-red-100 transition">Cancel Order</button>
@@ -513,131 +513,178 @@
         </div>
 
         <!-- VIEW: CONTACT US -->
-        <div id="view-contact" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">Get In Touch With Helpdesk</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                <div>
-                    <p class="text-slate-500 text-sm font-semibold leading-relaxed mb-6">
-                        For institutional fleet requests, registration failures, refund status, or active assistance, write to us or submit your request using the inline portal support.
-                    </p>
-                    <div class="space-y-4 font-semibold text-sm">
-                        <div class="flex items-center gap-3 text-slate-700">
-                            <span class="text-blue-600 font-bold">📍</span>
-                            <span>MoRTH HSRP Support HQ, New Delhi, India</span>
-                        </div>
-                    </div>
+        <div id="view-contact" class="view-section hidden fade-in max-w-2xl mx-auto">
+            <!-- Centered Card container matching the Get In Touch Screenshot exactly -->
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
+                
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Get In Touch</h2>
+                    <p class="text-slate-500 font-semibold text-sm mt-2">Have questions about your HSRP? Our team is here to help.</p>
                 </div>
 
-                <!-- Simple Interactive Contact Form with Inline Custom Message -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                    <h3 class="font-black text-slate-900 text-lg mb-4">Send a Quick Query</h3>
+                <!-- INPUT FIELDS CONTAINER (Matches the screenshot layout precisely) -->
+                <div id="contactFormFields" class="space-y-6">
                     
-                    <!-- INPUT FIELDS CONTAINER -->
-                    <div id="contactFormFields" class="space-y-4">
-                        <input type="text" id="contactName" placeholder="Your Name" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
-                        <input type="email" id="contactEmail" placeholder="Your Email" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
-                        <textarea id="contactMessage" placeholder="Describe your query..." rows="3" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white"></textarea>
-                        <button onclick="submitContactQuery()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl text-xs hover:bg-blue-700 transition">
-                            Submit Inquiry
-                        </button>
+                    <!-- Row 1: Full Name -->
+                    <div>
+                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Full Name</label>
+                        <input type="text" id="contactName" placeholder="John Doe" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
                     </div>
 
-                    <!-- PROPER INLINE MESSAGE DISPLAYED ON THE PAGE INSTEAD OF A POPUP -->
-                    <div id="contactSuccessMessage" class="hidden p-5 bg-green-50 border border-green-200 rounded-2xl text-center space-y-3 fade-in mt-2">
-                        <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-md">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                            </svg>
+                    <!-- Row 2: Email Address & Mobile Number -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Email Address</label>
+                            <input type="email" id="contactEmail" placeholder="john@example.com" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
                         </div>
-                        <h4 class="text-green-900 font-extrabold text-sm">Query Received!</h4>
-                        <p class="text-xs text-green-700 font-bold leading-relaxed">
-                            Our executive will contact you in 24 hours.
+                        <div>
+                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Mobile Number</label>
+                            <input type="tel" id="contactMobile" placeholder="9876543210" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: How Can We Help? -->
+                    <div>
+                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">How Can We Help?</label>
+                        <textarea id="contactMessage" rows="4" placeholder="Describe your query here..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button onclick="submitContactQuery()" class="w-full bg-[#2563eb] hover:bg-blue-700 text-white py-4.5 rounded-2xl font-extrabold text-base transition duration-250 shadow-lg shadow-blue-100 flex items-center justify-center gap-2 py-4.5">
+                        <span>Send Message</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- PROPER INLINE CONTACT SUCCESS MESSAGE (Initially hidden) -->
+                <div id="contactSuccessMessage" class="hidden text-center space-y-5 py-4 fade-in">
+                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-xl border-4 border-white accent-pulse">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-green-900 font-black text-xl">Message Sent!</h4>
+                    
+                    <div class="text-left space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-inner">
+                        <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">English Notice:</strong>
+                            Your message has been successfully sent. Our customer support executive will contact you in 24 hours.
                         </p>
-                        <button onclick="resetContactForm()" class="text-[10px] text-blue-600 underline font-bold pt-2 block mx-auto">
-                            Send another query
+                        <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-3 border-t border-dashed border-slate-200">
+                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">हिंदी सूचना:</strong>
+                            आपका संदेश सफलतापूर्वक भेज दिया गया है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर आपसे संपर्क करेगा।
+                        </p>
+                    </div>
+
+                    <div class="pt-2 flex flex-col gap-3">
+                        <button onclick="resetContactForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
+                            Send Another Message
+                        </button>
+                        <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
+                            Return to Homepage
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
 
         <!-- VIEW: CANCEL ORDER -->
-        <div id="view-cancel" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Cancel / Refund Order</h2>
-            <p class="text-slate-400 font-semibold text-sm mb-8">We grant absolute cancellations on orders processed before manufacturing begins.</p>
+        <div id="view-cancel" class="view-section hidden fade-in max-w-2xl mx-auto">
+            <!-- Main visual card container matching Screenshot -->
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
+                
+                <!-- Circular Close/Cross Header Icon -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center text-red-500 border border-red-100 shadow-sm">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
 
-            <!-- INPUT FIELDS & SIMULATION CONTAINER -->
-            <div id="cancelFormFields" class="max-w-md mx-auto space-y-6">
-                <div class="bg-slate-50 border border-slate-100 p-5 rounded-2xl shadow-inner">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Search Order via Booking / Reference ID</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="cancelIdSearch" placeholder="e.g. HSR-123456" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 outline-none uppercase font-bold text-slate-800 bg-white">
-                        <button onclick="searchCancelOrder()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl font-bold text-sm transition shadow-md">
-                            Find Order
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Cancel Your Order</h2>
+                    <p class="text-slate-500 font-semibold text-sm mt-2">Please provide your details to initiate the cancellation process.</p>
+                </div>
+
+                <!-- INPUT FIELDS CONTAINER (Matches the screenshot layout exactly) -->
+                <div id="cancelFormFields" class="space-y-6">
+                    
+                    <!-- Row 1: Registration Number and Reference ID -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Registration Number</label>
+                            <input type="text" id="cancelRegNo" placeholder="DL01AB1234" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 uppercase font-bold text-slate-800 transition">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Reference ID</label>
+                            <input type="text" id="cancelIdSearch" placeholder="HSRP-123456" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 uppercase font-bold text-slate-800 transition">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Contact Number -->
+                    <div>
+                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Contact Number</label>
+                        <input type="tel" id="cancelContact" placeholder="Enter linked mobile number" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
+                    </div>
+
+                    <!-- Row 3: Reason for Cancellation -->
+                    <div>
+                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Reason for Cancellation</label>
+                        <select id="cancelReason" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition bg-white">
+                            <option value="">Select a reason</option>
+                            <option>Wrong vehicle specifications entered</option>
+                            <option>Incorrect owner name or phone number</option>
+                            <option>Planning to sell my vehicle shortly</option>
+                            <option>Delayed dispatch schedule</option>
+                            <option>Other reasons / Personal decision</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit / Request Cancellation Button -->
+                    <button onclick="submitCancelRequest()" class="w-full bg-[#c2410c] hover:bg-red-700 text-white py-4.5 rounded-2xl font-extrabold text-base transition duration-250 shadow-lg shadow-red-100 py-4.5">
+                        Request Cancellation
+                    </button>
+
+                    <!-- Footer policy footnote -->
+                    <p class="text-center text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-6">
+                        NOTE: CANCELLATION IS SUBJECT TO TERMS AND CONDITIONS
+                    </p>
+                </div>
+
+                <!-- PROPER INLINE CANCEL SUCCESS MESSAGE (Initially hidden) -->
+                <div id="cancelSuccessMessage" class="hidden text-center space-y-5 py-4 fade-in">
+                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-xl border-4 border-white accent-pulse">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-green-900 font-black text-xl">Cancellation Registered!</h4>
+                    
+                    <div class="text-left space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-inner">
+                        <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">English Notice:</strong>
+                            Your request has been successfully registered. Our customer support executive will call you within 24 hours to confirm, and then your order will be cancelled successfully.
+                        </p>
+                        <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-3 border-t border-dashed border-slate-200">
+                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">हिंदी सूचना:</strong>
+                            आपकी रद्द करने की रिक्वेस्ट दर्ज कर ली गई है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर पुष्टि करने के लिए आपको कॉल करेगा, उसके बाद ही आपका ऑर्डर सफलतापूर्वक कैंसिल किया जाएगा।
+                        </p>
+                    </div>
+
+                    <div class="pt-2 flex flex-col gap-3">
+                        <button onclick="resetCancelForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
+                            Cancel Another Order
+                        </button>
+                        <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
+                            Return to Homepage
                         </button>
                     </div>
                 </div>
 
-                <!-- Simulation Search Results (Initially Hidden) -->
-                <div id="cancelResult" class="hidden border border-slate-100 p-5 rounded-2xl space-y-4 fade-in">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-extrabold text-blue-600 tracking-wider">ORDER DETECTED</span>
-                        <span id="cancelStatusBadge" class="bg-blue-50 text-blue-700 text-[10px] px-2.5 py-1 rounded-full font-bold">Active / Verifying</span>
-                    </div>
-                    <div class="text-sm font-semibold space-y-2">
-                        <div class="flex justify-between text-xs text-slate-500">
-                            <span>Booking Reference ID:</span>
-                            <span id="cancelFoundId" class="font-bold text-slate-800">--</span>
-                        </div>
-                    </div>
-
-                    <!-- Clear, explicit cancel policy notice -->
-                    <div class="p-4 bg-orange-50 border border-orange-150 rounded-xl text-left space-y-2">
-                        <h4 class="text-orange-800 text-xs font-black uppercase flex items-center gap-1.5">
-                            ⚠️ Cancellation Policy Notification
-                        </h4>
-                        <p class="text-[11px] text-orange-700 font-semibold leading-relaxed">
-                            English: If you cancel this booking within 48 hours of placement, our customer support executive will call you within 24 hours to confirm, and then your order will be cancelled successfully.
-                        </p>
-                        <p class="text-[11px] text-orange-700 font-bold leading-relaxed border-t border-orange-100 pt-1.5">
-                            हिंदी: अगर आपने बुकिंग के 48 घंटे के अंदर आर्डर कैंसिल किया तो हमारा एग्जीक्यूटिव 24 घंटे के अंदर कॉल करेगा, उसके बाद ही ऑर्डर सफलतापूर्वक कैंसिल होगा।
-                        </p>
-                    </div>
-                    
-                    <button onclick="requestRefundAction()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3.5 rounded-xl font-extrabold text-xs transition shadow-lg shadow-red-100">
-                        Confirm Cancellation Request
-                    </button>
-                </div>
-            </div>
-
-            <!-- PROPER INLINE CANCEL SUCCESS MESSAGE (No standard alert popups!) -->
-            <div id="cancelSuccessMessage" class="hidden max-w-md mx-auto p-6 bg-green-50 border border-green-200 rounded-[28px] text-center space-y-4 fade-in">
-                <div class="w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-md accent-pulse">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h4 class="text-green-900 font-black text-lg">Cancellation Registered!</h4>
-                
-                <div class="text-left space-y-3 bg-white p-4.5 rounded-2xl border border-green-100 shadow-sm">
-                    <p class="text-xs text-slate-700 font-semibold leading-relaxed">
-                        <strong class="text-green-700 block mb-0.5">English:</strong>
-                        Your request has been successfully registered. Our customer support executive will call you within 24 hours to confirm, and then your order will be cancelled successfully.
-                    </p>
-                    <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-2.5 border-t border-dashed border-slate-100">
-                        <strong class="text-green-700 block mb-0.5">हिंदी:</strong>
-                        आपकी रद्द करने की रिक्वेस्ट दर्ज कर ली गई है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर पुष्टि करने के लिए आपको कॉल करेगा, उसके बाद ही आपका ऑर्डर सफलतापूर्वक कैंसिल किया जाएगा।
-                    </p>
-                </div>
-
-                <div class="pt-2 flex flex-col gap-2">
-                    <button onclick="resetCancelForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                        Cancel Another Order
-                    </button>
-                    <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
-                        Return to Homepage
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -706,8 +753,9 @@
                     </div>
                 </div>
                 
-                <!-- Quick Navigation Links (SPA) -->
+                <!-- Quick Navigation Links (SPA) (Exactly matching Header) -->
                 <div class="flex flex-wrap justify-center gap-5">
+                    <button onclick="goHome()" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Home</button>
                     <button onclick="showView('about')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">About Us</button>
                     <button onclick="showView('notifications')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Notifications</button>
                     <button onclick="showView('faqs')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">FAQs</button>
@@ -844,6 +892,7 @@
             setStep(2);
         }
 
+        // Return step 1 from step 2
         function back1(){
             document.getElementById("step2").classList.add("hidden");
             document.getElementById("step1").classList.remove("hidden");
@@ -987,10 +1036,15 @@
         function submitContactQuery() {
             const name = document.getElementById("contactName").value.trim();
             const email = document.getElementById("contactEmail").value.trim();
+            const mobile = document.getElementById("contactMobile").value.trim();
             const msg = document.getElementById("contactMessage").value.trim();
 
-            if (!name || !email || !msg) {
+            if (!name || !email || !mobile || !msg) {
                 alert("Please fill all contact fields.");
+                return;
+            }
+            if (mobile.length < 10 || isNaN(mobile)) {
+                alert("Please input a valid 10-digit Mobile number.");
                 return;
             }
             
@@ -1005,38 +1059,47 @@
             document.getElementById("contactSuccessMessage").classList.add("hidden");
             document.getElementById("contactName").value = "";
             document.getElementById("contactEmail").value = "";
+            document.getElementById("contactMobile").value = "";
             document.getElementById("contactMessage").value = "";
         }
 
-        // Search & Cancel System Simulation using Booking ID
-        function searchCancelOrder() {
-            const searchInput = document.getElementById("cancelIdSearch").value.trim().toUpperCase();
-            if(!searchInput) {
-                alert("Please specify a Booking Reference ID to query.");
+        // Submit / Request Cancellation Action (Fully Inline without Popups)
+        function submitCancelRequest() {
+            const regNo = document.getElementById("cancelRegNo").value.trim();
+            const refId = document.getElementById("cancelIdSearch").value.trim();
+            const contact = document.getElementById("cancelContact").value.trim();
+            const reason = document.getElementById("cancelReason").value;
+
+            if(!regNo) {
+                alert("Please provide the Vehicle Registration Number.");
+                return;
+            }
+            if(!refId) {
+                alert("Please provide your HSRP Booking Reference ID.");
+                return;
+            }
+            if(contact.length < 10 || isNaN(contact)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return;
+            }
+            if(!reason) {
+                alert("Please select a reason for cancellation.");
                 return;
             }
 
-            const resDiv = document.getElementById("cancelResult");
-            const resId = document.getElementById("cancelFoundId");
-            
-            resId.innerText = searchInput;
-            resDiv.classList.remove("hidden");
-        }
-
-        // Request refund simulation actions (Strictly Inline without popups!)
-        function requestRefundAction() {
-            // Hide the active form layout/fields
+            // Successfully validated: transition smoothly to proper inline bilingual message view
             document.getElementById("cancelFormFields").classList.add("hidden");
-            // Show the cancellation feedback card dynamically inside the view
             document.getElementById("cancelSuccessMessage").classList.remove("hidden");
         }
 
-        // Reset Cancellation form to look pristine
+        // Reset Cancellation form 
         function resetCancelForm() {
             document.getElementById("cancelFormFields").classList.remove("hidden");
             document.getElementById("cancelSuccessMessage").classList.add("hidden");
-            document.getElementById("cancelResult").classList.add("hidden");
+            document.getElementById("cancelRegNo").value = "";
             document.getElementById("cancelIdSearch").value = "";
+            document.getElementById("cancelContact").value = "";
+            document.getElementById("cancelReason").value = "";
         }
 
         // Live Chat Support Controls
@@ -1056,7 +1119,7 @@
             if (chat && chat.children.length === 0) {
                 chat.innerHTML = '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
                     '<p class="text-[9px] text-blue-600 font-extrabold uppercase tracking-wider mb-1">Sameer • Support Executive</p>' +
-                    '<p>Namaste! 🙏 Welcome to HSRP Helpdesk. How can I assist you with your vehicle High Security Registration Plate booking or status verification today?</p>' +
+                    '<p>Namaste! 🙏 Welcome to HSRP Helpdesk. How can I assist you today?</p>' +
                     '</div>';
                 chat.scrollTop = chat.scrollHeight;
             }
@@ -1068,31 +1131,28 @@
             const chat = document.getElementById("chatMessages");
             const userText = input.value.trim();
             
-            // Append User text bubble
             chat.innerHTML += '<div class="bg-blue-600 text-white p-4 rounded-2xl ml-auto max-w-[85%] text-xs font-semibold shadow-md">' +
                 userText +
                 '</div>';
             input.value = "";
             chat.scrollTop = chat.scrollHeight;
 
-            // Trigger typing indicator
             const typing = document.getElementById("typingIndicator");
             typing.classList.remove("hidden");
 
-            // Smart automated responses with simulated delay
             setTimeout(function() {
                 typing.classList.add("hidden");
                 const query = userText.toLowerCase();
-                let replyText = "Thank you for reaching out! A representative is connecting shortly. Please provide your Booking ID for quick verification.";
+                let replyText = "Thank you for reaching out! A representative is connecting shortly. Please provide your Booking ID.";
                 
                 if (query.indexOf("status") !== -1 || query.indexOf("track") !== -1 || query.indexOf("delivery") !== -1 || query.indexOf("when") !== -1) {
                     replyText = "To track your booking: Check the 'Status Timeline' on Step 4 after entering your UTR payment code. Typical home delivery takes 5 to 7 business days.";
                 } else if (query.indexOf("payment") !== -1 || query.indexOf("pay") !== -1 || query.indexOf("qr") !== -1 || query.indexOf("utr") !== -1) {
-                    replyText = "Please scan the official UPI QR code at Step 3, complete the transaction via PhonePe/GPay/Paytm, and paste your Transaction Ref/UTR number for automated approval.";
+                    replyText = "Please scan the UPI QR code at Step 3, complete the transaction via PhonePe/GPay/Paytm, and paste your Transaction Ref/UTR number for automated approval.";
                 } else if (query.indexOf("cancel") !== -1 || query.indexOf("refund") !== -1) {
-                    replyText = "If you wish to cancel: Click the 'Cancel Order' option in our top header navigation, submit your Booking ID. If booked within 48 hours, an executive will call you within 24 hours to verify and cancel.";
+                    replyText = "If you wish to cancel: Click the 'Cancel Order' option in our top header navigation, submit your Booking ID. If booked within 48 hours, an executive will call you within 24 hours to cancel.";
                 } else if (query.indexOf("wrong") !== -1 || query.indexOf("mistake") !== -1 || query.indexOf("edit") !== -1 || query.indexOf("incorrect") !== -1) {
-                    replyText = "If you submitted incorrect details, please message us here with your Reference ID and the correct details. Our operations team will update it before submission.";
+                    replyText = "If you submitted incorrect details, please message us here with your Reference ID and the correct details. Our operations team will update it.";
                 }
 
                 chat.innerHTML += '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
