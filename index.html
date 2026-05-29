@@ -250,7 +250,6 @@
                                 <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">State / Union Territory</label>
                                 <select id="state" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition bg-white">
                                     <option value="">Select State / UT</option>
-                                    <!-- All 36 Indian States and Union Territories listed in alphabetical order -->
                                     <option>Andaman and Nicobar Islands</option>
                                     <option>Andhra Pradesh</option>
                                     <option>Arunachal Pradesh</option>
@@ -320,7 +319,6 @@
                     <!-- Scan Block -->
                     <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 inline-block mb-6 max-w-sm w-full mx-auto shadow-inner">
                         <div class="w-48 h-48 bg-white border-2 border-slate-100 flex items-center justify-center mx-auto rounded-2xl overflow-hidden shadow-md">
-                            <!-- Image URL loads qr.png directly with a cache buster dynamically applied on display -->
                             <img id="qrImage" src="qr.png" alt="Payment QR" class="w-full h-full object-contain">
                         </div>
                         <p id="refId" class="text-xs font-extrabold text-blue-600 tracking-widest mt-4 uppercase">REF: --</p>
@@ -527,26 +525,36 @@
                             <span class="text-blue-600 font-bold">📍</span>
                             <span>MoRTH HSRP Support HQ, New Delhi, India</span>
                         </div>
-                        <div class="flex items-center gap-3 text-slate-700">
-                            <span class="text-blue-600 font-bold">✉</span>
-                            <span>support@hsrp-booking-gov.in</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-700">
-                            <span class="text-blue-600 font-bold">📞</span>
-                            <span>1800-419-HSRP (toll-free helpdesk)</span>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Simple Interactive Contact Form -->
+                <!-- Simple Interactive Contact Form with Inline Custom Message -->
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                     <h3 class="font-black text-slate-900 text-lg mb-4">Send a Quick Query</h3>
-                    <div class="space-y-4">
+                    
+                    <!-- INPUT FIELDS CONTAINER -->
+                    <div id="contactFormFields" class="space-y-4">
                         <input type="text" id="contactName" placeholder="Your Name" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
                         <input type="email" id="contactEmail" placeholder="Your Email" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
                         <textarea id="contactMessage" placeholder="Describe your query..." rows="3" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white"></textarea>
                         <button onclick="submitContactQuery()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl text-xs hover:bg-blue-700 transition">
                             Submit Inquiry
+                        </button>
+                    </div>
+
+                    <!-- PROPER INLINE MESSAGE DISPLAYED ON THE PAGE INSTEAD OF A POPUP -->
+                    <div id="contactSuccessMessage" class="hidden p-5 bg-green-50 border border-green-200 rounded-2xl text-center space-y-3 fade-in mt-2">
+                        <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-green-900 font-extrabold text-sm">Query Received!</h4>
+                        <p class="text-xs text-green-700 font-bold leading-relaxed">
+                            Our executive will contact you in 24 hours.
+                        </p>
+                        <button onclick="resetContactForm()" class="text-[10px] text-blue-600 underline font-bold pt-2 block mx-auto">
+                            Send another query
                         </button>
                     </div>
                 </div>
@@ -558,12 +566,13 @@
             <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Cancel / Refund Order</h2>
             <p class="text-slate-400 font-semibold text-sm mb-8">We grant absolute cancellations on orders processed before manufacturing begins.</p>
 
-            <div class="max-w-md mx-auto space-y-6">
-                <div class="bg-slate-50 border border-slate-100 p-5 rounded-2xl">
+            <!-- INPUT FIELDS & SIMULATION CONTAINER -->
+            <div id="cancelFormFields" class="max-w-md mx-auto space-y-6">
+                <div class="bg-slate-50 border border-slate-100 p-5 rounded-2xl shadow-inner">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Search Order via Booking / Reference ID</label>
                     <div class="flex gap-2">
                         <input type="text" id="cancelIdSearch" placeholder="e.g. HSR-123456" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 outline-none uppercase font-bold text-slate-800 bg-white">
-                        <button onclick="searchCancelOrder()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl font-bold text-sm transition">
+                        <button onclick="searchCancelOrder()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl font-bold text-sm transition shadow-md">
                             Find Order
                         </button>
                     </div>
@@ -595,8 +604,38 @@
                         </p>
                     </div>
                     
-                    <button onclick="requestRefundAction()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3.5 rounded-xl font-extrabold text-xs transition">
+                    <button onclick="requestRefundAction()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3.5 rounded-xl font-extrabold text-xs transition shadow-lg shadow-red-100">
                         Confirm Cancellation Request
+                    </button>
+                </div>
+            </div>
+
+            <!-- PROPER INLINE CANCEL SUCCESS MESSAGE (No standard alert popups!) -->
+            <div id="cancelSuccessMessage" class="hidden max-w-md mx-auto p-6 bg-green-50 border border-green-200 rounded-[28px] text-center space-y-4 fade-in">
+                <div class="w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-md accent-pulse">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h4 class="text-green-900 font-black text-lg">Cancellation Registered!</h4>
+                
+                <div class="text-left space-y-3 bg-white p-4.5 rounded-2xl border border-green-100 shadow-sm">
+                    <p class="text-xs text-slate-700 font-semibold leading-relaxed">
+                        <strong class="text-green-700 block mb-0.5">English:</strong>
+                        Your request has been successfully registered. Our customer support executive will call you within 24 hours to confirm, and then your order will be cancelled successfully.
+                    </p>
+                    <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-2.5 border-t border-dashed border-slate-100">
+                        <strong class="text-green-700 block mb-0.5">हिंदी:</strong>
+                        आपकी रद्द करने की रिक्वेस्ट दर्ज कर ली गई है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर पुष्टि करने के लिए आपको कॉल करेगा, उसके बाद ही आपका ऑर्डर सफलतापूर्वक कैंसिल किया जाएगा।
+                    </p>
+                </div>
+
+                <div class="pt-2 flex flex-col gap-2">
+                    <button onclick="resetCancelForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
+                        Cancel Another Order
+                    </button>
+                    <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
+                        Return to Homepage
                     </button>
                 </div>
             </div>
@@ -642,7 +681,7 @@
         </div>
     </div>
 
-    <!-- FLOATING CHAT BUTTON (Fixed bottom-right corner) -->
+    <!-- FLOATING CHAT BUTTON -->
     <div id="floatingChatBtn" class="fixed bottom-6 right-6 z-40">
         <button onclick="openChat()" class="bg-blue-600 hover:bg-blue-700 text-white p-4.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative border border-blue-500/30 w-14 h-14 md:w-16 md:h-16">
             <!-- Active ping dynamic layer -->
@@ -690,7 +729,7 @@
     <script>
         let bookingRef = "";
 
-        // Custom High-End Toast Notification system
+        // Custom High-End Toast Notification system (used for active warning alerts)
         window.alert = function(message) {
             let toast = document.getElementById("customToast");
             if (!toast) {
@@ -726,6 +765,13 @@
             const activeView = document.getElementById(`view-${viewName}`);
             if (activeView) {
                 activeView.classList.remove('hidden');
+            }
+
+            // Reset dynamic forms as user navigates to their respect views
+            if (viewName === 'contact') {
+                resetContactForm();
+            } else if (viewName === 'cancel') {
+                resetCancelForm();
             }
 
             // Highlight nav bar
@@ -804,6 +850,7 @@
             setStep(1);
         }
 
+        // Move to Step 3 (Secure UPI and QR presentation)
         function goStep3(){
             const nameVal = document.getElementById("fullName").value.trim();
             const mobileVal = document.getElementById("mobile").value.trim();
@@ -835,10 +882,7 @@
             // Hard refresh QR code source path when opening step 3
             const qr = document.getElementById('qrImage');
             if (qr) {
-                // Pointing directly to qr.png with dynamic hard refresh parameter
                 qr.src = `qr.png?nocache=${new Date().getTime()}`;
-                
-                // Backup generator link if qr.png doesn't exist locally
                 qr.onerror = function() {
                     this.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=morthhsrp@upi%26tn=${bookingRef}`;
                 };
@@ -849,7 +893,7 @@
             setStep(3);
         }
 
-        // No UTR length, numeric or strict structural validations applied here
+        // Verify UTR payment submitted
         function verifyPayment() {
             const utr = document.getElementById("utr").value.trim();
             if(!utr) {
@@ -867,6 +911,7 @@
             }, 1800);
         }
 
+        // Submit form data final step
         function submitForm(){
             const finalReceiptName = document.getElementById("finalReceiptName");
             const fullName = document.getElementById("fullName");
@@ -889,7 +934,7 @@
             setStep(4);
         }
 
-        // Return Home
+        // Return Home / Reset wizard to initial state
         function goHome() {
             document.getElementById("mobileMenu").classList.add("hidden");
             closeChat();
@@ -938,7 +983,7 @@
             }
         }
 
-        // Submit mock query on Contact form
+        // Contact Us: Submit inline query (PROPER UI MESSAGING - No Popup alerts on success)
         function submitContactQuery() {
             const name = document.getElementById("contactName").value.trim();
             const email = document.getElementById("contactEmail").value.trim();
@@ -948,7 +993,16 @@
                 alert("Please fill all contact fields.");
                 return;
             }
-            alert("Thank you! Your support request has been lodged successfully.");
+            
+            // Hide input form layout, and directly show the nice success feedback banner inside the container
+            document.getElementById("contactFormFields").classList.add("hidden");
+            document.getElementById("contactSuccessMessage").classList.remove("hidden");
+        }
+
+        // Reset/Re-display Contact Form
+        function resetContactForm() {
+            document.getElementById("contactFormFields").classList.remove("hidden");
+            document.getElementById("contactSuccessMessage").classList.add("hidden");
             document.getElementById("contactName").value = "";
             document.getElementById("contactEmail").value = "";
             document.getElementById("contactMessage").value = "";
@@ -969,9 +1023,18 @@
             resDiv.classList.remove("hidden");
         }
 
-        // Request refund simulation actions
+        // Request refund simulation actions (Strictly Inline without popups!)
         function requestRefundAction() {
-            alert("Cancellation processing requested! Our executive will call you within 24 hours to proceed.");
+            // Hide the active form layout/fields
+            document.getElementById("cancelFormFields").classList.add("hidden");
+            // Show the cancellation feedback card dynamically inside the view
+            document.getElementById("cancelSuccessMessage").classList.remove("hidden");
+        }
+
+        // Reset Cancellation form to look pristine
+        function resetCancelForm() {
+            document.getElementById("cancelFormFields").classList.remove("hidden");
+            document.getElementById("cancelSuccessMessage").classList.add("hidden");
             document.getElementById("cancelResult").classList.add("hidden");
             document.getElementById("cancelIdSearch").value = "";
         }
@@ -1016,7 +1079,7 @@
             const typing = document.getElementById("typingIndicator");
             typing.classList.remove("hidden");
 
-            // Smart automated responses with simulated delay (without forbidden words)
+            // Smart automated responses with simulated delay
             setTimeout(function() {
                 typing.classList.add("hidden");
                 const query = userText.toLowerCase();
