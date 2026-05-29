@@ -3,1140 +3,1040 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>HSRP Booking Portal - High Security Registration Plates</title>
+    <title>HSRP Booking Portal - Secure Government Approved Plates</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS for modern responsive utility-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
+    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Premium Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #f8fafc;
+            overflow-x: hidden;
+            color: #1e293b;
         }
 
-        /* Animated Plate Preview Styles */
-        .hsrp-plate {
-            background: #ffffff;
-            border: 4px solid #1e293b;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.15em;
+        .hidden {
+            display: none !important;
         }
 
-        .hsrp-plate::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid #94a3b8;
-            pointer-events: none;
-            border-radius: 8px;
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .hologram {
-            background: linear-gradient(135deg, #a1a1aa 0%, #e4e4e7 25%, #71717a 50%, #e4e4e7 75%, #a1a1aa 100%);
-            border: 1px solid #52525b;
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
-        }
-
-        /* Custom Scrollbar for Chat */
-        .chat-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .chat-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .chat-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        .chat-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        /* Glassmorphism effects */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Custom animations */
-        @keyframes slideInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(8px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        .animate-slide-up {
-            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+        .chat-scroll::-webkit-scrollbar {
+            width: 5px;
         }
 
-        /* Stepper progress transitions */
-        .step-transition {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .chat-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* Timeline specific styles */
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 5px;
+            top: 14px;
+            bottom: -36px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        /* Custom high-end pulse animation for warning/highlights */
+        .accent-pulse {
+            animation: softPulse 2s infinite;
+        }
+
+        @keyframes softPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col text-slate-800">
+<body class="min-h-screen flex flex-col justify-between">
 
-<!-- NAVIGATION BAR -->
-<nav class="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-20">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="goToTab('book')">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-blue-200">
-                    <i class="fa-solid fa-id-card"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black text-slate-900 leading-tight tracking-tight">HSRP INDIA</h1>
-                    <p class="text-[10px] text-blue-600 font-extrabold uppercase tracking-widest">Official Booking Hub</p>
-                </div>
-            </div>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center space-x-6">
-                <button onclick="goToTab('book')" id="nav-book" class="text-sm font-bold text-blue-600 transition px-3 py-2 rounded-lg">Book HSRP</button>
-                <button onclick="goToTab('status')" id="nav-status" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg">Track Status</button>
-                <button onclick="openModal('govt-modal')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg">Govt. Mandates</button>
-                <button onclick="openModal('faq-modal')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg">FAQs</button>
-                <button onclick="openModal('contact-modal')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg">Contact Us</button>
-                <button onclick="openModal('cancel-modal')" class="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-extrabold transition uppercase tracking-wider">Cancel Booking</button>
-            </div>
-
-            <!-- Mobile menu button -->
-            <div class="lg:hidden flex items-center">
-                <button onclick="toggleMenu()" class="text-slate-500 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-slate-50">
-                    <i class="fa-solid fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-50 p-4 space-y-3 shadow-xl absolute w-full left-0 z-50">
-        <button onclick="goToTab('book'); toggleMenu();" class="block w-full text-left text-sm font-bold text-blue-600 py-2 border-b border-slate-100">Book HSRP</button>
-        <button onclick="goToTab('status'); toggleMenu();" class="block w-full text-left text-sm font-bold text-slate-600 py-2 border-b border-slate-100">Track Status</button>
-        <button onclick="openModal('govt-modal'); toggleMenu();" class="block w-full text-left text-sm font-bold text-slate-600 py-2 border-b border-slate-100">Govt. Mandates</button>
-        <button onclick="openModal('faq-modal'); toggleMenu();" class="block w-full text-left text-sm font-bold text-slate-600 py-2 border-b border-slate-100">FAQs</button>
-        <button onclick="openModal('contact-modal'); toggleMenu();" class="block w-full text-left text-sm font-bold text-slate-600 py-2 border-b border-slate-100">Contact Us</button>
-        <button onclick="openModal('cancel-modal'); toggleMenu();" class="block w-full text-center py-3 bg-rose-50 text-rose-600 font-bold rounded-xl text-xs uppercase tracking-wider">Cancel Booking</button>
-    </div>
-</nav>
-
-<!-- MAIN APP BODY -->
-<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-
-    <!-- VIEW 1: BOOKING PORTAL (STEPPED FORM) -->
-    <div id="bookingView" class="animate-slide-up">
-        
-        <!-- STEPPER -->
-        <div id="stepperWrapper" class="max-w-3xl mx-auto mb-10 px-4">
-            <div class="flex justify-between relative">
-                <!-- Track Line -->
-                <div class="absolute top-5 left-0 w-full h-1 bg-slate-200 -z-10 rounded-full">
-                    <div id="progressBar" class="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full transition-all duration-500" style="width:0%"></div>
+    <!-- NAVIGATION BAR -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <!-- Brand Logo (SPA home redirect) -->
+                <div onclick="showView('home')" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-blue-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
+                        H
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-extrabold text-slate-900 leading-tight tracking-tight">HSRP</h1>
+                        <p class="text-[10px] text-blue-600 font-extrabold uppercase tracking-widest">Booking Portal</p>
+                    </div>
                 </div>
                 
-                <!-- Step 1 -->
-                <div class="flex flex-col items-center">
-                    <div id="circle1" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-200 step-transition ring-4 ring-blue-50">1</div>
-                    <p id="label1" class="text-[11px] mt-2 font-bold text-blue-600 uppercase tracking-wider">Vehicle</p>
+                <!-- Desktop Navigation Menu using dynamic SPA views -->
+                <div class="hidden md:flex items-center space-x-7">
+                    <button id="nav-home" onclick="showView('home')" class="text-sm font-bold text-blue-600 hover:text-blue-700 transition">Home</button>
+                    <button id="nav-about" onclick="showView('about')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">About Us</button>
+                    <button id="nav-notifications" onclick="showView('notifications')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Govt. Notifications</button>
+                    <button id="nav-faqs" onclick="showView('faqs')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">FAQs</button>
+                    <button id="nav-contact" onclick="showView('contact')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Contact Us</button>
+                    <button id="nav-cancel" onclick="showView('cancel')" class="px-5 py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-extrabold hover:bg-red-100 transition-all">Cancel Order</button>
                 </div>
-                <!-- Step 2 -->
-                <div class="flex flex-col items-center">
-                    <div id="circle2" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold step-transition">2</div>
-                    <p id="label2" class="text-[11px] mt-2 font-bold text-slate-400 uppercase tracking-wider">Personal</p>
-                </div>
-                <!-- Step 3 -->
-                <div class="flex flex-col items-center">
-                    <div id="circle3" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold step-transition">3</div>
-                    <p id="label3" class="text-[11px] mt-2 font-bold text-slate-400 uppercase tracking-wider">Payment</p>
-                </div>
-                <!-- Step 4 -->
-                <div class="flex flex-col items-center">
-                    <div id="circle4" class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold step-transition">4</div>
-                    <p id="label4" class="text-[11px] mt-2 font-bold text-slate-400 uppercase tracking-wider">Done</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-6xl mx-auto">
-            
-            <!-- LEFT COLUMN: The Interactive Form Panel -->
-            <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/40 p-6 md:p-8">
-                
-                <!-- STEP 1: VEHICLE INFORMATION -->
-                <div id="step1" class="space-y-6">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-900">Vehicle Credentials</h2>
-                        <p class="text-xs text-slate-500 mt-1">Provide your official vehicle credentials to begin registration verification.</p>
-                    </div>
-
-                    <!-- Interactive Vehicle Selection Cards (PRICES REMOVED) -->
-                    <div>
-                        <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-3">Vehicle Class Selection</label>
-                        <div class="grid grid-cols-3 gap-3">
-                            <button type="button" onclick="selectVehicleClass('Two Wheeler', 450)" id="class-two" class="border-2 border-blue-600 bg-blue-50/50 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-blue-500 group">
-                                <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-105 transition duration-300">
-                                    <i class="fa-solid fa-motorcycle text-xl text-blue-600"></i>
-                                </span>
-                                <span class="text-xs font-bold mt-2 text-slate-800">2-Wheeler</span>
-                            </button>
-                            <button type="button" onclick="selectVehicleClass('Four Wheeler', 850)" id="class-four" class="border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-blue-300 group">
-                                <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-105 transition duration-300">
-                                    <i class="fa-solid fa-car text-xl text-slate-600" id="icon-four"></i>
-                                </span>
-                                <span class="text-xs font-bold mt-2 text-slate-700">4-Wheeler</span>
-                            </button>
-                            <button type="button" onclick="selectVehicleClass('Commercial Vehicle', 1450)" id="class-commercial" class="border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-blue-300 group">
-                                <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-105 transition duration-300">
-                                    <i class="fa-solid fa-truck text-xl text-slate-600" id="icon-commercial"></i>
-                                </span>
-                                <span class="text-xs font-bold mt-2 text-slate-700">Commercial</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Input Fields -->
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider">Registration Number</label>
-                                <span class="text-[10px] font-bold text-slate-400">Format: DL01AB1234</span>
-                            </div>
-                            <input type="text" id="regNo" placeholder="DL01AB1234" onkeyup="updatePlatePreview(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 uppercase font-bold tracking-widest text-lg transition duration-300 placeholder:text-slate-300">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">Chassis Number (Last 5 Digits)</label>
-                                <input type="text" id="chassis" maxlength="5" placeholder="12345" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 uppercase font-bold tracking-widest transition duration-300">
-                            </div>
-                            <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">Engine Number (Last 5 Digits)</label>
-                                <input type="text" id="engine" maxlength="5" placeholder="67890" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 uppercase font-bold tracking-widest transition duration-300">
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="goStep2()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4.5 rounded-2xl font-bold hover:shadow-lg hover:shadow-blue-200 hover:from-blue-700 hover:to-indigo-700 transition duration-300 flex items-center justify-center gap-2 text-sm">
-                        Continue Registration <i class="fa-solid fa-arrow-right text-xs"></i>
+                <!-- Mobile Hamburger Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMenu()" class="text-slate-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-slate-50 transition">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 p-5 space-y-3 shadow-xl absolute w-full left-0 transition-all">
+            <button onclick="showView('home'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-blue-600 py-2 border-b border-slate-50">Home</button>
+            <button onclick="showView('about'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">About Us</button>
+            <button onclick="showView('notifications'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Govt. Notifications</button>
+            <button onclick="showView('faqs'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">FAQs</button>
+            <button onclick="showView('contact'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Contact Us</button>
+            <button onclick="showView('cancel'); toggleMenu();" class="block w-full text-center text-sm font-extrabold text-red-600 bg-red-50 py-3 rounded-xl mt-3 hover:bg-red-100 transition">Cancel Order</button>
+        </div>
+    </nav>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="flex-grow max-w-4xl mx-auto p-4 md:p-8 w-full">
+
+        <!-- VIEW: HOME (Booking Stepper Form) -->
+        <div id="view-home" class="view-section fade-in">
+            <!-- STEPPER INDICATOR -->
+            <div id="stepperWrapper" class="mb-10 max-w-2xl mx-auto">
+                <div class="flex justify-between relative items-center">
+                    <!-- Progress Bar Line -->
+                    <div class="absolute top-[18px] left-0 w-full h-1 bg-slate-100 rounded-full">
+                        <div id="progressBar" class="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out" style="width:0%"></div>
+                    </div>
+                    
+                    <!-- Steps -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="circle1" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold shadow-md shadow-blue-500/20 transition-all duration-300">1</div>
+                        <p id="label1" class="text-[10px] mt-2 font-extrabold text-blue-600 uppercase tracking-wider">Vehicle</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="circle2" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">2</div>
+                        <p id="label2" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Personal</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="circle3" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">3</div>
+                        <p id="label3" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Payment</p>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="circle4" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">4</div>
+                        <p id="label4" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Done</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD FRAMEWORK -->
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
+                
+                <!-- STEP 1: VEHICLE DETAILS -->
+                <div id="step1" class="fade-in">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+                        </span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Vehicle Information</h2>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Vehicle Registration Number</label>
+                            <input type="text" id="regNo" placeholder="e.g. DL01AB1234" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
+                            <span class="text-[11px] text-slate-400 font-medium mt-1.5 block">Format must align with state standards.</span>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Vehicle Class & Booking Fee</label>
+                            <select id="vehicleClass" onchange="updateDynamicPrice()" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition bg-white">
+                                <option value="" data-price="0">Select Vehicle Type</option>
+                                <option value="Two Wheeler" data-price="380">Two Wheeler (Motorcycle/Scooter) — ₹380</option>
+                                <option value="Four Wheeler" data-price="750">Four Wheeler (Car/SUV) — ₹750</option>
+                                <option value="Commercial Vehicle" data-price="1250">Commercial Vehicle (Truck/Bus/Cab) — ₹1250</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Chassis No (Last 5 Digits)</label>
+                                <input type="text" id="chassis" maxlength="5" placeholder="12345" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Engine No (Last 5 Digits)</label>
+                                <input type="text" id="engine" maxlength="5" placeholder="67890" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-3 mt-4">
+                            <span class="text-blue-600 text-lg">💡</span>
+                            <p class="text-xs text-blue-800 font-medium leading-relaxed">Ensure engine & chassis numbers match your physical registration certificate (RC) exactly to prevent automated RTO verification rejection.</p>
+                        </div>
+
+                        <button onclick="goStep2()" class="w-full bg-blue-600 text-white py-4.5 rounded-2xl font-bold hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/15 transition-all text-base py-4">
+                            Continue & Configure Details
+                        </button>
+                    </div>
                 </div>
 
                 <!-- STEP 2: PERSONAL INFORMATION -->
-                <div id="step2" class="hidden space-y-6">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-900">Delivery & Owner Details</h2>
-                        <p class="text-xs text-slate-500 mt-1">Enter correct name matching with the RC Book and your installation address.</p>
+                <div id="step2" class="hidden fade-in">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Delivery & Owner Details</h2>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div>
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">Full Owner Name (As per RC)</label>
-                            <input type="text" id="fullName" placeholder="Rahul Sharma" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-semibold transition duration-300">
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Full Owner Name (As per RC)</label>
+                            <input type="text" id="fullName" placeholder="Enter Full Name" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition">
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">Mobile Number</label>
-                                <input type="tel" id="mobile" maxlength="10" placeholder="9876543210" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-bold transition duration-300">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Mobile Number</label>
+                                <input type="tel" id="mobile" maxlength="10" placeholder="e.g. 9876543210" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition">
                             </div>
                             <div>
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">State / UT</label>
-                                <select id="state" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-semibold transition duration-300">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">State / Union Territory</label>
+                                <select id="state" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition bg-white">
                                     <option value="">Select State</option>
-                                    <option>Andhra Pradesh</option>
-                                    <option>Bihar</option>
                                     <option>Delhi</option>
-                                    <option>Gujarat</option>
                                     <option>Haryana</option>
-                                    <option>Karnataka</option>
-                                    <option>Maharashtra</option>
+                                    <option>Uttar Pradesh</option>
                                     <option>Punjab</option>
                                     <option>Rajasthan</option>
+                                    <option>Maharashtra</option>
+                                    <option>Karnataka</option>
                                     <option>Tamil Nadu</option>
-                                    <option>Uttar Pradesh</option>
+                                    <option>Gujarat</option>
+                                    <option>Madhya Pradesh</option>
                                     <option>West Bengal</option>
+                                    <option>Bihar</option>
+                                    <option>Andhra Pradesh</option>
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider block mb-2">Secure Home Delivery Address</label>
-                            <textarea id="address" rows="3" placeholder="House No, Society Name, Nearby Landmark, City, District" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-semibold leading-relaxed transition duration-300"></textarea>
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Complete Delivery Address</label>
+                            <textarea id="address" rows="3" placeholder="House No, Block, Locality, City, Landmark & PIN Code" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition leading-relaxed"></textarea>
                         </div>
-                    </div>
 
-                    <div class="flex gap-4">
-                        <button onclick="back1()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4.5 rounded-2xl font-bold transition duration-300 text-sm">
-                            Back
-                        </button>
-                        <button onclick="goStep3()" class="w-2/3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4.5 rounded-2xl font-bold hover:shadow-lg hover:shadow-blue-200 hover:from-blue-700 hover:to-indigo-700 transition duration-300 text-sm flex items-center justify-center gap-2">
-                            Proceed to Invoice <i class="fa-solid fa-receipt text-xs"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- STEP 3: SCAN & PAY -->
-                <div id="step3" class="hidden space-y-6 text-center">
-                    <div>
-                        <h2 class="text-2xl font-extrabold text-slate-900">Secure UPI Payment</h2>
-                        <p class="text-xs text-slate-500 mt-1">Scan the QR code below using any major UPI app (GPay, PhonePe, Paytm) to clear fees.</p>
-                    </div>
-
-                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 inline-block w-full max-w-sm mx-auto shadow-inner">
-                        <div class="w-48 h-48 bg-white border-4 border-white flex items-center justify-center mx-auto rounded-2xl overflow-hidden shadow-md relative group">
-                            <img id="qrImage" src="" alt="Payment QR" class="w-full h-full object-contain p-2">
-                        </div>
-                        <div class="mt-4 flex flex-col items-center">
-                            <!-- AMOUNT BADGE REMOVED -->
-                            <p id="refId" class="text-xs font-bold text-slate-500 mt-2">Ref: HSR-######</p>
-                        </div>
-                    </div>
-
-                    <div class="max-w-md mx-auto text-left space-y-4">
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-wider">12-Digit UPI Ref / UTR Number</label>
-                                <span class="text-[10px] text-emerald-600 font-bold"><i class="fa-solid fa-lock text-[8px] mr-1"></i>Secure Verification</span>
-                            </div>
-                            <input type="text" id="utr" maxlength="12" placeholder="Enter 12-digit transaction UTR" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-bold text-center tracking-widest text-lg transition duration-300">
-                        </div>
-                        
-                        <div id="paymentActions">
-                            <button id="verifyBtn" onclick="verifyPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-bold transition duration-300 shadow-lg shadow-emerald-100 flex items-center justify-center gap-2 text-sm">
-                                <i class="fa-solid fa-shield-halved"></i> Verify Payment
+                        <div class="flex gap-4">
+                            <button onclick="back1()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-extrabold transition">
+                                Back
                             </button>
-                            <button id="submitBtn" onclick="submitForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold transition duration-300 shadow-lg shadow-blue-100 hidden flex items-center justify-center gap-2 text-sm">
-                                Submit Booking <i class="fa-solid fa-check-double text-xs"></i>
+                            <button onclick="goStep3()" class="w-2/3 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-extrabold shadow-lg shadow-blue-500/10 transition-all">
+                                Proceed to Payment
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- STEP 4: THANK YOU & STATUS -->
-                <div id="step4" class="hidden space-y-6">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-gradient-to-tr from-emerald-500 to-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-100 border-4 border-white animate-bounce">
-                            <i class="fa-solid fa-circle-check text-4xl"></i>
+                <!-- STEP 3: SCAN & PAYMENT -->
+                <div id="step3" class="hidden fade-in text-center">
+                    <div class="flex flex-col items-center mb-6">
+                        <span class="p-3 bg-green-50 text-green-600 rounded-full font-bold mb-3">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Gateway Scan & Pay</h2>
+                        <p class="text-slate-400 font-semibold text-sm mt-1">HSRP Official RTO Secure License Fee: <span id="amountDisplay" class="text-blue-600 font-extrabold">₹--</span></p>
+                    </div>
+
+                    <!-- Scan Block -->
+                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 inline-block mb-6 max-w-sm w-full mx-auto shadow-inner">
+                        <div class="w-48 h-48 bg-white border-2 border-slate-100 flex items-center justify-center mx-auto rounded-2xl overflow-hidden shadow-md">
+                            <img id="qrImage" src="qr.png" alt="Payment QR" class="w-full h-full object-contain">
                         </div>
-                        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Booking Authenticated!</h2>
-                        <p class="text-xs text-slate-500 mt-1">Our accounts backend team is cross-checking your transaction UTR.</p>
+                        <p id="refId" class="text-xs font-extrabold text-blue-600 tracking-widest mt-4 uppercase">REF: --</p>
+                        <p class="text-[10px] text-slate-400 font-bold mt-1">Scan via GPay, PhonePe, Paytm, or any UPI app</p>
+                    </div>
+
+                    <!-- Form Input -->
+                    <div class="max-w-md mx-auto text-left">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">12-Digit UTR / Transaction Reference Number</label>
+                        <input type="text" id="utr" placeholder="Enter Transaction ID / UTR Code" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition tracking-wide text-center">
+                        <span class="text-[11px] text-slate-400 font-medium mt-1.5 block text-center">Submit your UTR right after executing payment for automated verification.</span>
+
+                        <div id="paymentActions" class="mt-6">
+                            <button id="verifyBtn" onclick="verifyPayment()" class="w-full bg-green-600 text-white py-4.5 rounded-2xl font-extrabold hover:bg-green-700 transition shadow-lg shadow-green-100">
+                                Verify Transaction
+                            </button>
+                            <button id="submitBtn" onclick="submitForm()" class="w-full bg-blue-600 text-white py-4.5 rounded-2xl font-extrabold hover:bg-blue-700 transition shadow-lg shadow-blue-100 hidden">
+                                Submit & Order HSRP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: CONFIRMATION RECEIPT & TIMELINE -->
+                <div id="step4" class="hidden fade-in">
+                    <div class="text-center mb-10">
+                        <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-5 shadow-xl border-4 border-white accent-pulse">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Order Booking Lodged!</h2>
+                        <p class="text-slate-500 font-semibold text-sm mt-1">RTO Automated Verification Process Initiated.</p>
+                        <span id="finalName" class="hidden"></span>
                     </div>
 
                     <!-- DIGITAL RECEIPT -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-5 shadow-inner">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">DIGITAL RECEIPT</span>
-                            <span class="bg-indigo-100 text-indigo-700 text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-wider">VERIFYING UTR</span>
+                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 mb-8 relative overflow-hidden">
+                        <div class="absolute -right-3 -top-3 w-16 h-16 bg-blue-500/5 rounded-full"></div>
+                        <div class="flex justify-between items-center mb-5">
+                            <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase">E-RECEIPT DETAIL</h3>
+                            <span class="bg-blue-100 text-blue-700 text-[9px] px-3 py-1.5 rounded-full font-black uppercase">PROCESSING STATUS</span>
                         </div>
                         
-                        <div class="space-y-3.5">
+                        <div class="space-y-4 font-semibold text-sm">
                             <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
-                                <span class="text-slate-500 text-xs font-semibold">Registered Vehicle No.</span>
-                                <span id="finalReg" class="text-slate-900 font-black tracking-wider uppercase text-sm">--</span>
+                                <span class="text-slate-400">Owner Registered</span>
+                                <span id="finalReceiptName" class="text-slate-800 font-bold">--</span>
                             </div>
                             <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
-                                <span class="text-slate-500 text-xs font-semibold">Booking Reference ID</span>
-                                <span id="finalRef" class="text-slate-900 font-black tracking-wider text-sm">--</span>
+                                <span class="text-slate-400">Vehicle No.</span>
+                                <span id="finalReg" class="text-slate-900 font-extrabold uppercase">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
+                                <span class="text-slate-400">Reference ID</span>
+                                <span id="finalRef" class="text-blue-600 font-extrabold uppercase">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
+                                <span class="text-slate-400">Class Fee Paid</span>
+                                <span id="finalPrice" class="text-slate-900 font-bold">₹0</span>
                             </div>
                             <div class="flex justify-between items-center py-2">
-                                <span class="text-slate-500 text-xs font-semibold">Submitted UTR ID</span>
-                                <span id="finalUtr" class="text-slate-900 font-bold tracking-widest text-xs break-all text-right max-w-[180px]">--</span>
+                                <span class="text-slate-400">Payment Reference (UTR)</span>
+                                <span id="finalUtr" class="text-slate-900 font-extrabold break-all max-w-[200px] text-right">--</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- REAL-TIME RTO PROCESSING TIMELINE -->
-                    <div class="bg-white border border-slate-100 rounded-3xl p-5">
-                        <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-6"><i class="fa-solid fa-timeline text-blue-600 mr-2"></i>Expected Delivery Lifecycle</h3>
-                        <div class="space-y-8 pl-3">
+                    <!-- STATUS TIMELINE -->
+                    <div class="mb-10">
+                        <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase mb-6">ESTIMATED DISPATCH PIPELINE</h3>
+                        <div class="space-y-8 pl-1">
                             <div class="relative flex items-start gap-4">
-                                <div class="absolute left-[5px] top-[14px] bottom-[-40px] w-0.5 bg-slate-200"></div>
-                                <div class="w-3 h-3 rounded-full bg-blue-600 ring-4 ring-blue-100 z-10"></div>
+                                <div class="timeline-line"></div>
+                                <div class="timeline-dot bg-blue-600 ring-4 ring-blue-100"></div>
                                 <div>
-                                    <h4 class="text-xs font-extrabold text-slate-950">Payment Verification</h4>
-                                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">Automated confirmation in 2 to 4 working hours.</p>
+                                    <h4 class="text-sm font-extrabold text-slate-900">UTR / Payment Verification</h4>
+                                    <p class="text-xs font-bold text-slate-400 mt-1">Pending validation (ETA: 2-4 Hours).</p>
                                 </div>
                             </div>
                             <div class="relative flex items-start gap-4">
-                                <div class="absolute left-[5px] top-[14px] bottom-[-40px] w-0.5 bg-slate-200"></div>
-                                <div class="w-3 h-3 rounded-full bg-slate-200 z-10"></div>
+                                <div class="timeline-line"></div>
+                                <div class="timeline-dot bg-slate-200"></div>
                                 <div>
-                                    <h4 class="text-xs font-extrabold text-slate-950">RTO Submission & Embossing</h4>
-                                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">High security laser coding & RTO approval (3-5 days).</p>
+                                    <h4 class="text-sm font-extrabold text-slate-400">Government RTO Data Approval</h4>
+                                    <p class="text-xs font-bold text-slate-400 mt-1">Processing of custom plate printing authorization.</p>
                                 </div>
                             </div>
                             <div class="relative flex items-start gap-4">
-                                <div class="w-3 h-3 rounded-full bg-slate-200 z-10"></div>
+                                <div class="timeline-dot bg-slate-200"></div>
                                 <div>
-                                    <h4 class="text-xs font-extrabold text-slate-950">Home Installation Delivery</h4>
-                                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">Home dispatch and professional assembly team deployment.</p>
+                                    <h4 class="text-sm font-extrabold text-slate-400">Dispatch & Home Installation</h4>
+                                    <p class="text-xs font-extrabold text-blue-600 uppercase mt-1">ETA: 5-7 Working Days.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- BACK HOME ACTION -->
-                    <div class="flex gap-4">
-                        <button onclick="copyReceiptDetails()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4.5 rounded-2xl font-bold transition duration-300 text-sm flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-copy"></i> Copy Details
+                    <!-- ACTIONS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button onclick="openChat()" class="bg-slate-100 text-blue-700 py-4 rounded-2xl font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-blue-50 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                            Need Help? Contact Representative
                         </button>
-                        <button onclick="window.location.reload()" class="w-1/2 bg-slate-900 hover:bg-black text-white py-4.5 rounded-2xl font-bold transition duration-300 text-sm">
-                            Return to Front Desk
+                        <button onclick="goHome()" class="bg-slate-900 text-white py-4 rounded-2xl font-extrabold text-sm hover:bg-black transition shadow-lg shadow-slate-900/10">
+                            Book Another Plate
                         </button>
                     </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT COLUMN: Interactive Plate Preview & Dynamic Billing Statement -->
-            <div class="lg:col-span-5 space-y-6">
-                
-                <!-- HSRP LIVE PREVIEW CARD -->
-                <div class="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/40 p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-[11px] font-black text-slate-400 uppercase tracking-wider"><i class="fa-regular fa-eye text-blue-600 mr-2"></i>Live Plate Rendering</span>
-                        <span class="bg-emerald-50 text-emerald-600 text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">HSRP Specs</span>
-                    </div>
-
-                    <!-- The Rendered Plate -->
-                    <div class="hsrp-plate rounded-xl h-24 flex items-center select-none animate-pulse" id="livePlate">
-                        <!-- Left Blue IND Bar -->
-                        <div class="w-7 h-full bg-blue-700 flex flex-col items-center justify-between py-1 text-white border-r border-slate-300 text-[8px] font-extrabold select-none">
-                            <span class="hologram w-3 h-3 rounded-sm mt-1" title="Ashoka Hologram"></span>
-                            <span class="text-[10px] tracking-widest font-black uppercase text-center w-full block">IND</span>
-                        </div>
-                        <!-- Main Plate Letters -->
-                        <div class="flex-grow flex items-center justify-center text-slate-900 font-extrabold text-xl md:text-2xl font-mono" id="plateText">
-                            DL01AB1234
-                        </div>
-                    </div>
-
-                    <p class="text-[10px] text-slate-400 text-center mt-3 font-medium">Render simulates actual physical size, layout, and font spacing.</p>
-                </div>
-
-                <!-- SPECIFICATION CHECKLIST (PRICES COMPLETELY REMOVED) -->
-                <div class="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/40 p-6 space-y-4">
-                    <h3 class="text-sm font-extrabold text-slate-900">Registration Specification Summary</h3>
-                    
-                    <div class="space-y-3.5 text-xs">
-                        <div class="flex items-center gap-3 text-slate-600 py-1.5 border-b border-slate-50">
-                            <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] shrink-0">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span>HSRP Aluminium Metal Plates (Front & Rear Set)</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-600 py-1.5 border-b border-slate-50">
-                            <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] shrink-0">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span>High-Security Chromium Hologram Hot-Stamping</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-600 py-1.5 border-b border-slate-50">
-                            <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] shrink-0">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span>Secure Windshield Sticker Tag with Laser Identification</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-600 py-1.5 border-b border-slate-50">
-                            <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] shrink-0">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span>Central Vahan Portal Data Logging & Synchronization</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-600 py-1.5">
-                            <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] shrink-0">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <span>Professional Doorstep Assembly and Alignment</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-50/60 rounded-2xl p-3 flex gap-3 items-center">
-                        <div class="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 text-xs shrink-0">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <p class="text-[10px] text-slate-600 font-semibold leading-relaxed">Compliance standard mapped directly to CMVR Rule 50 safety mandates.</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <!-- VIEW 2: ORDER LOOKUP / TRACKING DASHBOARD -->
-    <div id="statusView" class="hidden animate-slide-up max-w-2xl mx-auto">
-        <div class="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/40 p-6 md:p-8 space-y-6">
-            <div class="text-center">
-                <div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mx-auto mb-3">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <h2 class="text-2xl font-black text-slate-900">Track HSRP Delivery</h2>
-                <p class="text-xs text-slate-500 mt-1">Lookup your status instantly using your registration code or booking receipt reference.</p>
-            </div>
-
-            <div class="flex gap-2">
-                <input type="text" id="trackInput" placeholder="Enter Registration No. or Ref (e.g., DL01AB1234)" class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4 outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-bold uppercase tracking-wide placeholder:text-slate-400">
-                <button onclick="executeStatusLookup()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-2xl font-bold transition duration-300">
-                    Search
-                </button>
-            </div>
-
-            <!-- LOOKUP RESULT DISPLAY -->
-            <div id="lookupResult" class="hidden space-y-6 pt-4 border-t border-slate-100">
-                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl">
-                    <div>
-                        <span class="text-[9px] font-black text-slate-400 uppercase block tracking-wider">TRACKING VEHICLE</span>
-                        <span id="lookupReg" class="font-black text-slate-900 tracking-wider text-base">--</span>
-                    </div>
-                    <div>
-                        <span class="text-[9px] font-black text-slate-400 uppercase block tracking-wider text-right">BOOKING STATUS</span>
-                        <span class="text-indigo-600 text-xs font-black uppercase tracking-wider" id="lookupStatus">--</span>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-100 rounded-2xl p-4">
-                    <h4 class="text-xs font-extrabold text-slate-900 mb-4"><i class="fa-regular fa-compass text-blue-600 mr-2"></i>Status Journey</h4>
-                    <div class="space-y-6 pl-2" id="lookupTimeline">
-                        <!-- Timeline dynamically injected -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- DEMO RECORDS HELPER -->
-            <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4">
-                <h4 class="text-xs font-bold text-blue-900 mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>Quick Status Mock Demonstration</h4>
-                <p class="text-[10px] text-blue-700 leading-relaxed mb-2">Once you submit a fresh booking in this session, you can instantly search for it here! Alternatively, try checking these existing default records:</p>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="fillTrackDemo('MH12AA1111')" class="bg-white border border-blue-200 hover:bg-blue-100 text-[10px] font-extrabold text-blue-800 px-3 py-1.5 rounded-xl transition">MH12AA1111 (Completed)</button>
-                    <button onclick="fillTrackDemo('DL03CH7890')" class="bg-white border border-blue-200 hover:bg-blue-100 text-[10px] font-extrabold text-blue-800 px-3 py-1.5 rounded-xl transition">DL03CH7890 (In Transit)</button>
                 </div>
             </div>
         </div>
-    </div>
 
-</main>
-
-<!-- PERSISTENT ASSISTANT (CHAT) WIDGET -->
-<div class="fixed bottom-6 right-6 z-50">
-    <button onclick="openChat()" class="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full flex items-center justify-center shadow-xl shadow-blue-200 hover:scale-105 transition duration-300">
-        <i class="fa-solid fa-comments text-xl"></i>
-    </button>
-</div>
-
-<!-- CHAT MODAL -->
-<div id="chatModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px] border border-slate-100 animate-slide-up">
-        <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-xs font-bold shadow-lg shadow-blue-900/20 relative">
-                    <i class="fa-solid fa-user-tie text-base"></i>
-                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-slate-900"></span>
+        <!-- VIEW: ABOUT US -->
+        <div id="view-about" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">About High Security Registration Plates</h2>
+            <p class="text-slate-600 leading-relaxed font-semibold text-sm mb-6">
+                High Security Registration Plates (HSRP) are government-mandated registration plates crafted from high-quality aluminum, equipped with unique anti-tampering security parameters designed to minimize automobile-related fraud and crime.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🔒 Chromium Hologram</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Hot-stamped chromium emblem featuring the Ashoka Chakra to prevent counterfeit replication.</p>
                 </div>
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🔢 Unique Laser Serial Number</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">An absolute unique 10-digit PIN laser engraved for tracking plate alignment with individual vehicle data across RTO servers.</p>
+                </div>
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="font-extrabold text-slate-900 text-base mb-2">⚙ Snap Lock Seals</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Uses non-reusable snap locks preventing any malicious removal of the registered plate.</p>
+                </div>
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🚗 Reflective Sheeting</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Special retro-reflective sheets allowing heightened visibility under extreme night settings.</p>
+                </div>
+            </div>
+            <button onclick="showView('home')" class="bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl hover:bg-blue-700 transition">
+                Start Booking Process
+            </button>
+        </div>
+
+        <!-- VIEW: GOVT NOTIFICATIONS -->
+        <div id="view-notifications" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">Official Government Notifications</h2>
+            <p class="text-slate-600 leading-relaxed font-semibold text-sm mb-6">
+                Under Rule 50 of the Central Motor Vehicles Rules (CMVR), the Ministry of Road Transport and Highways (MoRTH) has mandated the installation of High Security Registration Plates across all legacy and current vehicles.
+            </p>
+            <div class="space-y-4">
+                <div class="p-5 border-l-4 border-blue-600 bg-slate-50 rounded-r-2xl">
+                    <span class="text-[10px] bg-blue-100 text-blue-700 font-extrabold py-1 px-2.5 rounded-full">MoRTH DIRECTIVE</span>
+                    <h3 class="font-extrabold text-slate-900 mt-2 text-base">Mandatory Compliance Order</h3>
+                    <p class="text-xs text-slate-500 mt-1 font-semibold leading-relaxed">Failure to mount valid HSRP on registered vehicles attracts hefty penalties ranging from ₹5,000 to ₹10,000 as declared by respective state RTO departments.</p>
+                </div>
+                <div class="p-5 border-l-4 border-amber-500 bg-slate-50 rounded-r-2xl">
+                    <span class="text-[10px] bg-amber-100 text-amber-700 font-extrabold py-1 px-2.5 rounded-full">DEADLINE REMINDER</span>
+                    <h3 class="font-extrabold text-slate-900 mt-2 text-base">State Enforcement Actions</h3>
+                    <p class="text-xs text-slate-500 mt-1 font-semibold leading-relaxed">Multiple states have completed transition extensions. Active verification drives are being launched continuously using automatic number plate recognition systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: FAQS -->
+        <div id="view-faqs" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Frequently Asked Questions</h2>
+            <p class="text-slate-400 font-semibold text-sm mb-8">Everything you need to understand about registration compliance.</p>
+
+            <div class="space-y-4">
+                <div class="border border-slate-100 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
+                        <span>Is HSRP mandatory for my older vehicles?</span>
+                        <span id="faq-icon-1" class="text-blue-600 font-extrabold">+</span>
+                    </button>
+                    <div id="faq-ans-1" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
+                        Yes, as mandated by MoRTH and RTO directives, HSRP installation is strictly required for all older and newly registered automobiles running within the state boundaries.
+                    </div>
+                </div>
+
+                <div class="border border-slate-100 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
+                        <span>How long does delivery and verification process take?</span>
+                        <span id="faq-icon-2" class="text-blue-600 font-extrabold">+</span>
+                    </button>
+                    <div id="faq-ans-2" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
+                        Once you deposit your fee and verify the 12-digit transaction UTR number, it takes 2-4 hours to confirm. Once confirmed, physical custom plates are ready for home-delivery and appointment within 5 to 7 business days.
+                    </div>
+                </div>
+
+                <div class="border border-slate-100 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
+                        <span>What if I submit wrong Engine or Chassis number?</span>
+                        <span id="faq-icon-3" class="text-blue-600 font-extrabold">+</span>
+                    </button>
+                    <div id="faq-ans-3" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
+                        If any inputs are invalid, standard RTO verification fails. Please instantly ping our active Support Chat desk on the platform with your booking reference to manually override or correct input errors before production starts.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: CONTACT US -->
+        <div id="view-contact" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">Get In Touch With Helpdesk</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
                 <div>
-                    <h3 class="font-extrabold text-sm">Sameer (Officer)</h3>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">HSRP Helpdesk Desk</p>
+                    <p class="text-slate-500 text-sm font-semibold leading-relaxed mb-6">
+                        For institutional fleet requests, registration failures, refund status, or active assistance, write to us or submit your request using the inline portal support.
+                    </p>
+                    <div class="space-y-4 font-semibold text-sm">
+                        <div class="flex items-center gap-3 text-slate-700">
+                            <span class="text-blue-600 font-bold">📍</span>
+                            <span>MoRTH HSRP Support HQ, New Delhi, India</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-700">
+                            <span class="text-blue-600 font-bold">✉</span>
+                            <span>support@hsrp-booking-gov.in</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-700">
+                            <span class="text-blue-600 font-bold">📞</span>
+                            <span>1800-419-HSRP (toll-free helpdesk)</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <button onclick="closeChat()" class="text-slate-400 hover:text-white transition text-lg w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        
-        <div id="chatMessages" class="flex-grow overflow-y-auto p-4 bg-slate-50 space-y-4 chat-scroll">
-            <!-- Initial welcome dynamically placed on load -->
-        </div>
 
-        <!-- Chat Quick Suggestion Chips -->
-        <div class="px-4 py-2 bg-white border-t border-slate-100 flex gap-2 overflow-x-auto whitespace-nowrap chat-scroll select-none">
-            <button onclick="sendQuickMessage('Check status of my HSRP order')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-full transition shrink-0">Track Plate</button>
-            <button onclick="sendQuickMessage('Is home fitting free?')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-full transition shrink-0">Fitting Info</button>
-            <button onclick="sendQuickMessage('How much time will delivery take?')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-full transition shrink-0">Timeline</button>
-        </div>
-        
-        <div class="p-4 border-t bg-white flex gap-2">
-            <input type="text" id="chatInput" placeholder="Ask anything about plates/tracking..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs outline-none focus:bg-white focus:ring-4 focus:ring-blue-100 font-semibold" onkeypress="handleChatEnter(event)">
-            <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl font-bold text-xs transition">Send</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL 1: GOVT MANDATES -->
-<div id="govt-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
-    <div class="bg-white w-full max-w-xl rounded-3xl p-6 md:p-8 shadow-2xl space-y-4 animate-slide-up">
-        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-            <h3 class="text-xl font-black text-slate-900"><i class="fa-solid fa-gavel text-blue-600 mr-2"></i>Ministry of Road Transport (MoRTH)</h3>
-            <button onclick="closeModal('govt-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-        </div>
-        <div class="space-y-3.5 text-xs text-slate-600 leading-relaxed">
-            <p><strong>Rule 50 of CMVR:</strong> Ministry of Road Transport and Highways (MoRTH) has mandated High Security Registration Plates (HSRP) for all old and new vehicles registered in India.</p>
-            <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl">
-                <p class="font-bold text-amber-900 text-[11px]">Strict Compliance Penalty Notice:</p>
-                <p class="text-amber-800 text-[10px] mt-0.5">Failure to fit certified HSRP license plates attracts heavy traffic violation fines ranging from ₹5,000 to ₹10,000 under recent RTO notifications.</p>
-            </div>
-            <p>Certified plates ensure safety, trace-ability against theft, and clean unified identification across country-wide toll points.</p>
-        </div>
-        <button onclick="closeModal('govt-modal')" class="w-full bg-slate-900 text-white font-bold py-3 rounded-2xl text-xs uppercase tracking-wider mt-4">Close Info</button>
-    </div>
-</div>
-
-<!-- MODAL 2: FAQS -->
-<div id="faq-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
-    <div class="bg-white w-full max-w-2xl rounded-3xl p-6 md:p-8 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto chat-scroll animate-slide-up">
-        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-            <h3 class="text-xl font-black text-slate-900"><i class="fa-solid fa-circle-question text-blue-600 mr-2"></i>Frequently Asked Queries</h3>
-            <button onclick="closeModal('faq-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-        </div>
-        <div class="space-y-4">
-            <div class="border-b border-slate-100 pb-3">
-                <h4 class="font-bold text-xs text-slate-900">1. Why is HSRP mandatory?</h4>
-                <p class="text-[11px] text-slate-500 mt-1">To curb vehicle duplication, theft and fake license plates. Each plate carries unique serial laser numbering mapped with central government vahan data.</p>
-            </div>
-            <div class="border-b border-slate-100 pb-3">
-                <h4 class="font-bold text-xs text-slate-900">2. What charges are involved in home delivery?</h4>
-                <p class="text-[11px] text-slate-500 mt-1">Currently, professional doorstep fitment is subsidized and set at ₹0 for home deliveries mapped during this window. Only nominal central plates pricing applies.</p>
-            </div>
-            <div class="border-b border-slate-100 pb-3">
-                <h4 class="font-bold text-xs text-slate-900">3. How long does the UTR check take?</h4>
-                <p class="text-[11px] text-slate-500 mt-1">Our system logs transaction details immediately. Physical cross-matching of accounts is fast and completes within 2-4 working hours.</p>
-            </div>
-        </div>
-        <button onclick="closeModal('faq-modal')" class="w-full bg-slate-900 text-white font-bold py-3 rounded-2xl text-xs uppercase tracking-wider">Close FAQ Panel</button>
-    </div>
-</div>
-
-<!-- MODAL 3: CONTACT US -->
-<div id="contact-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl space-y-4 animate-slide-up">
-        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-            <h3 class="text-xl font-black text-slate-900"><i class="fa-solid fa-envelope-open-text text-blue-600 mr-2"></i>Contact Helpdesk</h3>
-            <button onclick="closeModal('contact-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-        </div>
-        <div class="space-y-4 text-xs text-slate-600">
-            <p>Our official support lines are active from 9:00 AM to 6:00 PM (Monday to Saturday).</p>
-            <div class="space-y-2">
-                <div class="flex gap-3 items-center">
-                    <i class="fa-solid fa-phone text-blue-600"></i>
-                    <span class="font-bold">1800-419-7243 (Toll Free)</span>
-                </div>
-                <div class="flex gap-3 items-center">
-                    <i class="fa-solid fa-envelope text-blue-600"></i>
-                    <span class="font-bold">support@hsrp-online.org.in</span>
+                <!-- Simple Interactive Contact Form -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 class="font-black text-slate-900 text-lg mb-4">Send a Quick Query</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="contactName" placeholder="Your Name" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
+                        <input type="email" id="contactEmail" placeholder="Your Email" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white">
+                        <textarea id="contactMessage" placeholder="Describe your query..." rows="3" class="w-full text-xs font-bold p-3.5 border border-slate-200 rounded-xl outline-none focus:border-blue-500 bg-white"></textarea>
+                        <button onclick="submitContactQuery()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl text-xs hover:bg-blue-700 transition">
+                            Submit Inquiry
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <button onclick="closeModal('contact-modal')" class="w-full bg-slate-900 text-white font-bold py-3 rounded-2xl text-xs uppercase tracking-wider">Close Desk</button>
-    </div>
-</div>
 
-<!-- MODAL 4: CANCEL ORDER -->
-<div id="cancel-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 animate-slide-up">
-        <div class="text-center">
-            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 text-lg"><i class="fa-solid fa-ban"></i></div>
-            <h3 class="text-lg font-black text-slate-900">Cancel Pending Order</h3>
-            <p class="text-xs text-slate-500 mt-1">Refunds are only valid if cancellation occurs within 24 hours of booking before plate embossing begins.</p>
-        </div>
-        
-        <div class="space-y-3 text-xs">
-            <div>
-                <label class="font-bold text-slate-700 block mb-1">Registration/Booking Reference</label>
-                <input type="text" id="cancelRef" placeholder="e.g. DL01AB1234 or HSR-######" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-bold uppercase">
+        <!-- VIEW: CANCEL ORDER -->
+        <div id="view-cancel" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Cancel / Refund Order</h2>
+            <p class="text-slate-400 font-semibold text-sm mb-8">We grant absolute refunds on orders cancelled before RTO plate manufacturing begins (within 48 hours).</p>
+
+            <div class="max-w-md mx-auto space-y-6">
+                <div class="bg-slate-50 border border-slate-100 p-5 rounded-2xl">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Search Order via Vehicle Registration No</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="cancelRegSearch" placeholder="e.g. DL01AB1234" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 outline-none uppercase font-bold text-slate-800 bg-white">
+                        <button onclick="searchCancelOrder()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl font-bold text-sm transition">
+                            Find
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Search Results (Initially Hidden) -->
+                <div id="cancelResult" class="hidden border border-slate-100 p-5 rounded-2xl space-y-4 fade-in">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-extrabold text-blue-600 tracking-wider">ORDER FOUND</span>
+                        <span id="cancelStatusBadge" class="bg-blue-50 text-blue-700 text-[10px] px-2.5 py-1 rounded-full font-bold">Active / Verifying</span>
+                    </div>
+                    <div class="text-sm font-semibold space-y-2">
+                        <div class="flex justify-between text-xs text-slate-500">
+                            <span>Vehicle Registration:</span>
+                            <span id="cancelFoundReg" class="font-bold text-slate-800">--</span>
+                        </div>
+                        <div class="flex justify-between text-xs text-slate-500">
+                            <span>License Fee:</span>
+                            <span class="font-bold text-slate-800">₹750</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="requestRefundAction()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3.5 rounded-xl font-extrabold text-xs transition">
+                        Confirm Cancellation & Request Refund
+                    </button>
+                </div>
             </div>
-            <div>
-                <label class="font-bold text-slate-700 block mb-1">Reason for Cancellation</label>
-                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none font-semibold">
-                    <option>Select cancellation reason</option>
-                    <option>Incorrect vehicle credentials submitted</option>
-                    <option>Selling/Scrapping the vehicle</option>
-                    <option>Selected wrong vehicle class</option>
-                </select>
+        </div>
+
+    </main>
+
+    <!-- CHAT MODAL -->
+    <div id="chatModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden z-50 items-center justify-center p-3">
+        <div class="bg-white w-full max-w-md rounded-[28px] overflow-hidden shadow-2xl flex flex-col border border-slate-100">
+            <!-- Chat Header -->
+            <div class="bg-blue-600 text-white p-5 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/50 border-2 border-white/20 flex items-center justify-center font-bold text-sm">
+                        S
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm">Sameer (Support)</h3>
+                        <p class="text-[10px] opacity-80 flex items-center gap-1.5">
+                            <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span> Online Executive
+                        </p>
+                    </div>
+                </div>
+                <button onclick="closeChat()" class="text-white hover:bg-white/10 p-2 rounded-xl transition text-2xl font-light focus:outline-none w-8 h-8 flex items-center justify-center">×</button>
+            </div>
+            
+            <!-- Chat Messages Container -->
+            <div id="chatMessages" class="h-[360px] overflow-y-auto p-5 bg-slate-50 space-y-4 chat-scroll"></div>
+            
+            <!-- Live Typing Indicator -->
+            <div id="typingIndicator" class="hidden px-5 py-2.5 bg-slate-50 text-[11px] text-slate-400 font-semibold italic flex items-center gap-1">
+                <span>Sameer is formulating a response</span>
+                <span class="animate-bounce">.</span>
+                <span class="animate-bounce" style="animation-delay: 0.2s">.</span>
+                <span class="animate-bounce" style="animation-delay: 0.4s">.</span>
+            </div>
+
+            <!-- Chat Footer Input -->
+            <div class="p-4 border-t bg-white flex gap-2">
+                <input type="text" id="chatInput" placeholder="Type here..." class="flex-1 border border-slate-200 rounded-xl px-4 py-3 outline-none text-xs font-semibold focus:border-blue-500 bg-slate-50">
+                <button onclick="sendMessage()" class="bg-blue-600 text-white px-5 rounded-xl font-bold hover:bg-blue-700 transition text-xs">Send</button>
             </div>
         </div>
-
-        <div class="flex gap-3">
-            <button onclick="closeModal('cancel-modal')" class="w-1/2 bg-slate-100 font-bold py-3 rounded-xl text-xs text-slate-600">Keep Order</button>
-            <button onclick="processCancellationRequest()" class="w-1/2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-xs">Request Cancel</button>
-        </div>
     </div>
-</div>
 
-<!-- FLOATING TOAST CONTAINER -->
-<div id="toastContainer" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 space-y-2 pointer-events-none"></div>
+    <!-- FLOATING CHAT BUTTON (Fixed bottom-right corner) -->
+    <div id="floatingChatBtn" class="fixed bottom-6 right-6 z-40">
+        <button onclick="openChat()" class="bg-blue-600 hover:bg-blue-700 text-white p-4.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative border border-blue-500/30 w-14 h-14 md:w-16 md:h-16">
+            <!-- Active ping dynamic layer -->
+            <span class="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-60 animate-ping -z-10 group-hover:opacity-0"></span>
+            <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            </svg>
+            <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap text-xs font-extrabold pl-0 group-hover:pl-2">Chat support</span>
+        </button>
+    </div>
 
-<script>
-    // State values
-    let activeStep = 1;
-    let bookingRef = "";
-    let selectedPrice = 450;
-    let selectedClass = "Two Wheeler";
+    <!-- MODERN FOOTER -->
+    <footer class="bg-white border-t border-slate-100 mt-12 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center border-b border-slate-100 pb-8">
+                <!-- Brand Logo (Footer) -->
+                <div onclick="showView('home')" class="flex items-center gap-3 cursor-pointer group justify-center md:justify-start">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-lg shadow-md group-hover:scale-105 transition-all">H</div>
+                    <div class="text-left">
+                        <h3 class="text-sm font-black text-slate-900 leading-tight">HSRP Portal</h3>
+                        <p class="text-[9px] text-slate-500 font-extrabold uppercase tracking-widest">Compliance Desk</p>
+                    </div>
+                </div>
+                
+                <!-- Quick Navigation Links (SPA) -->
+                <div class="flex flex-wrap justify-center gap-5">
+                    <button onclick="showView('about')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">About Us</button>
+                    <button onclick="showView('notifications')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Notifications</button>
+                    <button onclick="showView('faqs')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">FAQs</button>
+                    <button onclick="showView('contact')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Contact Us</button>
+                    <button onclick="showView('cancel')" class="text-xs font-bold text-red-400 hover:text-red-600 transition">Cancel Order</button>
+                </div>
 
-    // Setup mock initial bookings database
-    const initialBookings = [
-        {
-            regNo: "MH12AA1111",
-            ref: "HSR-392812",
-            status: "Delivered & Installed",
-            utr: "928172635142",
-            name: "Sumit Kulkarni",
-            timeline: [
-                { title: "Booking Received", text: "Verified UTR #928172635142 on booking registry.", time: "Completed", active: true },
-                { title: "Plates Embossing", text: "High Security laser codes registered on Vahan server.", time: "Completed", active: true },
-                { title: "Delivered", text: "Installation verified at Maharashtra registry location.", time: "Completed", active: true }
-            ]
-        },
-        {
-            regNo: "DL03CH7890",
-            ref: "HSR-849201",
-            status: "In Transit",
-            utr: "542918374928",
-            name: "Anjali Verma",
-            timeline: [
-                { title: "Booking Received", text: "Verified transaction successfully.", time: "Completed", active: true },
-                { title: "Plates Embossing", text: "Hot stamping & laser security strip attached.", time: "Completed", active: true },
-                { title: "In Transit", text: "Handed over to local mapping transport partner.", time: "Expected: Today", active: true }
-            ]
-        }
-    ];
+                <!-- Trust Badges -->
+                <div class="flex justify-center md:justify-end gap-3 text-xs text-slate-400 font-bold">
+                    <span class="px-3 py-1.5 bg-green-50 text-green-700 rounded-full border border-green-100/50">✔ MoRTH Approved</span>
+                    <span class="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100/50">🔒 Secure UPI</span>
+                </div>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6 font-semibold">© 2026 High Security Registration Plate (HSRP) Portal. Fully Mocked Compliance Simulator.</p>
+        </div>
+    </footer>
 
-    // Read stored bookings or save defaults
-    if (!localStorage.getItem("hsrp_db")) {
-        localStorage.setItem("hsrp_db", JSON.stringify(initialBookings));
-    }
+    <!-- PAGE SCRIPTING -->
+    <script>
+        let bookingRef = "";
+        let dynamicSelectedPrice = 0;
 
-    window.onload = function() {
-        // Render plate preview with blank text initially
-        updatePlatePreview("");
-        
-        // Setup Chatbots first response
-        const chat = document.getElementById("chatMessages");
-        if(chat) {
-            chat.innerHTML = `
-                <div class="bg-white border border-slate-100 text-slate-800 p-4 rounded-2xl mr-auto max-w-[85%] text-xs font-semibold shadow-sm leading-relaxed">
-                    Hello! Welcome to the official HSRP Support desk. I am Sameer. <br><br>How can I assist you with your booking or status lookup today?
-                </div>`;
-        }
-    };
-
-    // Custom Toast Notifications to completely avoid standard browser alerts
-    function showToast(message, type = "error") {
-        const container = document.getElementById("toastContainer");
-        const toast = document.createElement("div");
-        toast.className = `flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border text-xs font-extrabold transition duration-300 transform translate-y-2 opacity-0 pointer-events-auto max-w-sm w-full`;
-        
-        if (type === "success") {
-            toast.className += " bg-emerald-50 border-emerald-200 text-emerald-800";
-            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-base"></i> ${message}`;
-        } else if (type === "warning") {
-            toast.className += " bg-amber-50 border-amber-200 text-amber-800";
-            toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i> ${message}`;
-        } else {
-            toast.className += " bg-rose-50 border-rose-200 text-rose-800";
-            toast.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 text-base"></i> ${message}`;
-        }
-
-        container.appendChild(toast);
-        
-        // Trigger reflow & slide-in
-        setTimeout(() => {
-            toast.classList.remove("translate-y-2", "opacity-0");
-        }, 10);
-
-        // Remove after delay
-        setTimeout(() => {
-            toast.classList.add("translate-y-2", "opacity-0");
-            setTimeout(() => {
-                toast.remove();
-            }, 300);
-        }, 4000);
-    }
-
-    // Toggle Mobile Navigation Panel
-    function toggleMenu() {
-        document.getElementById("mobileMenu").classList.toggle("hidden");
-    }
-
-    // Modal Control Functions
-    function openModal(id) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.classList.remove("hidden");
-            element.classList.add("flex");
-        }
-    }
-
-    function closeModal(id) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.classList.add("hidden");
-            element.classList.remove("flex");
-        }
-    }
-
-    // Interactive Tab Swapping
-    function goToTab(tab) {
-        const bookView = document.getElementById("bookingView");
-        const statusView = document.getElementById("statusView");
-        const navBook = document.getElementById("nav-book");
-        const navStatus = document.getElementById("nav-status");
-
-        if (tab === "book") {
-            bookView.classList.remove("hidden");
-            statusView.classList.add("hidden");
-            navBook.className = "text-sm font-bold text-blue-600 transition px-3 py-2 rounded-lg";
-            navStatus.className = "text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg";
-        } else if (tab === "status") {
-            bookView.classList.add("hidden");
-            statusView.classList.remove("hidden");
-            navBook.className = "text-sm font-bold text-slate-500 hover:text-blue-600 transition px-3 py-2 rounded-lg";
-            navStatus.className = "text-sm font-bold text-blue-600 transition px-3 py-2 rounded-lg";
-        }
-    }
-
-    // Live Registration Preview
-    function updatePlatePreview(val) {
-        const display = document.getElementById("plateText");
-        const cleanVal = val.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-        
-        if (cleanVal.length === 0) {
-            display.innerText = "MH12AA1111";
-            display.style.opacity = "0.3";
-        } else {
-            display.innerText = cleanVal;
-            display.style.opacity = "1";
-        }
-    }
-
-    // Selection of Vehicle Class Cards
-    function selectVehicleClass(className, baseCost) {
-        selectedClass = className;
-        selectedPrice = baseCost;
-
-        const classes = {
-            "Two Wheeler": { id: "class-two", icon: "icon-two" },
-            "Four Wheeler": { id: "class-four", icon: "icon-four" },
-            "Commercial Vehicle": { id: "class-commercial", icon: "icon-commercial" }
+        // Custom High-End Toast Notification system
+        window.alert = function(message, type = "warn") {
+            let toast = document.getElementById("customToast");
+            if (!toast) {
+                toast = document.createElement("div");
+                toast.id = "customToast";
+                toast.className = "fixed top-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold text-xs tracking-wide transition-all duration-300 transform translate-y-[-100px] opacity-0 z-[100] flex items-center gap-3 border border-slate-800";
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<span class="text-blue-400 font-extrabold text-base">ℹ</span> <span>${message}</span>`;
+            toast.classList.remove("translate-y-[-100px]", "opacity-0");
+            toast.classList.add("translate-y-0", "opacity-100");
+            setTimeout(function() {
+                toast.classList.add("translate-y-[-100px]", "opacity-0");
+                toast.classList.remove("translate-y-0", "opacity-100");
+            }, 3000);
         };
 
-        // Reset classes
-        for (const [key, val] of Object.entries(classes)) {
-            const btn = document.getElementById(val.id);
-            if (btn) {
-                btn.className = "border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-blue-300 group";
+        // On window load fallback initialization
+        window.onload = function() {
+            const qr = document.getElementById('qrImage');
+            if(qr) {
+                qr.src = "qr.png?v=" + new Date().getTime();
+                qr.onerror = function() {
+                    this.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=HSRP-UPI-PAYMENT-MOCK';
+                };
+            }
+        };
+
+        // Mobile Menu toggle drawer
+        function toggleMenu() { 
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("hidden"); 
+        }
+
+        // SPA Navigation view rendering controller
+        function showView(viewName) {
+            // Hide all views
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(view => {
+                view.classList.add('hidden');
+            });
+
+            // Show active view
+            const activeView = document.getElementById(`view-${viewName}`);
+            if (activeView) {
+                activeView.classList.remove('hidden');
+            }
+
+            // Highlight nav bar
+            const navLinks = ['home', 'about', 'notifications', 'faqs', 'contact', 'cancel'];
+            navLinks.forEach(link => {
+                const el = document.getElementById(`nav-${link}`);
+                if (el) {
+                    if (link === viewName) {
+                        el.classList.remove('text-slate-500');
+                        el.classList.add('text-blue-600');
+                    } else {
+                        el.classList.remove('text-blue-600');
+                        el.classList.add('text-slate-500');
+                    }
+                }
+            });
+
+            // Scroll to view-top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Dynamic price feedback on selection changed
+        function updateDynamicPrice() {
+            const selectEl = document.getElementById("vehicleClass");
+            const selectedOpt = selectEl.options[selectEl.selectedIndex];
+            const price = selectedOpt.getAttribute("data-price") || 0;
+            dynamicSelectedPrice = price;
+
+            const display = document.getElementById("amountDisplay");
+            if (display) {
+                display.innerText = price > 0 ? "₹" + price : "₹--";
             }
         }
 
-        // Apply style to selected
-        const activeBtn = document.getElementById(classes[className].id);
-        if (activeBtn) {
-            activeBtn.className = "border-2 border-blue-600 bg-blue-50/50 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-blue-500 group";
-        }
+        // Stepper state updates
+        function setStep(step){
+            const widths = {1:"0%", 2:"33%", 3:"66%", 4:"100%"};
+            const progress = document.getElementById("progressBar");
+            if(progress) progress.style.width = widths[step];
 
-        showToast(`Vehicle configured: ${className}`, "success");
-    }
-
-    // Control Stepper Steps visually
-    function setStep(step) {
-        const widths = { 1: "0%", 2: "33%", 3: "66%", 4: "100%" };
-        document.getElementById("progressBar").style.width = widths[step];
-
-        for (let i = 1; i <= 4; i++) {
-            const circle = document.getElementById("circle" + i);
-            const label = document.getElementById("label" + i);
-            if (circle && label) {
-                if (i <= step) {
-                    circle.className = "w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-200 step-transition ring-4 ring-blue-50";
-                    label.className = "text-[11px] mt-2 font-bold text-blue-600 uppercase tracking-wider";
-                } else {
-                    circle.className = "w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold step-transition";
-                    label.className = "text-[11px] mt-2 font-bold text-slate-400 uppercase tracking-wider";
+            for(let i=1; i<=4; i++){
+                const circle = document.getElementById("circle"+i);
+                const label = document.getElementById("label"+i);
+                if(circle) {
+                    if(i<=step){
+                        circle.className = "w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold shadow-md shadow-blue-500/10 transition-all duration-300";
+                        if(label) label.className = "text-[10px] mt-2 font-extrabold text-blue-600 uppercase tracking-wider";
+                    } else {
+                        circle.className = "w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300";
+                        if(label) label.className = "text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider";
+                    }
                 }
             }
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Transition Step 1 -> Step 2
-    function goStep2() {
-        const reg = document.getElementById("regNo").value.trim();
-        const chassis = document.getElementById("chassis").value.trim();
-        const engine = document.getElementById("engine").value.trim();
-
-        if (reg.length < 8) {
-            return showToast("Please enter a valid Registration Number (min 8 characters).", "warning");
-        }
-        if (chassis.length < 5) {
-            return showToast("Chassis Number must be exactly 5 digits.", "warning");
-        }
-        if (engine.length < 5) {
-            return showToast("Engine Number must be exactly 5 digits.", "warning");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        document.getElementById("step1").classList.add("hidden");
-        document.getElementById("step2").classList.remove("hidden");
-        setStep(2);
-    }
+        // Step transition validations
+        function goStep2(){
+            const regVal = document.getElementById("regNo").value.trim();
+            const classVal = document.getElementById("vehicleClass").value;
+            const chassisVal = document.getElementById("chassis").value.trim();
+            const engineVal = document.getElementById("engine").value.trim();
 
-    // Back from Step 2 -> Step 1
-    function back1() {
-        document.getElementById("step2").classList.add("hidden");
-        document.getElementById("step1").classList.remove("hidden");
-        setStep(1);
-    }
-
-    // Transition Step 2 -> Step 3
-    function goStep3() {
-        const name = document.getElementById("fullName").value.trim();
-        const phone = document.getElementById("mobile").value.trim();
-        const state = document.getElementById("state").value;
-        const address = document.getElementById("address").value.trim();
-
-        if (name.length < 3) {
-            return showToast("Enter full owner name as printed on Registration Card.", "warning");
-        }
-        if (phone.length !== 10 || isNaN(phone)) {
-            return showToast("Enter a valid 10-digit mobile phone number.", "warning");
-        }
-        if (!state) {
-            return showToast("Select your state of registration registry.", "warning");
-        }
-        if (address.length < 15) {
-            return showToast("Please write a detailed delivery/installation address.", "warning");
-        }
-
-        // Generate unique reference ID
-        bookingRef = "HSR-" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById("refId").innerText = "Ref: " + bookingRef;
-
-        // Generate dynamic QR code image via qrserver API (Amount parameter removed as per request)
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=hsrpfees@ybl%26pn=HSRPBooking%26tr=${bookingRef}`;
-        document.getElementById("qrImage").src = qrUrl;
-
-        document.getElementById("step2").classList.add("hidden");
-        document.getElementById("step3").classList.remove("hidden");
-        setStep(3);
-    }
-
-    // UTR Verification step (Strict validation of exactly 12 numeric digits)
-    function verifyPayment() {
-        const utr = document.getElementById("utr").value.trim();
-        
-        // Matches exactly 12 digits, no alphabets or special characters
-        const isTwelveDigitNumber = /^\d{12}$/.test(utr);
-        
-        if (!isTwelveDigitNumber) {
-            return showToast("Verification Failed! UTR number must be exactly 12 numeric digits.", "error");
-        }
-
-        const verifyBtn = document.getElementById("verifyBtn");
-        verifyBtn.innerText = "Querying Banking Server...";
-        verifyBtn.className = "w-full bg-amber-500 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 pointer-events-none";
-
-        setTimeout(() => {
-            showToast("UTR recorded! Proceed to complete order registration.", "success");
-            verifyBtn.classList.add("hidden");
-            document.getElementById("submitBtn").classList.remove("hidden");
-        }, 1800);
-    }
-
-    // Submit Complete Booking
-    function submitForm() {
-        const regNo = document.getElementById("regNo").value.toUpperCase();
-        const utr = document.getElementById("utr").value;
-        const name = document.getElementById("fullName").value;
-
-        // Set Success details
-        document.getElementById("finalReg").innerText = regNo;
-        document.getElementById("finalRef").innerText = bookingRef;
-        document.getElementById("finalUtr").innerText = utr;
-
-        // Save fresh booking inside Local DB to allow instant status checks
-        const db = JSON.parse(localStorage.getItem("hsrp_db") || "[]");
-        db.push({
-            regNo: regNo,
-            ref: bookingRef,
-            status: "Payment Under Verification",
-            utr: utr,
-            name: name,
-            timeline: [
-                { title: "Booking Received", text: `Verified transaction UTR #${utr} on central account records.`, time: "Just Now", active: true },
-                { title: "RTO Verification", text: "Verifying chassis & laser mapping code registration.", time: "Pending", active: false },
-                { title: "Delivery & Assembly", text: "Doorstep installation at verified delivery location.", time: "Pending", active: false }
-            ]
-        });
-        localStorage.setItem("hsrp_db", JSON.stringify(db));
-
-        // Display Thank you block
-        document.getElementById("stepperWrapper").classList.add("hidden");
-        document.getElementById("step3").classList.add("hidden");
-        document.getElementById("step4").classList.remove("hidden");
-        setStep(4);
-        showToast("HSRP order registration successfully initialized!", "success");
-    }
-
-    // Copy Details helper
-    function copyReceiptDetails() {
-        const textToCopy = `HSRP Booking Details\nReference: ${bookingRef}\nVehicle No: ${document.getElementById("regNo").value.toUpperCase()}\nUTR: ${document.getElementById("utr").value}`;
-        
-        // Custom implementation using old-school fallback compatible with all browser modes
-        const tempInput = document.createElement("textarea");
-        tempInput.value = textToCopy;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-        
-        showToast("Booking receipts details copied to clipboard!", "success");
-    }
-
-    // Status Lookup Logic
-    function executeStatusLookup() {
-        const input = document.getElementById("trackInput").value.trim().toUpperCase();
-        if (input.length < 4) {
-            return showToast("Provide a valid registration number or booking reference.", "warning");
-        }
-
-        const db = JSON.parse(localStorage.getItem("hsrp_db") || "[]");
-        
-        // Search by Reg Code or Reference Ref
-        const record = db.find(item => item.regNo.replace(/\s/g, "") === input.replace(/\s/g, "") || item.ref.toUpperCase() === input);
-
-        const resultBox = document.getElementById("lookupResult");
-        if (!record) {
-            resultBox.classList.add("hidden");
-            return showToast("No active record found for specified registration/reference code.", "warning");
-        }
-
-        // Fill dynamic contents
-        document.getElementById("lookupReg").innerText = record.regNo;
-        document.getElementById("lookupStatus").innerText = record.status;
-
-        // Generate dynamic visual timeline markup
-        let timelineHtml = "";
-        record.timeline.forEach((step, i) => {
-            const isLast = i === record.timeline.length - 1;
-            timelineHtml += `
-                <div class="relative flex items-start gap-4">
-                    ${!isLast ? '<div class="absolute left-[5px] top-[14px] bottom-[-24px] w-0.5 bg-slate-100"></div>' : ''}
-                    <div class="w-3 h-3 rounded-full ${step.active ? 'bg-indigo-600 ring-4 ring-indigo-50' : 'bg-slate-200'} z-10"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center">
-                            <h5 class="text-xs font-black text-slate-800">${step.title}</h5>
-                            <span class="text-[9px] font-extrabold ${step.active ? 'text-indigo-600' : 'text-slate-400'}">${step.time}</span>
-                        </div>
-                        <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed">${step.text}</p>
-                    </div>
-                </div>
-            `;
-        });
-
-        document.getElementById("lookupTimeline").innerHTML = timelineHtml;
-        resultBox.classList.remove("hidden");
-        showToast("Latest delivery details loaded.", "success");
-    }
-
-    // Fill Quick search tabs demo
-    function fillTrackDemo(reg) {
-        document.getElementById("trackInput").value = reg;
-        executeStatusLookup();
-    }
-
-    // Process order cancellation requests
-    function processCancellationRequest() {
-        const val = document.getElementById("cancelRef").value.trim().toUpperCase();
-        if (val.length < 5) {
-            return showToast("Input a valid registration or booking reference ID.", "warning");
-        }
-
-        showToast("Cancellation pending: Support manager will call back in 4 hours.", "success");
-        closeModal("cancel-modal");
-    }
-
-    // Chat control flows
-    function openChat() {
-        document.getElementById("chatModal").classList.remove("hidden");
-        document.getElementById("chatModal").classList.add("flex");
-    }
-
-    function closeChat() {
-        document.getElementById("chatModal").classList.add("hidden");
-        document.getElementById("chatModal").classList.remove("flex");
-    }
-
-    function handleChatEnter(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    }
-
-    function sendQuickMessage(text) {
-        document.getElementById("chatInput").value = text;
-        sendMessage();
-    }
-
-    function sendMessage() {
-        const input = document.getElementById("chatInput");
-        const text = input.value.trim();
-        if (!text) return;
-
-        const chat = document.getElementById("chatMessages");
-        
-        // Inject User Bubble
-        chat.innerHTML += `
-            <div class="bg-indigo-600 text-white p-3.5 rounded-2xl ml-auto max-w-[85%] text-xs font-semibold shadow-sm leading-relaxed animate-slide-up">
-                ${text}
-            </div>`;
-        input.value = "";
-        chat.scrollTop = chat.scrollHeight;
-
-        // Artificial Typing Delay
-        setTimeout(() => {
-            let response = "I didn't quite catch that. You can ask about 'status', 'refund', 'home fitting', or 'delivery timeline'!";
-            const query = text.toLowerCase();
-
-            // AI Context Lookup
-            const activeReg = document.getElementById("regNo").value || "";
-            const activeUtr = document.getElementById("utr").value || "";
-
-            if (query.includes("status") || query.includes("track") || query.includes("order")) {
-                if (bookingRef) {
-                    response = `Your active booking <b>${bookingRef}</b> is registered for <b>${activeReg}</b>. We are processing the payment UTR. Check status tab anytime!`;
-                } else {
-                    response = "You can instantly trace plates by typing the registration code in the <b>Track Status</b> tab on the home menu.";
-                }
-            } else if (query.includes("fitting") || query.includes("price") || query.includes("cost") || query.includes("free")) {
-                response = "Currently, professional doorway fitment & installation assembly are <b>FREE</b> and covered under nominal platform registration fees.";
-            } else if (query.includes("time") || query.includes("how long") || query.includes("day") || query.includes("delivery")) {
-                response = "Once UTR verifies, data is updated with state RTO in 3-5 days. Embossed high-security plates are delivered at home within 5-7 working days.";
-            } else if (query.includes("hi") || query.includes("hello") || query.includes("sameer")) {
-                response = "Hello! Please tell me how I can help you with your HSRP plate verification, booking invoice or timeline tracking today.";
-            } else if (query.includes("cancel") || query.includes("refund")) {
-                response = "Cancellations made within 24 hours of booking are entitled to a full prompt refund. Open the 'Cancel Booking' menu link to apply.";
+            if(!regVal) {
+                alert("Please provide vehicle Registration number.");
+                return;
+            }
+            if(!classVal) {
+                alert("Please select your corresponding Vehicle Class.");
+                return;
+            }
+            if(chassisVal.length !== 5 || isNaN(chassisVal)) {
+                alert("Please enter a valid 5-digit numeric Chassis number.");
+                return;
+            }
+            if(engineVal.length !== 5 || isNaN(engineVal)) {
+                alert("Please enter a valid 5-digit numeric Engine number.");
+                return;
             }
 
-            // Inject Bot Bubble
-            chat.innerHTML += `
-                <div class="bg-white border border-slate-100 text-slate-800 p-4 rounded-2xl mr-auto max-w-[85%] text-xs font-semibold shadow-sm leading-relaxed animate-slide-up">
-                    ${response}
-                </div>`;
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
+            setStep(2);
+        }
+
+        function back1(){
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step1").classList.remove("hidden");
+            setStep(1);
+        }
+
+        function goStep3(){
+            const nameVal = document.getElementById("fullName").value.trim();
+            const mobileVal = document.getElementById("mobile").value.trim();
+            const stateVal = document.getElementById("state").value;
+            const addressVal = document.getElementById("address").value.trim();
+
+            if(!nameVal) {
+                alert("Please input the Full Owner Name.");
+                return;
+            }
+            if(mobileVal.length < 10 || isNaN(mobileVal)) {
+                alert("Please input a valid 10-digit Mobile number.");
+                return;
+            }
+            if(!stateVal) {
+                alert("Please specify the Registered State/UT.");
+                return;
+            }
+            if(addressVal.length < 10) {
+                alert("Please furnish a detailed Home/Installation Address.");
+                return;
+            }
+
+            bookingRef = "HSR-" + Math.floor(100000 + Math.random()*900000);
+            
+            // Render scanning parameters
+            document.getElementById("refId").innerText = "REF: " + bookingRef;
+            
+            // Adjust API QR parameters
+            const qr = document.getElementById('qrImage');
+            if (qr) {
+                qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=morthhsrp@upi%26am=${dynamicSelectedPrice}%26tn=${bookingRef}`;
+            }
+
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step3").classList.remove("hidden");
+            setStep(3);
+        }
+
+        function verifyPayment() {
+            const utr = document.getElementById("utr").value.trim();
+            if(utr.length < 6 || isNaN(utr)) {
+                alert("Please specify a valid numeric Transaction UTR code.");
+                return;
+            }
+            
+            const vBtn = document.getElementById("verifyBtn");
+            vBtn.innerText = "Processing Verification on Gateway...";
+            vBtn.disabled = true;
+
+            setTimeout(function() {
+                vBtn.classList.add("hidden");
+                document.getElementById("submitBtn").classList.remove("hidden");
+            }, 1800);
+        }
+
+        function submitForm(){
+            const finalReceiptName = document.getElementById("finalReceiptName");
+            const fullName = document.getElementById("fullName");
+            if(finalReceiptName && fullName) finalReceiptName.innerText = fullName.value;
+
+            const finalReg = document.getElementById("finalReg");
+            const regNo = document.getElementById("regNo");
+            if(finalReg && regNo) finalReg.innerText = regNo.value;
+
+            const finalRef = document.getElementById("finalRef");
+            if(finalRef) finalRef.innerText = bookingRef;
+
+            const finalPrice = document.getElementById("finalPrice");
+            if(finalPrice) finalPrice.innerText = "₹" + dynamicSelectedPrice;
+
+            const finalUtr = document.getElementById("finalUtr");
+            const utr = document.getElementById("utr");
+            if(finalUtr && utr) finalUtr.innerText = utr.value;
+
+            document.getElementById("stepperWrapper").classList.add("hidden");
+            document.getElementById("step3").classList.add("hidden");
+            document.getElementById("step4").classList.remove("hidden");
+            setStep(4);
+        }
+
+        // Return Home
+        function goHome() {
+            document.getElementById("mobileMenu").classList.add("hidden");
+            closeChat();
+            
+            // Show initial form state
+            document.getElementById("step1").classList.remove("hidden");
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step3").classList.add("hidden");
+            document.getElementById("step4").classList.add("hidden");
+            
+            // Clean inputs
+            document.getElementById("regNo").value = "";
+            document.getElementById("chassis").value = "";
+            document.getElementById("engine").value = "";
+            document.getElementById("fullName").value = "";
+            document.getElementById("mobile").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("utr").value = "";
+            
+            const verifyBtn = document.getElementById("verifyBtn");
+            const submitBtn = document.getElementById("submitBtn");
+            verifyBtn.innerText = "Verify Transaction";
+            verifyBtn.disabled = false;
+            verifyBtn.classList.remove("hidden");
+            submitBtn.classList.add("hidden");
+
+            const stepperWrapper = document.getElementById("stepperWrapper");
+            if (stepperWrapper) {
+                stepperWrapper.classList.remove("hidden");
+            }
+            
+            setStep(1);
+            showView('home');
+        }
+
+        // Toggle collapsible FAQs
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.innerText = '−';
+            } else {
+                ans.classList.add('hidden');
+                icon.innerText = '+';
+            }
+        }
+
+        // Submit mock query on Contact form
+        function submitContactQuery() {
+            const name = document.getElementById("contactName").value.trim();
+            const email = document.getElementById("contactEmail").value.trim();
+            const msg = document.getElementById("contactMessage").value.trim();
+
+            if (!name || !email || !msg) {
+                alert("Please fill all contact fields.");
+                return;
+            }
+            alert("Thank you! Your support request has been lodged successfully.");
+            document.getElementById("contactName").value = "";
+            document.getElementById("contactEmail").value = "";
+            document.getElementById("contactMessage").value = "";
+        }
+
+        // Search & Cancel System Simulation
+        function searchCancelOrder() {
+            const searchInput = document.getElementById("cancelRegSearch").value.trim().toUpperCase();
+            if(!searchInput) {
+                alert("Please specify a Vehicle Registration number to query.");
+                return;
+            }
+
+            const resDiv = document.getElementById("cancelResult");
+            const resReg = document.getElementById("cancelFoundReg");
+            const resStatus = document.getElementById("cancelStatusBadge");
+            
+            resReg.innerText = searchInput;
+            resDiv.classList.remove("hidden");
+        }
+
+        function requestRefundAction() {
+            alert("Refund request submitted! Refund process of ₹750 has been approved & will credit in 24-48 Hours.");
+            document.getElementById("cancelResult").classList.add("hidden");
+            document.getElementById("cancelRegSearch").value = "";
+        }
+
+        // Live Chat Support Controls
+        function openChat(){ 
+            document.getElementById("chatModal").classList.remove("hidden"); 
+            document.getElementById("chatModal").classList.add("flex"); 
+            initializeChat();
+        }
+
+        function closeChat(){ 
+            document.getElementById("chatModal").classList.add("hidden"); 
+            document.getElementById("chatModal").classList.remove("flex"); 
+        }
+
+        function initializeChat() {
+            const chat = document.getElementById("chatMessages");
+            if (chat && chat.children.length === 0) {
+                chat.innerHTML = '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
+                    '<p class="text-[9px] text-blue-600 font-extrabold uppercase tracking-wider mb-1">Sameer • Support Executive</p>' +
+                    '<p>Namaste! 🙏 Welcome to HSRP Helpdesk. How can I assist you with your vehicle High Security Registration Plate booking or status verification today?</p>' +
+                    '</div>';
+                chat.scrollTop = chat.scrollHeight;
+            }
+        }
+
+        function sendMessage(){
+            const input = document.getElementById("chatInput");
+            if(!input.value.trim()) return;
+            const chat = document.getElementById("chatMessages");
+            const userText = input.value.trim();
+            
+            // Append User text bubble
+            chat.innerHTML += '<div class="bg-blue-600 text-white p-4 rounded-2xl ml-auto max-w-[85%] text-xs font-semibold shadow-md">' +
+                userText +
+                '</div>';
+            input.value = "";
             chat.scrollTop = chat.scrollHeight;
-        }, 750);
-    }
-</script>
 
+            // Trigger typing indicator
+            const typing = document.getElementById("typingIndicator");
+            typing.classList.remove("hidden");
+
+            // Smart automated responses with simulated delay
+            setTimeout(function() {
+                typing.classList.add("hidden");
+                const query = userText.toLowerCase();
+                let replyText = "Thank you for reaching out! A representative is connecting shortly. Please provide your Vehicle Registration number for quick checking.";
+                
+                if (query.indexOf("status") !== -1 || query.indexOf("track") !== -1 || query.indexOf("delivery") !== -1 || query.indexOf("when") !== -1) {
+                    replyText = "To track your booking: Check the 'Status Timeline' on Step 4 after entering your 12-digit UTR payment code. Typical home delivery takes 5 to 7 business days post RTO registration.";
+                } else if (query.indexOf("payment") !== -1 || query.indexOf("pay") !== -1 || query.indexOf("qr") !== -1 || query.indexOf("utr") !== -1) {
+                    replyText = "Please scan the official UPI QR code at Step 3, complete the transaction via PhonePe/GPay/Paytm, and paste your 12-digit Transaction Ref/UTR number for quick automated approval.";
+                } else if (query.indexOf("cancel") !== -1 || query.indexOf("refund") !== -1) {
+                    replyText = "If you wish to cancel: Click the 'Cancel Order' option in our top header navigation, submit your Registration Number along with payment proof, and we'll issue a refund within 24-48 hours.";
+                } else if (query.indexOf("wrong") !== -1 || query.indexOf("mistake") !== -1 || query.indexOf("edit") !== -1 || query.indexOf("incorrect") !== -1) {
+                    replyText = "If you submitted incorrect details (like a typo in your registration number or chassis number), please message us here with your Reference ID and the correct details. Our operations team will update it before RTO submission.";
+                }
+
+                chat.innerHTML += '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
+                    '<p class="text-[9px] text-blue-600 font-extrabold uppercase tracking-wider mb-1">Sameer • Support Executive</p>' +
+                    '<p>' + replyText + '</p>' +
+                    '</div>';
+                chat.scrollTop = chat.scrollHeight;
+            }, 1200);
+        }
+
+        // Capture enter key inside support chat input
+        document.getElementById("chatInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>
