@@ -1,1174 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>HSRP Booking Portal - Secure  Plates</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOOK-MY-HSRP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+body{background:#ececec}
 
-    <!-- Tailwind CSS for modern responsive utility-first styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+.top-header{background:#d9dde3;padding:12px 0;border-bottom:1px solid #d0d0d0}
+.plate-logo{
+ width:max-content;margin-left:55px;background:#f5f5f5;border:5px solid #2b2525;
+ border-radius:4px;padding:10px 28px;font-size:34px;font-weight:900;color:#222;
+ letter-spacing:1px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.25)
+}
+.plate-logo:before{
+ content:"";position:absolute;width:8px;height:8px;background:#2b2525;border-radius:50%;
+ top:10px;left:10px;
+ box-shadow:0 36px 0 #2b2525,296px 0 0 #2b2525,296px 36px 0 #2b2525;
+}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+.container{width:96%;margin:20px auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:25px}
+.card{border-radius:8px;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
+.yellow{background:#e8d98d;color:#001b4d}
+.blue{background:#3f58a8;color:#fff}
+.tall{min-height:540px}
+.normal{min-height:250px}
+.card h2{font-size:24px;line-height:1.3;font-weight:700}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            overflow-x: hidden;
-            color: #1e293b;
-        }
+.btn{
+ text-decoration:none;padding:15px 28px;border-radius:10px;font-size:18px;
+ font-weight:600;display:inline-block;text-align:center;transition:.3s
+}
+.yellow .btn{border:2px solid #001b4d;color:#001b4d}
+.blue .btn{border:2px solid #fff;color:#fff}
+.btn:hover{transform:translateY(-2px)}
 
-        .hidden {
-            display: none !important;
-        }
+.footer-logos{background:#f8f8f8;padding:25px 15px;margin-top:25px}
+.logo-row{
+ display:flex;justify-content:center;flex-wrap:wrap;gap:30px;
+ font-size:16px;font-weight:700;color:#3f58a8;text-align:center
+}
 
-        .fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+.footer{background:#3f58a8;padding:20px}
+.footer-links{
+ display:flex;justify-content:center;flex-wrap:wrap;gap:20px
+}
+.footer-links a{color:white;text-decoration:none;font-size:15px}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+@media(max-width:1024px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .tall{min-height:300px}
+}
 
-        .chat-scroll::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .chat-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .chat-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-
-        /* Timeline specific styles */
-        .timeline-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .timeline-line {
-            position: absolute;
-            left: 5px;
-            top: 14px;
-            bottom: -36px;
-            width: 2px;
-            background: #e2e8f0;
-        }
-
-        /* Custom high-end pulse animation for warning/highlights */
-        .accent-pulse {
-            animation: softPulse 2s infinite;
-        }
-
-        @keyframes softPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
-            }
-        }
-    </style>
+@media(max-width:768px){
+ .top-header{padding:10px}
+ .plate-logo{margin:auto;font-size:22px;padding:10px 18px}
+ .plate-logo:before{
+  box-shadow:0 26px 0 #2b2525,190px 0 0 #2b2525,190px 26px 0 #2b2525;
+ }
+ .container{width:100%;padding:12px}
+ .grid{grid-template-columns:1fr;gap:15px}
+ .card{min-height:auto!important;padding:25px}
+ .card h2{font-size:22px}
+ .btn{width:100%;margin-top:20px}
+ .logo-row{flex-direction:column;gap:10px;font-size:14px}
+ .footer-links{flex-direction:column;text-align:center;gap:12px}
+}
+</style>
 </head>
+<body>
+
+<header class="top-header">
+ <div class="plate-logo">BOOK-MY-HSRP</div>
+</header>
+
+<div class="container">
+<div class="grid">
+
+<div class="card yellow tall">
+<h2>High Security Registration Plate with Colour Sticker</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Book →</a>
+</div>
+
+<div class="card blue normal">
+<h2>Replacement / Retain / Transfer</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Book →</a>
+</div>
+
+<div class="card yellow normal">
+<h2>High Security Registration Plate For Electric Vehicle</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Book →</a>
+</div>
+
+<div class="card blue normal">
+<h2>Track Your Order</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Track →</a>
+</div>
+
+<div class="card yellow normal">
+<h2>Only Colour Sticker</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Book →</a>
+</div>
+
+<div class="card blue normal">
+<h2>High Security Registration Plate For Tractor & Trailer</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Book →</a>
+</div>
+
+<div class="card yellow normal">
+<h2>Grievance Redressal</h2>
+<a href="https://cutt.ly/hsp-new" target="_blank" class="btn">Enquiry →</a>
+</div>
+
+</div>
+</div>
+
+<div class="footer-logos">
+<div class="logo-row">
+<span>ROSMERTA Technologies Limited</span>
+<span>SENSORISE</span>
+<span>RAASTA</span>
+<span>ROSMERTA Digital Services</span>
+<span>ROSBLU</span>
+<span>ROSMERTA Recycling</span>
+</div>
+</div>
+
+<div class="footer">
+<div class="footer-links">
+<a href="https://hsrpnumberplate.co.in/faqs" target="_blank">FAQ</a>
+<a href="https://hsrpnumberplate.co.in/aboutus" target="_blank">About Us</a>
+<a href="https://hsrpnumberplate.co.in/ContactUs" target="_blank">Contact Us</a>
+<a href="https://hsrpnumberplate.co.in/GovNotification" target="_blank">Government Policy</a>
+<a href="https://hsrpnumberplate.co.in/cancelorder" target="_blank">Refund & Cancellation</a>
+</div>
+</div>
 
-<body class="min-h-screen flex flex-col justify-between">
-
-    <!-- NAVIGATION BAR -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
-                <!-- Brand Logo (SPA home redirect and reset) -->
-                <div onclick="goHome()" class="flex items-center gap-3 cursor-pointer group">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-blue-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
-                        H
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-extrabold text-slate-900 leading-tight tracking-tight">HSRP</h1>
-                        <p class="text-[10px] text-blue-600 font-extrabold uppercase tracking-widest">Booking Portal</p>
-                    </div>
-                </div>
-                
-                <!-- Desktop Navigation Menu using dynamic SPA views (Exactly matching Footer) -->
-                <div class="hidden md:flex items-center space-x-7">
-                    <button id="nav-home" onclick="goHome()" class="text-sm font-bold text-blue-600 hover:text-blue-700 transition">Home</button>
-                    <button id="nav-about" onclick="showView('about')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">About Us</button>
-                    <button id="nav-notifications" onclick="showView('notifications')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Notifications</button>
-                    <button id="nav-faqs" onclick="showView('faqs')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">FAQs</button>
-                    <button id="nav-contact" onclick="showView('contact')" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition">Contact Us</button>
-                    <button id="nav-cancel" onclick="showView('cancel')" class="px-5 py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-extrabold hover:bg-red-100 transition-all">Cancel Order</button>
-                </div>
-
-                <!-- Mobile Hamburger Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleMenu()" class="text-slate-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-slate-50 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 p-5 space-y-3 shadow-xl absolute w-full left-0 transition-all">
-            <button onclick="goHome(); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-blue-600 py-2 border-b border-slate-50">Home</button>
-            <button onclick="showView('about'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">About Us</button>
-            <button onclick="showView('notifications'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Notifications</button>
-            <button onclick="showView('faqs'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">FAQs</button>
-            <button onclick="showView('contact'); toggleMenu();" class="block w-full text-left text-sm font-extrabold text-slate-600 hover:text-blue-600 py-2 border-b border-slate-50">Contact Us</button>
-            <button onclick="showView('cancel'); toggleMenu();" class="block w-full text-center text-sm font-extrabold text-red-600 bg-red-50 py-3 rounded-xl mt-3 hover:bg-red-100 transition">Cancel Order</button>
-        </div>
-    </nav>
-
-    <!-- MAIN VIEW CONTAINER -->
-    <main class="flex-grow max-w-4xl mx-auto p-4 md:p-8 w-full">
-
-        <!-- VIEW: HOME (Booking Stepper Form) -->
-        <div id="view-home" class="view-section fade-in">
-            <!-- STEPPER INDICATOR -->
-            <div id="stepperWrapper" class="mb-10 max-w-2xl mx-auto">
-                <div class="flex justify-between relative items-center">
-                    <!-- Progress Bar Line -->
-                    <div class="absolute top-[18px] left-0 w-full h-1 bg-slate-100 rounded-full">
-                        <div id="progressBar" class="h-full bg-blue-600 rounded-full transition-all duration-500 ease-out" style="width:0%"></div>
-                    </div>
-                    
-                    <!-- Steps -->
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div id="circle1" class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold shadow-md shadow-blue-500/20 transition-all duration-300">1</div>
-                        <p id="label1" class="text-[10px] mt-2 font-extrabold text-blue-600 uppercase tracking-wider">Vehicle</p>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div id="circle2" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">2</div>
-                        <p id="label2" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Personal</p>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div id="circle3" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">3</div>
-                        <p id="label3" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Payment</p>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div id="circle4" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300">4</div>
-                        <p id="label4" class="text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider">Done</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CARD FRAMEWORK -->
-            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
-                
-                <!-- STEP 1: VEHICLE DETAILS -->
-                <div id="step1" class="fade-in">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl font-bold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
-                        </span>
-                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Vehicle Information</h2>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Vehicle Registration Number</label>
-                            <input type="text" id="regNo" placeholder="e.g. DL01AB1234" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
-                            <span class="text-[11px] text-slate-400 font-medium mt-1.5 block">Format must align with state standards.</span>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Vehicle Class</label>
-                            <select id="vehicleClass" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition bg-white">
-                                <option value="">Select Vehicle Type</option>
-                                <option value="Two Wheeler">Two Wheeler (Motorcycle/Scooter)</option>
-                                <option value="Four Wheeler">Four Wheeler (Car/SUV)</option>
-                                <option value="Commercial Vehicle">Commercial Vehicle (Truck/Bus/Cab)</option>
-                            </select>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Chassis No (Last 5 Digits)</label>
-                                <input type="text" id="chassis" maxlength="5" placeholder="12345" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Engine No (Last 5 Digits)</label>
-                                <input type="text" id="engine" maxlength="5" placeholder="67890" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 uppercase font-bold text-slate-800 transition">
-                            </div>
-                        </div>
-
-                        <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-3 mt-4">
-                            <span class="text-blue-600 text-lg">💡</span>
-                            <p class="text-xs text-blue-800 font-medium leading-relaxed">Ensure engine & chassis numbers match your physical registration certificate (RC) exactly to prevent automated verification rejection.</p>
-                        </div>
-
-                        <button onclick="goStep2()" class="w-full bg-blue-600 text-white py-4.5 rounded-2xl font-bold hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/15 transition-all text-base py-4">
-                            Continue & Configure Details
-                        </button>
-                    </div>
-                </div>
-
-                <!-- STEP 2: PERSONAL INFORMATION -->
-                <div id="step2" class="hidden fade-in">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl font-bold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        </span>
-                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Delivery & Owner Details</h2>
-                    </div>
-
-                    <div class="space-y-6">
-                        <div>
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Full Owner Name (As per RC)</label>
-                            <input type="text" id="fullName" placeholder="Enter Full Name" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Mobile Number</label>
-                                <input type="tel" id="mobile" maxlength="10" placeholder="e.g. 9876543210" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">State / Union Territory</label>
-                                <select id="state" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition bg-white">
-                                    <option value="">Select State / UT</option>
-                                    <option>Andaman and Nicobar Islands</option>
-                                    <option>Andhra Pradesh</option>
-                                    <option>Arunachal Pradesh</option>
-                                    <option>Assam</option>
-                                    <option>Bihar</option>
-                                    <option>Chandigarh</option>
-                                    <option>Chhattisgarh</option>
-                                    <option>Dadra and Nagar Haveli and Daman and Diu</option>
-                                    <option>Delhi</option>
-                                    <option>Goa</option>
-                                    <option>Gujarat</option>
-                                    <option>Haryana</option>
-                                    <option>Himachal Pradesh</option>
-                                    <option>Jammu and Kashmir</option>
-                                    <option>Jharkhand</option>
-                                    <option>Karnataka</option>
-                                    <option>Kerala</option>
-                                    <option>Ladakh</option>
-                                    <option>Lakshadweep</option>
-                                    <option>Madhya Pradesh</option>
-                                    <option>Maharashtra</option>
-                                    <option>Manipur</option>
-                                    <option>Meghalaya</option>
-                                    <option>Mizoram</option>
-                                    <option>Nagaland</option>
-                                    <option>Odisha</option>
-                                    <option>Puducherry</option>
-                                    <option>Punjab</option>
-                                    <option>Rajasthan</option>
-                                    <option>Sikkim</option>
-                                    <option>Tamil Nadu</option>
-                                    <option>Telangana</option>
-                                    <option>Tripura</option>
-                                    <option>Uttar Pradesh</option>
-                                    <option>Uttarakhand</option>
-                                    <option>West Bengal</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Complete Delivery Address</label>
-                            <textarea id="address" rows="3" placeholder="House No, Block, Locality, City, Landmark & PIN Code" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition leading-relaxed"></textarea>
-                        </div>
-
-                        <div class="flex gap-4">
-                            <button onclick="back1()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-extrabold transition">
-                                Back
-                            </button>
-                            <button onclick="goStep3()" class="w-2/3 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-extrabold shadow-lg shadow-blue-500/10 transition-all">
-                                Proceed to Payment
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 3: SCAN & PAYMENT -->
-                <div id="step3" class="hidden fade-in text-center">
-                    <div class="flex flex-col items-center mb-6">
-                        <span class="p-3 bg-green-50 text-green-600 rounded-full font-bold mb-3">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </span>
-                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Secure Scan & Pay</h2>
-                        <p class="text-slate-400 font-semibold text-sm mt-1">HSRP Secure Process</p>
-                    </div>
-
-                    <!-- Scan Block -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 inline-block mb-6 max-w-sm w-full mx-auto shadow-inner">
-                        <div class="w-48 h-48 bg-white border-2 border-slate-100 flex items-center justify-center mx-auto rounded-2xl overflow-hidden shadow-md">
-                            <img id="qrImage" src="qr.png" alt="Payment QR" class="w-full h-full object-contain">
-                        </div>
-                        <p id="refId" class="text-xs font-extrabold text-blue-600 tracking-widest mt-4 uppercase">REF: --</p>
-                        <p class="text-[10px] text-slate-400 font-bold mt-1">Scan via GPay, PhonePe, Paytm, or any UPI app</p>
-                    </div>
-
-                    <!-- Form Input -->
-                    <div class="max-w-md mx-auto text-left">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">UTR / Transaction Reference Number</label>
-                        <input type="text" id="utr" placeholder="Enter Transaction ID / UTR Code" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-800 transition tracking-wide text-center">
-                        <span class="text-[11px] text-slate-400 font-medium mt-1.5 block text-center">Submit your UTR right after executing payment for automated verification.</span>
-
-                        <div id="paymentActions" class="mt-6">
-                            <button id="verifyBtn" onclick="verifyPayment()" class="w-full bg-green-600 text-white py-4.5 rounded-2xl font-extrabold hover:bg-green-700 transition shadow-lg shadow-green-100">
-                                Verify Transaction
-                            </button>
-                            <button id="submitBtn" onclick="submitForm()" class="w-full bg-blue-600 text-white py-4.5 rounded-2xl font-extrabold hover:bg-blue-700 transition shadow-lg shadow-blue-100 hidden">
-                                Submit & Order HSRP
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 4: CONFIRMATION RECEIPT & TIMELINE -->
-                <div id="step4" class="hidden fade-in">
-                    <div class="text-center mb-10">
-                        <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-5 shadow-xl border-4 border-white accent-pulse">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Order Booking Lodged!</h2>
-                        <p class="text-slate-500 font-semibold text-sm mt-1">Automated Verification Process Initiated.</p>
-                        <span id="finalName" class="hidden"></span>
-                    </div>
-
-                    <!-- DIGITAL RECEIPT -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 mb-8 relative overflow-hidden">
-                        <div class="absolute -right-3 -top-3 w-16 h-16 bg-blue-500/5 rounded-full"></div>
-                        <div class="flex justify-between items-center mb-5">
-                            <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase">E-RECEIPT DETAIL</h3>
-                            <span class="bg-blue-100 text-blue-700 text-[9px] px-3 py-1.5 rounded-full font-black uppercase">PROCESSING STATUS</span>
-                        </div>
-                        
-                        <div class="space-y-4 font-semibold text-sm">
-                            <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
-                                <span class="text-slate-400">Owner Registered</span>
-                                <span id="finalReceiptName" class="text-slate-800 font-bold">--</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
-                                <span class="text-slate-400">Vehicle No.</span>
-                                <span id="finalReg" class="text-slate-900 font-extrabold uppercase">--</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b border-slate-200 border-dashed">
-                                <span class="text-slate-400">Reference ID</span>
-                                <span id="finalRef" class="text-blue-600 font-extrabold uppercase">--</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2">
-                                <span class="text-slate-400">Payment Reference (UTR)</span>
-                                <span id="finalUtr" class="text-slate-900 font-extrabold break-all max-w-[200px] text-right">--</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- STATUS TIMELINE -->
-                    <div class="mb-10">
-                        <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase mb-6">ESTIMATED DISPATCH PIPELINE</h3>
-                        <div class="space-y-8 pl-1">
-                            <div class="relative flex items-start gap-4">
-                                <div class="timeline-line"></div>
-                                <div class="timeline-dot bg-blue-600 ring-4 ring-blue-100"></div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-slate-900">UTR / Payment Verification</h4>
-                                    <p class="text-xs font-bold text-slate-400 mt-1">Pending validation (ETA: 2-4 Hours).</p>
-                                </div>
-                            </div>
-                            <div class="relative flex items-start gap-4">
-                                <div class="timeline-line"></div>
-                                <div class="timeline-dot bg-slate-200"></div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-slate-400">Government Data Approval</h4>
-                                    <p class="text-xs font-bold text-slate-400 mt-1">Processing of custom plate printing authorization.</p>
-                                </div>
-                            </div>
-                            <div class="relative flex items-start gap-4">
-                                <div class="timeline-dot bg-slate-200"></div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-slate-400">Dispatch & Home Installation</h4>
-                                    <p class="text-xs font-extrabold text-blue-600 uppercase mt-1">ETA: 5-7 Working Days.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ACTIONS -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button onclick="openChat()" class="bg-slate-100 text-blue-700 py-4 rounded-2xl font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-blue-50 transition">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                            Need Help? Contact Representative
-                        </button>
-                        <button onclick="goHome()" class="bg-slate-900 text-white py-4 rounded-2xl font-extrabold text-sm hover:bg-black transition shadow-lg shadow-slate-900/10">
-                            Book Another Plate
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW: ABOUT US -->
-        <div id="view-about" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">About High Security Registration Plates</h2>
-            <p class="text-slate-600 leading-relaxed font-semibold text-sm mb-6">
-                High Security Registration Plates (HSRP) are government-mandated registration plates crafted from high-quality aluminum, equipped with unique anti-tampering security parameters designed to minimize automobile-related fraud and crime.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🔒 Chromium Hologram</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Hot-stamped chromium emblem featuring the Ashoka Chakra to prevent counterfeit replication.</p>
-                </div>
-                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🔢 Unique Laser Serial Number</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">An absolute unique 10-digit PIN laser engraved for tracking plate alignment with individual vehicle data across servers.</p>
-                </div>
-                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <h4 class="font-extrabold text-slate-900 text-base mb-2">⚙ Snap Lock Seals</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Uses non-reusable snap locks preventing any malicious removal of the registered plate.</p>
-                </div>
-                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <h4 class="font-extrabold text-slate-900 text-base mb-2">🚗 Reflective Sheeting</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed font-semibold">Special retro-reflective sheets allowing heightened visibility under extreme night settings.</p>
-                </div>
-            </div>
-            <button onclick="goHome()" class="bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl hover:bg-blue-700 transition">
-                Start Booking Process
-            </button>
-        </div>
-
-        <!-- VIEW: GOVT NOTIFICATIONS -->
-        <div id="view-notifications" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">Official Government Notifications</h2>
-            <p class="text-slate-600 leading-relaxed font-semibold text-sm mb-6">
-                Under Rule 50 of the Central Motor Vehicles Rules (CMVR), the Ministry of Road Transport and Highways (MoRTH) has mandated the installation of High Security Registration Plates across all legacy and current vehicles.
-            </p>
-            <div class="space-y-4">
-                <div class="p-5 border-l-4 border-blue-600 bg-slate-50 rounded-r-2xl">
-                    <span class="text-[10px] bg-blue-100 text-blue-700 font-extrabold py-1 px-2.5 rounded-full">MoRTH DIRECTIVE</span>
-                    <h3 class="font-extrabold text-slate-900 mt-2 text-base">Mandatory Compliance Order</h3>
-                    <p class="text-xs text-slate-500 mt-1 font-semibold leading-relaxed">Failure to mount HSRP on registered vehicles attracts penalties as declared by respective state transport departments.</p>
-                </div>
-                <div class="p-5 border-l-4 border-amber-500 bg-slate-50 rounded-r-2xl">
-                    <span class="text-[10px] bg-amber-100 text-amber-700 font-extrabold py-1 px-2.5 rounded-full">DEADLINE REMINDER</span>
-                    <h3 class="font-extrabold text-slate-900 mt-2 text-base">State Enforcement Actions</h3>
-                    <p class="text-xs text-slate-500 mt-1 font-semibold leading-relaxed">Multiple states have completed transition extensions. Active verification drives are being launched continuously using automatic number plate recognition systems.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW: FAQS -->
-        <div id="view-faqs" class="view-section hidden fade-in bg-white rounded-[32px] border border-slate-100 shadow-xl p-6 md:p-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Frequently Asked Questions</h2>
-            <p class="text-slate-400 font-semibold text-sm mb-8">Everything you need to understand about registration compliance.</p>
-
-            <div class="space-y-4">
-                <div class="border border-slate-100 rounded-2xl overflow-hidden">
-                    <button onclick="toggleFaq(1)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
-                        <span>Is HSRP mandatory for my older vehicles?</span>
-                        <span id="faq-icon-1" class="text-blue-600 font-extrabold">+</span>
-                    </button>
-                    <div id="faq-ans-1" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
-                        Yes, as mandated by MoRTH and state directives, HSRP installation is strictly required for all older and newly registered automobiles running within the state boundaries.
-                    </div>
-                </div>
-
-                <div class="border border-slate-100 rounded-2xl overflow-hidden">
-                    <button onclick="toggleFaq(2)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
-                        <span>How long does delivery and verification process take?</span>
-                        <span id="faq-icon-2" class="text-blue-600 font-extrabold">+</span>
-                    </button>
-                    <div id="faq-ans-2" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
-                        Once you submit your transaction UTR number, verification initiates. Once processed, physical custom plates are ready for home-delivery and appointment within 5 to 7 business days.
-                    </div>
-                </div>
-
-                <div class="border border-slate-100 rounded-2xl overflow-hidden">
-                    <button onclick="toggleFaq(3)" class="w-full flex justify-between items-center p-5 bg-slate-50 text-left font-bold text-slate-800 hover:bg-slate-100 transition">
-                        <span>What if I submit wrong Engine or Chassis number?</span>
-                        <span id="faq-icon-3" class="text-blue-600 font-extrabold">+</span>
-                    </button>
-                    <div id="faq-ans-3" class="hidden p-5 border-t border-slate-100 text-slate-500 text-xs font-semibold leading-relaxed">
-                        If any inputs are invalid, standard verification fails. Please instantly ping our active Support Chat desk on the platform with your booking reference to manually override or correct input errors before production starts.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW: CONTACT US -->
-        <div id="view-contact" class="view-section hidden fade-in max-w-2xl mx-auto">
-            <!-- Centered Card container matching the Get In Touch Screenshot exactly -->
-            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
-                
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Get In Touch</h2>
-                    <p class="text-slate-500 font-semibold text-sm mt-2">Have questions about your HSRP? Our team is here to help.</p>
-                </div>
-
-                <!-- INPUT FIELDS CONTAINER (Matches the screenshot layout precisely) -->
-                <div id="contactFormFields" class="space-y-6">
-                    
-                    <!-- Row 1: Full Name -->
-                    <div>
-                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Full Name</label>
-                        <input type="text" id="contactName" placeholder="John Doe" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
-                    </div>
-
-                    <!-- Row 2: Email Address & Mobile Number -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Email Address</label>
-                            <input type="email" id="contactEmail" placeholder="john@example.com" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Mobile Number</label>
-                            <input type="tel" id="contactMobile" placeholder="9876543210" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
-                        </div>
-                    </div>
-
-                    <!-- Row 3: How Can We Help? -->
-                    <div>
-                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">How Can We Help?</label>
-                        <textarea id="contactMessage" rows="4" placeholder="Describe your query here..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition leading-relaxed"></textarea>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button onclick="submitContactQuery()" class="w-full bg-[#2563eb] hover:bg-blue-700 text-white py-4.5 rounded-2xl font-extrabold text-base transition duration-250 shadow-lg shadow-blue-100 flex items-center justify-center gap-2 py-4.5">
-                        <span>Send Message</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- PROPER INLINE CONTACT SUCCESS MESSAGE (Initially hidden) -->
-                <div id="contactSuccessMessage" class="hidden text-center space-y-5 py-4 fade-in">
-                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-xl border-4 border-white accent-pulse">
-                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-                    <h4 class="text-green-900 font-black text-xl">Message Sent!</h4>
-                    
-                    <div class="text-left space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-inner">
-                        <p class="text-xs text-slate-700 font-semibold leading-relaxed">
-                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">English Notice:</strong>
-                            Your message has been successfully sent. Our customer support executive will contact you in 24 hours.
-                        </p>
-                        <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-3 border-t border-dashed border-slate-200">
-                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">हिंदी सूचना:</strong>
-                            आपका संदेश सफलतापूर्वक भेज दिया गया है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर आपसे संपर्क करेगा।
-                        </p>
-                    </div>
-
-                    <div class="pt-2 flex flex-col gap-3">
-                        <button onclick="resetContactForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                            Send Another Message
-                        </button>
-                        <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
-                            Return to Homepage
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- VIEW: CANCEL ORDER -->
-        <div id="view-cancel" class="view-section hidden fade-in max-w-2xl mx-auto">
-            <!-- Main visual card container matching Screenshot -->
-            <div class="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-100/50 p-6 md:p-10">
-                
-                <!-- Circular Close/Cross Header Icon -->
-                <div class="flex justify-center mb-6">
-                    <div class="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center text-red-500 border border-red-100 shadow-sm">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Cancel Your Order</h2>
-                    <p class="text-slate-500 font-semibold text-sm mt-2">Please provide your details to initiate the cancellation process.</p>
-                </div>
-
-                <!-- INPUT FIELDS CONTAINER (Matches the screenshot layout exactly) -->
-                <div id="cancelFormFields" class="space-y-6">
-                    
-                    <!-- Row 1: Registration Number and Reference ID -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Registration Number</label>
-                            <input type="text" id="cancelRegNo" placeholder="DL01AB1234" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 uppercase font-bold text-slate-800 transition">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Reference ID</label>
-                            <input type="text" id="cancelIdSearch" placeholder="HSRP-123456" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 uppercase font-bold text-slate-800 transition">
-                        </div>
-                    </div>
-
-                    <!-- Row 2: Contact Number -->
-                    <div>
-                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Contact Number</label>
-                        <input type="tel" id="cancelContact" placeholder="Enter linked mobile number" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition">
-                    </div>
-
-                    <!-- Row 3: Reason for Cancellation -->
-                    <div>
-                        <label class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">Reason for Cancellation</label>
-                        <select id="cancelReason" class="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-bold text-slate-800 transition bg-white">
-                            <option value="">Select a reason</option>
-                            <option>Wrong vehicle specifications entered</option>
-                            <option>Incorrect owner name or phone number</option>
-                            <option>Planning to sell my vehicle shortly</option>
-                            <option>Delayed dispatch schedule</option>
-                            <option>Other reasons / Personal decision</option>
-                        </select>
-                    </div>
-
-                    <!-- Submit / Request Cancellation Button -->
-                    <button onclick="submitCancelRequest()" class="w-full bg-[#c2410c] hover:bg-red-700 text-white py-4.5 rounded-2xl font-extrabold text-base transition duration-250 shadow-lg shadow-red-100 py-4.5">
-                        Request Cancellation
-                    </button>
-
-                    <!-- Footer policy footnote -->
-                    <p class="text-center text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-6">
-                        NOTE: CANCELLATION IS SUBJECT TO TERMS AND CONDITIONS
-                    </p>
-                </div>
-
-                <!-- PROPER INLINE CANCEL SUCCESS MESSAGE (Initially hidden) -->
-                <div id="cancelSuccessMessage" class="hidden text-center space-y-5 py-4 fade-in">
-                    <div class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-xl border-4 border-white accent-pulse">
-                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-                    <h4 class="text-green-900 font-black text-xl">Cancellation Registered!</h4>
-                    
-                    <div class="text-left space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-inner">
-                        <p class="text-xs text-slate-700 font-semibold leading-relaxed">
-                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">English Notice:</strong>
-                            Your request has been successfully registered. Our customer support executive will call you within 24 hours to confirm, and then your order will be cancelled successfully.
-                        </p>
-                        <p class="text-xs text-slate-700 font-semibold leading-relaxed pt-3 border-t border-dashed border-slate-200">
-                            <strong class="text-green-700 block mb-1 uppercase tracking-wider text-[10px] font-extrabold">हिंदी सूचना:</strong>
-                            आपकी रद्द करने की रिक्वेस्ट दर्ज कर ली गई है। हमारा कस्टमर सपोर्ट एग्जीक्यूटिव 24 घंटे के अंदर पुष्टि करने के लिए आपको कॉल करेगा, उसके बाद ही आपका ऑर्डर सफलतापूर्वक कैंसिल किया जाएगा।
-                        </p>
-                    </div>
-
-                    <div class="pt-2 flex flex-col gap-3">
-                        <button onclick="resetCancelForm()" class="w-full bg-slate-900 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-black transition shadow-md">
-                            Cancel Another Order
-                        </button>
-                        <button onclick="goHome()" class="text-xs text-blue-600 underline font-bold py-1">
-                            Return to Homepage
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </main>
-
-    <!-- CHAT MODAL -->
-    <div id="chatModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden z-50 items-center justify-center p-3">
-        <div class="bg-white w-full max-w-md rounded-[28px] overflow-hidden shadow-2xl flex flex-col border border-slate-100">
-            <!-- Chat Header -->
-            <div class="bg-blue-600 text-white p-5 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-500/50 border-2 border-white/20 flex items-center justify-center font-bold text-sm">
-                        S
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm">Sameer (Support)</h3>
-                        <p class="text-[10px] opacity-80 flex items-center gap-1.5">
-                            <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span> Online Executive
-                        </p>
-                    </div>
-                </div>
-                <button onclick="closeChat()" class="text-white hover:bg-white/10 p-2 rounded-xl transition text-2xl font-light focus:outline-none w-8 h-8 flex items-center justify-center">×</button>
-            </div>
-            
-            <!-- Chat Messages Container -->
-            <div id="chatMessages" class="h-[360px] overflow-y-auto p-5 bg-slate-50 space-y-4 chat-scroll"></div>
-            
-            <!-- Live Typing Indicator -->
-            <div id="typingIndicator" class="hidden px-5 py-2.5 bg-slate-50 text-[11px] text-slate-400 font-semibold italic flex items-center gap-1">
-                <span>Sameer is formulating a response</span>
-                <span class="animate-bounce">.</span>
-                <span class="animate-bounce" style="animation-delay: 0.2s">.</span>
-                <span class="animate-bounce" style="animation-delay: 0.4s">.</span>
-            </div>
-
-            <!-- Chat Footer Input -->
-            <div class="p-4 border-t bg-white flex gap-2">
-                <input type="text" id="chatInput" placeholder="Type here..." class="flex-1 border border-slate-200 rounded-xl px-4 py-3 outline-none text-xs font-semibold focus:border-blue-500 bg-slate-50">
-                <button onclick="sendMessage()" class="bg-blue-600 text-white px-5 rounded-xl font-bold hover:bg-blue-700 transition text-xs">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FLOATING CHAT BUTTON -->
-    <div id="floatingChatBtn" class="fixed bottom-6 right-6 z-40">
-        <button onclick="openChat()" class="bg-blue-600 hover:bg-blue-700 text-white p-4.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative border border-blue-500/30 w-14 h-14 md:w-16 md:h-16">
-            <!-- Active ping dynamic layer -->
-            <span class="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-60 animate-ping -z-10 group-hover:opacity-0"></span>
-            <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-            </svg>
-            <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap text-xs font-extrabold pl-0 group-hover:pl-2">Chat support</span>
-        </button>
-    </div>
-
-    <!-- MODERN FOOTER -->
-    <footer class="bg-white border-t border-slate-100 mt-12 py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center border-b border-slate-100 pb-8">
-                <!-- Brand Logo (Footer) -->
-                <div onclick="goHome()" class="flex items-center gap-3 cursor-pointer group justify-center md:justify-start">
-                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-lg shadow-md group-hover:scale-105 transition-all">H</div>
-                    <div class="text-left">
-                        <h3 class="text-sm font-black text-slate-900 leading-tight">HSRP Portal</h3>
-                        <p class="text-[9px] text-slate-500 font-extrabold uppercase tracking-widest">Compliance Desk</p>
-                    </div>
-                </div>
-                
-                <!-- Quick Navigation Links (SPA) (Exactly matching Header) -->
-                <div class="flex flex-wrap justify-center gap-5">
-                    <button onclick="goHome()" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Home</button>
-                    <button onclick="showView('about')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">About Us</button>
-                    <button onclick="showView('notifications')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Notifications</button>
-                    <button onclick="showView('faqs')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">FAQs</button>
-                    <button onclick="showView('contact')" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition">Contact Us</button>
-                    <button onclick="showView('cancel')" class="text-xs font-bold text-red-400 hover:text-red-600 transition">Cancel Order</button>
-                </div>
-
-                <!-- Trust Badges -->
-                <div class="flex justify-center md:justify-end gap-3 text-xs text-slate-400 font-bold">
-                    <span class="px-3 py-1.5 bg-green-50 text-green-700 rounded-full border border-green-100/50">✔ Approved</span>
-                    <span class="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-100/50">🔒 Secure UPI</span>
-                </div>
-            </div>
-            <p class="text-center text-[11px] text-slate-400 mt-6 font-semibold">© 2026 High Security Registration Plate (HSRP) Portal. Fully Mocked Compliance Simulator.</p>
-        </div>
-    </footer>
-
-    <!-- PAGE SCRIPTING -->
-    <script>
-        let bookingRef = "";
-
-        // Custom High-End Toast Notification system (used for active warning alerts)
-        window.alert = function(message) {
-            let toast = document.getElementById("customToast");
-            if (!toast) {
-                toast = document.createElement("div");
-                toast.id = "customToast";
-                toast.className = "fixed top-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold text-xs tracking-wide transition-all duration-300 transform translate-y-[-100px] opacity-0 z-[100] flex items-center gap-3 border border-slate-800 w-[90%] max-w-sm text-center justify-center";
-                document.body.appendChild(toast);
-            }
-            toast.innerHTML = `<span class="text-blue-400 font-extrabold text-base">ℹ</span> <span>${message}</span>`;
-            toast.classList.remove("translate-y-[-100px]", "opacity-0");
-            toast.classList.add("translate-y-0", "opacity-100");
-            setTimeout(function() {
-                toast.classList.add("translate-y-[-100px]", "opacity-0");
-                toast.classList.remove("translate-y-0", "opacity-100");
-            }, 4000);
-        };
-
-        // Mobile Menu toggle drawer
-        function toggleMenu() { 
-            const menu = document.getElementById("mobileMenu");
-            menu.classList.toggle("hidden"); 
-        }
-
-        // SPA Navigation view rendering controller
-        function showView(viewName) {
-            // Hide all views
-            const views = document.querySelectorAll('.view-section');
-            views.forEach(view => {
-                view.classList.add('hidden');
-            });
-
-            // Show active view
-            const activeView = document.getElementById(`view-${viewName}`);
-            if (activeView) {
-                activeView.classList.remove('hidden');
-            }
-
-            // Reset dynamic forms as user navigates to their respect views
-            if (viewName === 'contact') {
-                resetContactForm();
-            } else if (viewName === 'cancel') {
-                resetCancelForm();
-            }
-
-            // Highlight nav bar
-            const navLinks = ['home', 'about', 'notifications', 'faqs', 'contact', 'cancel'];
-            navLinks.forEach(link => {
-                const el = document.getElementById(`nav-${link}`);
-                if (el) {
-                    if (link === viewName) {
-                        el.classList.remove('text-slate-500');
-                        el.classList.add('text-blue-600');
-                    } else {
-                        el.classList.remove('text-blue-600');
-                        el.classList.add('text-slate-500');
-                    }
-                }
-            });
-
-            // Scroll to view-top smoothly
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Stepper state updates
-        function setStep(step) {
-            const widths = {1:"0%", 2:"33%", 3:"66%", 4:"100%"};
-            const progress = document.getElementById("progressBar");
-            if(progress) progress.style.width = widths[step];
-
-            for(let i=1; i<=4; i++){
-                const circle = document.getElementById("circle"+i);
-                const label = document.getElementById("label"+i);
-                if(circle) {
-                    if(i<=step){
-                        circle.className = "w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold shadow-md shadow-blue-500/10 transition-all duration-300";
-                        if(label) label.className = "text-[10px] mt-2 font-extrabold text-blue-600 uppercase tracking-wider";
-                    } else {
-                        circle.className = "w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-500 flex items-center justify-center font-extrabold transition-all duration-300";
-                        if(label) label.className = "text-[10px] mt-2 font-extrabold text-slate-400 uppercase tracking-wider";
-                    }
-                }
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Step transition validations
-        function goStep2(){
-            const regVal = document.getElementById("regNo").value.trim();
-            const classVal = document.getElementById("vehicleClass").value;
-            const chassisVal = document.getElementById("chassis").value.trim();
-            const engineVal = document.getElementById("engine").value.trim();
-
-            if(!regVal) {
-                alert("Please provide vehicle Registration number.");
-                return;
-            }
-            if(!classVal) {
-                alert("Please select your corresponding Vehicle Class.");
-                return;
-            }
-            if(chassisVal.length !== 5 || isNaN(chassisVal)) {
-                alert("Please enter a valid 5-digit numeric Chassis number.");
-                return;
-            }
-            if(engineVal.length !== 5 || isNaN(engineVal)) {
-                alert("Please enter a valid 5-digit numeric Engine number.");
-                return;
-            }
-
-            document.getElementById("step1").classList.add("hidden");
-            document.getElementById("step2").classList.remove("hidden");
-            setStep(2);
-        }
-
-        // Return step 1 from step 2
-        function back1(){
-            document.getElementById("step2").classList.add("hidden");
-            document.getElementById("step1").classList.remove("hidden");
-            setStep(1);
-        }
-
-        // Move to Step 3 (Secure UPI and QR presentation)
-        function goStep3(){
-            const nameVal = document.getElementById("fullName").value.trim();
-            const mobileVal = document.getElementById("mobile").value.trim();
-            const stateVal = document.getElementById("state").value;
-            const addressVal = document.getElementById("address").value.trim();
-
-            if(!nameVal) {
-                alert("Please input the Full Owner Name.");
-                return;
-            }
-            if(mobileVal.length < 10 || isNaN(mobileVal)) {
-                alert("Please input a valid 10-digit Mobile number.");
-                return;
-            }
-            if(!stateVal) {
-                alert("Please specify the Registered State/Union Territory.");
-                return;
-            }
-            if(addressVal.length < 10) {
-                alert("Please furnish a detailed Home/Installation Address.");
-                return;
-            }
-
-            bookingRef = "HSR-" + Math.floor(100000 + Math.random()*900000);
-            
-            // Render scanning parameters
-            document.getElementById("refId").innerText = "REF: " + bookingRef;
-            
-            // Hard refresh QR code source path when opening step 3
-            const qr = document.getElementById('qrImage');
-            if (qr) {
-                qr.src = `qr.png?nocache=${new Date().getTime()}`;
-                qr.onerror = function() {
-                    this.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=morthhsrp@upi%26tn=${bookingRef}`;
-                };
-            }
-
-            document.getElementById("step2").classList.add("hidden");
-            document.getElementById("step3").classList.remove("hidden");
-            setStep(3);
-        }
-
-        // Verify UTR payment submitted
-        function verifyPayment() {
-            const utr = document.getElementById("utr").value.trim();
-            if(!utr) {
-                alert("Please enter your UTR / Transaction Reference Number.");
-                return;
-            }
-            
-            const vBtn = document.getElementById("verifyBtn");
-            vBtn.innerText = "Processing Verification...";
-            vBtn.disabled = true;
-
-            setTimeout(function() {
-                vBtn.classList.add("hidden");
-                document.getElementById("submitBtn").classList.remove("hidden");
-            }, 1800);
-        }
-
-        // Submit form data final step
-        function submitForm(){
-            const finalReceiptName = document.getElementById("finalReceiptName");
-            const fullName = document.getElementById("fullName");
-            if(finalReceiptName && fullName) finalReceiptName.innerText = fullName.value;
-
-            const finalReg = document.getElementById("finalReg");
-            const regNo = document.getElementById("regNo");
-            if(finalReg && regNo) finalReg.innerText = regNo.value;
-
-            const finalRef = document.getElementById("finalRef");
-            if(finalRef) finalRef.innerText = bookingRef;
-
-            const finalUtr = document.getElementById("finalUtr");
-            const utr = document.getElementById("utr");
-            if(finalUtr && utr) finalUtr.innerText = utr.value;
-
-            document.getElementById("stepperWrapper").classList.add("hidden");
-            document.getElementById("step3").classList.add("hidden");
-            document.getElementById("step4").classList.remove("hidden");
-            setStep(4);
-        }
-
-        // Return Home / Reset wizard to initial state
-        function goHome() {
-            document.getElementById("mobileMenu").classList.add("hidden");
-            closeChat();
-            
-            // Show initial form state
-            document.getElementById("step1").classList.remove("hidden");
-            document.getElementById("step2").classList.add("hidden");
-            document.getElementById("step3").classList.add("hidden");
-            document.getElementById("step4").classList.add("hidden");
-            
-            // Clean inputs
-            document.getElementById("regNo").value = "";
-            document.getElementById("chassis").value = "";
-            document.getElementById("engine").value = "";
-            document.getElementById("fullName").value = "";
-            document.getElementById("mobile").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("utr").value = "";
-            
-            const verifyBtn = document.getElementById("verifyBtn");
-            const submitBtn = document.getElementById("submitBtn");
-            verifyBtn.innerText = "Verify Transaction";
-            verifyBtn.disabled = false;
-            verifyBtn.classList.remove("hidden");
-            submitBtn.classList.add("hidden");
-
-            const stepperWrapper = document.getElementById("stepperWrapper");
-            if (stepperWrapper) {
-                stepperWrapper.classList.remove("hidden");
-            }
-            
-            setStep(1);
-            showView('home');
-        }
-
-        // Toggle collapsible FAQs
-        function toggleFaq(id) {
-            const ans = document.getElementById(`faq-ans-${id}`);
-            const icon = document.getElementById(`faq-icon-${id}`);
-            if (ans.classList.contains('hidden')) {
-                ans.classList.remove('hidden');
-                icon.innerText = '−';
-            } else {
-                ans.classList.add('hidden');
-                icon.innerText = '+';
-            }
-        }
-
-        // Contact Us: Submit inline query (PROPER UI MESSAGING - No Popup alerts on success)
-        function submitContactQuery() {
-            const name = document.getElementById("contactName").value.trim();
-            const email = document.getElementById("contactEmail").value.trim();
-            const mobile = document.getElementById("contactMobile").value.trim();
-            const msg = document.getElementById("contactMessage").value.trim();
-
-            if (!name || !email || !mobile || !msg) {
-                alert("Please fill all contact fields.");
-                return;
-            }
-            if (mobile.length < 10 || isNaN(mobile)) {
-                alert("Please input a valid 10-digit Mobile number.");
-                return;
-            }
-            
-            // Hide input form layout, and directly show the nice success feedback banner inside the container
-            document.getElementById("contactFormFields").classList.add("hidden");
-            document.getElementById("contactSuccessMessage").classList.remove("hidden");
-        }
-
-        // Reset/Re-display Contact Form
-        function resetContactForm() {
-            document.getElementById("contactFormFields").classList.remove("hidden");
-            document.getElementById("contactSuccessMessage").classList.add("hidden");
-            document.getElementById("contactName").value = "";
-            document.getElementById("contactEmail").value = "";
-            document.getElementById("contactMobile").value = "";
-            document.getElementById("contactMessage").value = "";
-        }
-
-        // Submit / Request Cancellation Action (Fully Inline without Popups)
-        function submitCancelRequest() {
-            const regNo = document.getElementById("cancelRegNo").value.trim();
-            const refId = document.getElementById("cancelIdSearch").value.trim();
-            const contact = document.getElementById("cancelContact").value.trim();
-            const reason = document.getElementById("cancelReason").value;
-
-            if(!regNo) {
-                alert("Please provide the Vehicle Registration Number.");
-                return;
-            }
-            if(!refId) {
-                alert("Please provide your HSRP Booking Reference ID.");
-                return;
-            }
-            if(contact.length < 10 || isNaN(contact)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return;
-            }
-            if(!reason) {
-                alert("Please select a reason for cancellation.");
-                return;
-            }
-
-            // Successfully validated: transition smoothly to proper inline bilingual message view
-            document.getElementById("cancelFormFields").classList.add("hidden");
-            document.getElementById("cancelSuccessMessage").classList.remove("hidden");
-        }
-
-        // Reset Cancellation form 
-        function resetCancelForm() {
-            document.getElementById("cancelFormFields").classList.remove("hidden");
-            document.getElementById("cancelSuccessMessage").classList.add("hidden");
-            document.getElementById("cancelRegNo").value = "";
-            document.getElementById("cancelIdSearch").value = "";
-            document.getElementById("cancelContact").value = "";
-            document.getElementById("cancelReason").value = "";
-        }
-
-        // Live Chat Support Controls
-        function openChat(){ 
-            document.getElementById("chatModal").classList.remove("hidden"); 
-            document.getElementById("chatModal").classList.add("flex"); 
-            initializeChat();
-        }
-
-        function closeChat(){ 
-            document.getElementById("chatModal").classList.add("hidden"); 
-            document.getElementById("chatModal").classList.remove("flex"); 
-        }
-
-        function initializeChat() {
-            const chat = document.getElementById("chatMessages");
-            if (chat && chat.children.length === 0) {
-                chat.innerHTML = '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
-                    '<p class="text-[9px] text-blue-600 font-extrabold uppercase tracking-wider mb-1">Sameer • Support Executive</p>' +
-                    '<p>Namaste! 🙏 Welcome to HSRP Helpdesk. How can I assist you today?</p>' +
-                    '</div>';
-                chat.scrollTop = chat.scrollHeight;
-            }
-        }
-
-        function sendMessage(){
-            const input = document.getElementById("chatInput");
-            if(!input.value.trim()) return;
-            const chat = document.getElementById("chatMessages");
-            const userText = input.value.trim();
-            
-            chat.innerHTML += '<div class="bg-blue-600 text-white p-4 rounded-2xl ml-auto max-w-[85%] text-xs font-semibold shadow-md">' +
-                userText +
-                '</div>';
-            input.value = "";
-            chat.scrollTop = chat.scrollHeight;
-
-            const typing = document.getElementById("typingIndicator");
-            typing.classList.remove("hidden");
-
-            setTimeout(function() {
-                typing.classList.add("hidden");
-                const query = userText.toLowerCase();
-                let replyText = "Thank you for reaching out! A representative is connecting shortly. Please provide your Booking ID.";
-                
-                if (query.indexOf("status") !== -1 || query.indexOf("track") !== -1 || query.indexOf("delivery") !== -1 || query.indexOf("when") !== -1) {
-                    replyText = "To track your booking: Check the 'Status Timeline' on Step 4 after entering your UTR payment code. Typical home delivery takes 5 to 7 business days.";
-                } else if (query.indexOf("payment") !== -1 || query.indexOf("pay") !== -1 || query.indexOf("qr") !== -1 || query.indexOf("utr") !== -1) {
-                    replyText = "Please scan the UPI QR code at Step 3, complete the transaction via PhonePe/GPay/Paytm, and paste your Transaction Ref/UTR number for automated approval.";
-                } else if (query.indexOf("cancel") !== -1 || query.indexOf("refund") !== -1) {
-                    replyText = "If you wish to cancel: Click the 'Cancel Order' option in our top header navigation, submit your Booking ID. If booked within 48 hours, an executive will call you within 24 hours to cancel.";
-                } else if (query.indexOf("wrong") !== -1 || query.indexOf("mistake") !== -1 || query.indexOf("edit") !== -1 || query.indexOf("incorrect") !== -1) {
-                    replyText = "If you submitted incorrect details, please message us here with your Reference ID and the correct details. Our operations team will update it.";
-                }
-
-                chat.innerHTML += '<div class="bg-slate-100 text-slate-800 p-4 rounded-2xl max-w-[85%] text-xs font-semibold shadow-xs">' +
-                    '<p class="text-[9px] text-blue-600 font-extrabold uppercase tracking-wider mb-1">Sameer • Support Executive</p>' +
-                    '<p>' + replyText + '</p>' +
-                    '</div>';
-                chat.scrollTop = chat.scrollHeight;
-            }, 1200);
-        }
-
-        // Capture enter key inside support chat input
-        document.getElementById("chatInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                sendMessage();
-            }
-        });
-    </script>
 </body>
 </html>
